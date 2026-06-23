@@ -84,11 +84,11 @@ const enabledSocialLinks = (settings.socialLinks ?? []).filter((s) => s.enabled)
                   </span>
                 </div>
                 <div className="table-cell align-top pl-[15px]">
-                  <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-black pb-[10px] group-hover:text-white transition-colors duration-300">
+                  <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-white pb-[10px] transition-colors duration-300">
                     {phoneLabel}
                   </p>
                   <div>
-                    <p className="font-outfit text-[28px] md:text-[40px] leading-tight md:leading-[44px] text-black group-hover:text-white transition-colors duration-300 whitespace-nowrap">
+                    <p className="font-outfit text-[28px] md:text-[40px] leading-tight md:leading-[44px] text-white transition-colors duration-300 whitespace-nowrap">
                       {phoneDisplay}
                     </p>
                   </div>
@@ -135,7 +135,7 @@ const enabledSocialLinks = (settings.socialLinks ?? []).filter((s) => s.enabled)
                     <li key={link.label}>
                       <Link
                         to={link.href || "#"}
-                        className="hover:text-brand-accent transition-colors"
+                        className="hover:text-white/70 transition-colors"
                       >
                         {link.label}
                       </Link>
@@ -161,7 +161,7 @@ const enabledSocialLinks = (settings.socialLinks ?? []).filter((s) => s.enabled)
                     <li key={link.label}>
                       <Link
                         to={link.href || "/practice-areas/"}
-                        className="hover:text-brand-accent transition-colors"
+                        className="hover:text-white/70 transition-colors"
                       >
                         {link.label}
                       </Link>
@@ -234,12 +234,12 @@ function SocialLinksSection() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`inline-block w-[52px] h-[52px] bg-[#142928] border border-[#616f6f] ${
+                  className={`inline-block w-[52px] h-[52px] bg-white border border-white ${
                     isLast ? "" : "mr-[8px]"
-                  } align-middle transition-all duration-300 hover:bg-brand-accent hover:border-brand-accent group flex items-center justify-center`}
+                  } align-middle transition-all duration-300 hover:bg-brand-accent-dark hover:border-white group flex items-center justify-center`}
                   title={`Follow on ${label}`}
                 >
-                  <Icon className="w-6 h-6 text-white group-hover:text-black transition-colors duration-300" />
+                  <Icon className="w-6 h-6 text-brand-accent group-hover:text-white transition-colors duration-300" />
                   <span className="sr-only">Follow on {label}</span>
                 </a>
               </li>

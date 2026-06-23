@@ -25,8 +25,7 @@ export default function ProcessSection({ content, headingTags }: ProcessSectionP
             <DynamicHeading
               tag={headingTags?.["process.sectionLabel"]}
               defaultTag="h2"
-              className="font-outfit text-[24px] leading-[36px]"
-              style={{ color: "rgb(186, 234, 160)" }}
+              className="font-outfit text-[24px] leading-[36px] text-white"
             >
               {data.sectionLabel}
             </DynamicHeading>
@@ -51,17 +50,14 @@ export default function ProcessSection({ content, headingTags }: ProcessSectionP
         {steps.map((step, index) => (
           <div
             key={index}
-            className={`md:w-[31.3333%] bg-[rgb(30,50,49)] p-[20px] ${
+            className={`md:w-[31.3333%] bg-white p-[20px] ${
               index < steps.length - 1 ? "mb-4 md:mb-0" : ""
             }`}
           >
             {/* Step Number */}
             {step.number && (
               <div className="mb-[20px]">
-                <p
-                  className="font-outfit text-[24px] leading-[36px]"
-                  style={{ color: "rgb(186, 234, 160)" }}
-                >
+                <p className="font-outfit text-[24px] leading-[36px] text-brand-accent">
                   {step.number}
                 </p>
               </div>
@@ -70,14 +66,14 @@ export default function ProcessSection({ content, headingTags }: ProcessSectionP
             {/* Step Content */}
             <div className="mb-[30px]">
               {step.title && (
-                <h3 className="font-outfit text-[32px] leading-[32px] text-white pb-[10px]">
+                <h3 className="font-outfit text-[32px] leading-[32px] text-black pb-[10px]">
                   {step.title}
                 </h3>
               )}
               {step.description && (
                 <RichText
                   html={step.description}
-                  className="font-outfit text-[20px] leading-[30px] text-white"
+                  className="font-outfit text-[20px] leading-[30px] text-black"
                 />
               )}
             </div>

@@ -94,7 +94,7 @@ export default function BlogSidebar() {
         <div className="space-y-4 pt-2">
           <h3
             className="text-lg font-semibold text-gray-900"
-            style={{ fontFamily: "Playfair Display, serif" }}
+            style={{ fontFamily: "Libre Baskerville, Georgia, serif", fontStyle: "italic" }}
           >
             Awards & Recognition
           </h3>

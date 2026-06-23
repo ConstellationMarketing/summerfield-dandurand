@@ -103,7 +103,7 @@ export default function DynamicPage() {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="animate-spin rounded-full h-10 w-10 border-4 border-gray-300 border-t-[#183658]" />
+          <div className="animate-spin rounded-full h-10 w-10 border-4 border-gray-300 border-t-brand-accent" />
         </div>
       </Layout>
     );

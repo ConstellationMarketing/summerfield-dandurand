@@ -50,7 +50,7 @@ export default function NavDropdown({ item }: NavDropdownProps) {
     >
       <Link
         to={item.href}
-        className="font-outfit text-[20px] text-white py-[31px] mr-[20px] whitespace-nowrap hover:opacity-80 transition-opacity duration-400 inline-flex items-center gap-1"
+        className="font-outfit text-[20px] text-black py-[31px] mr-[20px] whitespace-nowrap hover:text-brand-accent transition-colors duration-300 inline-flex items-center gap-1"
       >
         {item.label}
         <ChevronDown
@@ -59,7 +59,7 @@ export default function NavDropdown({ item }: NavDropdownProps) {
       </Link>
 
       <div
-        className={`absolute top-full left-0 mt-0 min-w-[220px] bg-brand-card border border-brand-border rounded-md shadow-xl z-50 py-2 transition-all duration-200 ${
+        className={`absolute top-full left-0 mt-0 min-w-[220px] bg-white border border-brand-border/30 rounded-md shadow-xl z-50 py-2 transition-all duration-200 ${
           open
             ? "visible opacity-100 pointer-events-auto"
             : "invisible opacity-0 pointer-events-none"
@@ -74,7 +74,7 @@ export default function NavDropdown({ item }: NavDropdownProps) {
                 to={child.href}
                 target={child.openInNewTab ? "_blank" : undefined}
                 rel={child.openInNewTab ? "noopener noreferrer" : undefined}
-                className="flex items-center justify-between gap-4 px-5 py-2.5 font-outfit text-[16px] text-white/90 hover:bg-white/10 hover:text-white transition-colors whitespace-nowrap"
+                className="flex items-center justify-between gap-4 px-5 py-2.5 font-outfit text-[16px] text-black/85 hover:bg-brand-accent/10 hover:text-brand-accent transition-colors whitespace-nowrap"
                 tabIndex={open ? 0 : -1}
                 onClick={() => {
                   if (!hasGrandchildren) {
@@ -83,17 +83,17 @@ export default function NavDropdown({ item }: NavDropdownProps) {
                 }}
               >
                 <span>{child.label}</span>
-                {hasGrandchildren && <span className="text-white/50">›</span>}
+                {hasGrandchildren && <span className="text-black/45">›</span>}
               </Link>
               {hasGrandchildren && (
-                <div className="invisible absolute left-full top-0 min-w-[220px] rounded-md border border-brand-border bg-brand-card py-2 opacity-0 shadow-xl transition-all duration-200 group-hover/item:visible group-hover/item:opacity-100 group-focus-within/item:visible group-focus-within/item:opacity-100">
+                <div className="invisible absolute left-full top-0 min-w-[220px] rounded-md border border-brand-border/30 bg-white py-2 opacity-0 shadow-xl transition-all duration-200 group-hover/item:visible group-hover/item:opacity-100 group-focus-within/item:visible group-focus-within/item:opacity-100">
                   {child.children!.map((grandchild, grandchildIdx) => (
                     <Link
                       key={grandchildIdx}
                       to={grandchild.href}
                       target={grandchild.openInNewTab ? "_blank" : undefined}
                       rel={grandchild.openInNewTab ? "noopener noreferrer" : undefined}
-                      className="block px-5 py-2.5 font-outfit text-[16px] text-white/90 hover:bg-white/10 hover:text-white transition-colors whitespace-nowrap"
+                      className="block px-5 py-2.5 font-outfit text-[16px] text-black/85 hover:bg-brand-accent/10 hover:text-brand-accent transition-colors whitespace-nowrap"
                       tabIndex={open ? 0 : -1}
                       onClick={() => setOpen(false)}
                     >

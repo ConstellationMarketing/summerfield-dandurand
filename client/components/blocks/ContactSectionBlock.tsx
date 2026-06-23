@@ -17,7 +17,7 @@ export default function ContactSectionBlock({ block }: ContactSectionBlockProps)
           <div className="py-[4.2415%] relative w-full">
             <div className="relative w-full">
               <div className="mb-[10px]">
-                <p className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-[#6b8d0c]">
+                <p className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-brand-accent">
                   {block.sectionLabel}
                 </p>
               </div>

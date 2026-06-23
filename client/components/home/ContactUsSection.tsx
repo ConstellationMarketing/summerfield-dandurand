@@ -36,7 +36,7 @@ export default function ContactUsSection({ content, headingTag }: ContactUsSecti
                   <DynamicHeading
                     tag={headingTag}
                     defaultTag="h2"
-                    className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-[#6b8d0c]"
+                    className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-brand-accent"
                   >
                     {data.sectionLabel}
                   </DynamicHeading>
@@ -97,7 +97,7 @@ export default function ContactUsSection({ content, headingTag }: ContactUsSecti
                     <div className="table-cell w-[32px] leading-[0] mb-[30px]">
                       <span className="m-auto">
                         <span
-                          className="inline-block opacity-0 bg-[#baea0] p-[20px_30px] text-[30px] leading-[30px] font-black"
+                          className="inline-block opacity-0 bg-brand-accent p-[20px_30px] text-[30px] leading-[30px] font-black"
                           style={{ fontFamily: "FontAwesome" }}
                         ></span>
                       </span>

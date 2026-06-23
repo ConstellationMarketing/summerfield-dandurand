@@ -49,7 +49,7 @@ export default function Index() {
           <div className="lg:w-[65.667%]">
             <div className="mb-[30px] md:mb-[40px]">
               <div className="relative">
-                <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.2] text-white text-left">
+                <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.2] text-black text-left">
                   {heroContent.highlightedText && heroContent.headline.includes(heroContent.highlightedText)
                     ? (() => {
                         const idx = heroContent.headline.indexOf(heroContent.highlightedText);
@@ -76,7 +76,7 @@ export default function Index() {
               </div>
               {/* H1 Title - All caps, positioned between headline and phone button */}
               {heroContent.h1Title && (
-                <h1 className="font-outfit text-[18px] md:text-[20px] font-medium tracking-wider uppercase text-white mt-[20px] md:mt-[30px]">
+                <h1 className="font-outfit text-[18px] md:text-[20px] font-medium tracking-wider uppercase text-black mt-[20px] md:mt-[30px]">
                   {heroContent.h1Title}
                 </h1>
               )}
@@ -96,10 +96,10 @@ export default function Index() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-black pb-[10px] font-normal group-hover:text-white transition-colors duration-300">
+                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-white pb-[10px] font-normal transition-colors duration-300">
                       {phoneLabel}
                     </p>
-                    <p className="font-outfit text-[clamp(1.75rem,5vw,40px)] text-black leading-tight group-hover:text-white transition-colors duration-300">
+                    <p className="font-outfit text-[clamp(1.75rem,5vw,40px)] text-white leading-tight transition-colors duration-300">
                       {phoneDisplay}
                     </p>
                   </div>

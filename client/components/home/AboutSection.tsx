@@ -33,7 +33,7 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
               <DynamicHeading
                 tag={headingTag}
                 defaultTag="h2"
-                className="text-[rgb(107,141,12)] font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] mb-[10px]"
+                className="text-brand-accent font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] mb-[10px]"
               >
                 {data.sectionLabel}
               </DynamicHeading>
@@ -65,10 +65,10 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
                     />
                   </div>
                   <div className="flex-1">
-                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-black pb-[10px] group-hover:text-white transition-colors duration-300">
+                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-white pb-[10px] transition-colors duration-300">
                       {phoneLabel}
                     </p>
-                    <p className="font-outfit text-[28px] md:text-[40px] text-black leading-none group-hover:text-white transition-colors duration-300">
+                    <p className="font-outfit text-[28px] md:text-[40px] text-white leading-none transition-colors duration-300">
                       {phoneDisplay}
                     </p>
                   </div>
@@ -87,10 +87,10 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
                     />
                   </div>
                   <div className="flex-1">
-                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-black pb-[10px] group-hover:text-white transition-colors duration-300">
+                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-white pb-[10px] transition-colors duration-300">
                       {data.contactLabel}
                     </p>
-                    <p className="font-outfit text-[18px] md:text-[24px] text-black leading-none group-hover:text-white transition-colors duration-300">
+                    <p className="font-outfit text-[18px] md:text-[24px] text-white leading-none transition-colors duration-300">
                       {data.contactText}
                     </p>
                   </div>
@@ -146,7 +146,7 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="max-w-[550px] mx-auto">
-                  <h4 className="font-[Crimson_Pro,Georgia,Times_New_Roman,serif] text-[40px] md:text-[60px] leading-tight md:leading-[60px] text-black pb-[10px]">
+                  <h4 className="font-playfair text-[40px] md:text-[60px] leading-tight md:leading-[60px] text-black pb-[10px]">
                     {stat.value}
                   </h4>
                   <div className="font-outfit text-[16px] md:text-[20px] font-light text-black text-center">

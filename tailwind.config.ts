@@ -15,20 +15,19 @@ export default {
     extend: {
       fontFamily: {
         playfair: [
-          '"Playfair Display"',
+          '"Libre Baskerville"',
           "Georgia",
           '"Times New Roman"',
           "serif",
         ],
-        outfit: ["Outfit", "Helvetica", "Arial", "Lucida", "sans-serif"],
+        outfit: ["Montserrat", "Helvetica", "Arial", "Lucida", "sans-serif"],
       },
       colors: {
-        // TEMPLATE: Update brand colors for each new project
-        "brand-dark": "rgb(6, 29, 27)",
-        "brand-card": "rgb(20, 41, 40)",
-        "brand-border": "rgb(97, 111, 111)",
-        "brand-accent": "rgb(186, 234, 160)",
-        "brand-accent-dark": "rgb(45, 70, 58)",
+        "brand-dark": "rgb(35, 92, 132)",
+        "brand-card": "rgb(255, 255, 255)",
+        "brand-border": "rgb(35, 92, 132)",
+        "brand-accent": "rgb(35, 92, 132)",
+        "brand-accent-dark": "rgb(21, 59, 87)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

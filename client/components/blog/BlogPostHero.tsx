@@ -59,7 +59,7 @@ export default function BlogPostHero({
         {/* Title */}
         <h1
           className="text-3xl md:text-4xl lg:text-5xl xl:text-[3.25rem] font-light text-white leading-tight max-w-4xl"
-          style={{ fontFamily: "Playfair Display, serif" }}
+          style={{ fontFamily: "Libre Baskerville, Georgia, serif", fontStyle: "italic" }}
         >
           {title}
         </h1>
@@ -68,7 +68,7 @@ export default function BlogPostHero({
         <div className="flex flex-col sm:flex-row gap-3 mt-8">
           <a
             href={`tel:${phoneNumber.replace(/\D/g, "")}`}
-            className="inline-flex items-center gap-3 bg-brand-accent px-5 py-3 text-black font-outfit font-medium hover:bg-brand-accent-dark hover:text-white transition-colors duration-300"
+            className="inline-flex items-center gap-3 bg-brand-accent px-5 py-3 text-white font-outfit font-medium hover:bg-brand-accent-dark transition-colors duration-300"
           >
             <Phone className="h-5 w-5" strokeWidth={1.5} />
             <span>{phoneDisplay}</span>

@@ -16,7 +16,7 @@ export default function StatsGrid({ stats, className = "" }: StatsGridProps) {
       {stats.map((stat, index) => (
         <div key={index} className="text-center">
           <div className="max-w-[550px] mx-auto">
-            <h4 className="font-[Crimson_Pro,Georgia,Times_New_Roman,serif] text-[40px] md:text-[60px] leading-tight md:leading-[60px] text-black pb-[10px]">
+            <h4 className="font-playfair text-[40px] md:text-[60px] leading-tight md:leading-[60px] text-black pb-[10px]">
               {stat.value}
             </h4>
             <div className="font-outfit text-[16px] md:text-[20px] font-light text-black text-center">

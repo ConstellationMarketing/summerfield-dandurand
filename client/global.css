@@ -12,32 +12,32 @@
   */
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 0%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 204 58% 33%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 32%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 204 58% 33%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 204 58% 33%;
+    --input: 204 24% 82%;
+    --ring: 204 58% 33%;
 
     --radius: 0;
 
@@ -103,7 +103,25 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-outfit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-playfair {
+    font-style: italic;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+
+  a:hover {
+    color: rgb(35, 92, 132);
   }
 
   :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
@@ -136,7 +154,7 @@
   .tiptap-editor .ProseMirror strong { font-weight: 700; }
   .tiptap-editor .ProseMirror em { font-style: italic; }
   .tiptap-editor .ProseMirror s { text-decoration: line-through; }
-  .tiptap-editor .ProseMirror a { color: #1d4ed8; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .tiptap-editor .ProseMirror a { color: #235c84; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
   .tiptap-editor .ProseMirror ul,
   .tiptap-editor .ProseMirror ol {
     margin: 0.75em 0;
@@ -166,7 +184,7 @@
     max-width: 100%;
     height: auto;
   }
-  .tiptap-editor .ProseMirror .text-brand-accent { color: #6b8d0c; }
+  .tiptap-editor .ProseMirror .text-brand-accent { color: #235c84; }
   .tiptap-editor .ProseMirror:focus { border-color: hsl(var(--ring)); box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2); }
   .tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
     content: attr(data-placeholder);

@@ -28,7 +28,7 @@ export default function Header() {
       {/* Sticky header wrapper */}
       <div className="sticky top-0 z-50 pb-[30px]">
         <div className="max-w-[2560px] mx-auto w-[95%]">
-          <div className="bg-brand-card border border-brand-border px-[30px] py-[10px] flex items-center justify-between">
+          <div className="bg-white border border-brand-border/30 shadow-sm px-[30px] py-[10px] flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center w-[300px]">
               <Link to="/" className="mr-[30px]">
@@ -41,7 +41,7 @@ export default function Header() {
                     height={50}
                   />
                 ) : (
-                  <span className="font-outfit text-white text-[22px] leading-none">
+                  <span className="font-outfit text-black text-[22px] leading-none">
                     {settings.siteName || " "}
                   </span>
                 )}
@@ -56,7 +56,7 @@ export default function Header() {
                     item.children && item.children.length > 0;
 
                   return (
-                    <li key={item.href} className="px-[11px] flex items-center">
+                    <li key={`${item.href}-${item.label}`} className="px-[11px] flex items-center">
                       {hasChildren ? (
                         <NavDropdown item={item} />
                       ) : (
@@ -70,7 +70,7 @@ export default function Header() {
                               ? "noopener noreferrer"
                               : undefined
                           }
-                          className="font-outfit text-[20px] text-white py-[31px] mr-[20px] whitespace-nowrap hover:opacity-80 transition-opacity duration-400"
+                          className="font-outfit text-[20px] text-black py-[31px] mr-[20px] whitespace-nowrap hover:text-brand-accent transition-colors duration-300"
                         >
                           {item.label}
                         </Link>
@@ -84,7 +84,7 @@ export default function Header() {
             {/* Contact CTA Button - Desktop */}
             <div className="hidden lg:block w-[280px]">
               {ctaText ? (
-                <Button asChild className="bg-white text-black font-outfit text-[22px] py-[25px] px-[15.4px] h-auto w-[200px] hover:bg-brand-accent hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                <Button asChild className="bg-brand-accent text-white font-outfit text-[22px] py-[25px] px-[15.4px] h-auto w-[200px] hover:bg-brand-accent-dark hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
                   <Link to={ctaUrl}>
                     {ctaText}
                     <ArrowRight className="w-5 h-5" />
@@ -96,13 +96,13 @@ export default function Header() {
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon" className="text-white">
+                <Button variant="ghost" size="icon" className="text-black hover:text-brand-accent">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="bg-brand-card border-brand-border"
+                className="bg-white border-brand-border"
               >
                 <nav className="flex flex-col gap-4 mt-8">
                   {navItems.map((item) => {
@@ -110,11 +110,11 @@ export default function Header() {
                       item.children && item.children.length > 0;
 
                     return (
-                      <MobileNavItem key={item.href} item={item} hasChildren={hasChildren} />
+                      <MobileNavItem key={`${item.href}-${item.label}`} item={item} hasChildren={hasChildren} />
                     );
                   })}
                   {ctaText ? (
-                    <Button asChild className="bg-white text-black font-outfit text-[22px] py-[25px] w-full hover:bg-brand-accent hover:text-white transition-all duration-300 flex items-center justify-center gap-2 mt-4">
+                    <Button asChild className="bg-brand-accent text-white font-outfit text-[22px] py-[25px] w-full hover:bg-brand-accent-dark hover:text-white transition-all duration-300 flex items-center justify-center gap-2 mt-4">
                       <Link to={ctaUrl}>
                         {ctaText}
                         <ArrowRight className="w-5 h-5" />
@@ -155,7 +155,7 @@ function MobileNavItem({
         to={item.href}
         target={item.openInNewTab ? "_blank" : undefined}
         rel={item.openInNewTab ? "noopener noreferrer" : undefined}
-        className="font-outfit text-[20px] text-white py-[10px] px-[5%] border-b border-black/5 hover:opacity-80 transition-opacity"
+        className="font-outfit text-[20px] text-black py-[10px] px-[5%] border-b border-brand-border/20 hover:text-brand-accent transition-colors"
       >
         {item.label}
       </Link>
@@ -164,17 +164,17 @@ function MobileNavItem({
 
   return (
     <div>
-      <div className="flex items-center border-b border-black/5">
+      <div className="flex items-center border-b border-brand-border/20">
         <Link
           to={item.href}
-          className="font-outfit text-[20px] text-white py-[10px] px-[5%] hover:opacity-80 transition-opacity flex-1"
+          className="font-outfit text-[20px] text-black py-[10px] px-[5%] hover:text-brand-accent transition-colors flex-1"
         >
           {item.label}
         </Link>
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="text-white/70 hover:text-white p-2 mr-2 transition-colors"
+          className="text-black/70 hover:text-brand-accent p-2 mr-2 transition-colors"
           aria-label={expanded ? "Collapse submenu" : "Expand submenu"}
         >
           <ChevronDown
@@ -189,7 +189,7 @@ function MobileNavItem({
               to={child.href}
               target={child.openInNewTab ? "_blank" : undefined}
               rel={child.openInNewTab ? "noopener noreferrer" : undefined}
-              className="block font-outfit text-[17px] text-white/80 py-[8px] hover:text-white transition-colors"
+              className="block font-outfit text-[17px] text-black/80 py-[8px] hover:text-brand-accent transition-colors"
             >
               {child.label}
             </Link>
@@ -201,7 +201,7 @@ function MobileNavItem({
                     to={grandchild.href}
                     target={grandchild.openInNewTab ? "_blank" : undefined}
                     rel={grandchild.openInNewTab ? "noopener noreferrer" : undefined}
-                    className="block font-outfit text-[15px] text-white/65 py-[6px] hover:text-white transition-colors"
+                    className="block font-outfit text-[15px] text-black/65 py-[6px] hover:text-brand-accent transition-colors"
                   >
                     {grandchild.label}
                   </Link>

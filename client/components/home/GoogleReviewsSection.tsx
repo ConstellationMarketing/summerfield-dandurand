@@ -31,8 +31,7 @@ export default function GoogleReviewsSection({
             <DynamicHeading
               tag={headingTag}
               defaultTag="h2"
-              className="font-outfit text-[24px] leading-[36px]"
-              style={{ color: "#6b8d0c" }}
+              className="font-outfit text-[24px] leading-[36px] text-brand-accent"
             >
               {data.sectionLabel}
             </DynamicHeading>

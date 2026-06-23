@@ -10,7 +10,7 @@ interface CallBoxProps {
   /** Raw phone digits — when provided, the entire box becomes a tel: link */
   phone?: string;
   className?: string;
-  variant?: "light" | "dark"; // light = black text on light bg, dark = white text on dark bg
+  variant?: "light" | "dark";
 }
 
 /** Strip all non-digit characters for use in tel: href */
@@ -27,12 +27,8 @@ export default function CallBox({
   className = "",
   variant = "light",
 }: CallBoxProps) {
-  // Text colors based on variant - only affects text, not icons
-  const textColor = variant === "dark" ? "text-white" : "text-black";
-  const textHoverColor =
-    variant === "dark"
-      ? ""
-      : "group-hover:text-white transition-colors duration-300";
+  const textColor = "text-white";
+  const textHoverColor = "transition-colors duration-300";
 
   const content = (
     <div
