@@ -7,6 +7,68 @@ export interface HeroContent {
   highlightedText: string;
   phone: string;
   phoneLabel: string;
+  eyebrow: string; // small label above the headline (e.g. "Indiana & Illinois Trial Attorneys")
+  subheadline: string; // supporting paragraph below the headline
+  backgroundImage: string;
+  backgroundImageAlt: string;
+  primaryCtaText: string;
+  primaryCtaLink: string;
+  secondaryCtaText: string;
+  secondaryCtaLink: string;
+}
+
+export interface ValuePropItem {
+  text: string;
+}
+
+export interface ValuePropsContent {
+  sectionLabel: string;
+  heading: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  wantsHeading: string;
+  wants: ValuePropItem[];
+}
+
+export interface PracticeSpotlightSubItem {
+  label: string;
+}
+
+export interface PracticeSpotlightItem {
+  tagline: string;
+  title: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  itemsHeading: string;
+  items: PracticeSpotlightSubItem[];
+  ctaText: string;
+  ctaLink: string;
+}
+
+export interface PracticeSpotlightsContent {
+  sectionLabel: string;
+  heading: string;
+  items: PracticeSpotlightItem[];
+}
+
+export interface AreaCounty {
+  name: string;
+}
+
+export interface AreaRegion {
+  state: string;
+  counties: AreaCounty[];
+}
+
+export interface AreasWeServeContent {
+  sectionLabel: string;
+  heading: string;
+  description: string;
+  mapImage: string;
+  mapImageAlt: string;
+  regions: AreaRegion[];
 }
 
 export interface PartnerLogo {
@@ -136,9 +198,12 @@ export interface ContactContent {
 export interface HomePageContent {
   hero: HeroContent;
   partnerLogos: PartnerLogo[];
+  valueProps: ValuePropsContent;
   about: AboutContent;
   practiceAreasIntro: PracticeAreasIntroContent;
   practiceAreas: PracticeAreaItem[];
+  practiceSpotlights: PracticeSpotlightsContent;
+  areasWeServe: AreasWeServeContent;
   awards: AwardsContent;
   testimonials: TestimonialsContent;
   process: ProcessContent;
@@ -157,8 +222,25 @@ export const defaultHomeContent: HomePageContent = {
     highlightedText: "",
     phone: "",
     phoneLabel: "",
+    eyebrow: "",
+    subheadline: "",
+    backgroundImage: "",
+    backgroundImageAlt: "",
+    primaryCtaText: "",
+    primaryCtaLink: "",
+    secondaryCtaText: "",
+    secondaryCtaLink: "",
   },
   partnerLogos: [],
+  valueProps: {
+    sectionLabel: "",
+    heading: "",
+    description: "",
+    image: "",
+    imageAlt: "",
+    wantsHeading: "",
+    wants: [],
+  },
   about: {
     sectionLabel: "",
     heading: "",
@@ -180,6 +262,19 @@ export const defaultHomeContent: HomePageContent = {
     buttonTextLine2: "",
   },
   practiceAreas: [],
+  practiceSpotlights: {
+    sectionLabel: "",
+    heading: "",
+    items: [],
+  },
+  areasWeServe: {
+    sectionLabel: "",
+    heading: "",
+    description: "",
+    mapImage: "",
+    mapImageAlt: "",
+    regions: [],
+  },
   awards: {
     sectionLabel: "",
     heading: "",

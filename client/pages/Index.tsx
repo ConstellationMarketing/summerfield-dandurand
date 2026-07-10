@@ -2,8 +2,11 @@ import Seo from "@site/components/Seo";
 import Layout from "@site/components/layout/Layout";
 import ContactForm from "@site/components/home/ContactForm";
 import AboutSection from "@site/components/home/AboutSection";
+import ValuePropsSection from "@site/components/home/ValuePropsSection";
 import PracticeAreasSection from "@site/components/home/PracticeAreasSection";
 import PracticeAreasGrid from "@site/components/home/PracticeAreasGrid";
+import PracticeSpotlightSection from "@site/components/home/PracticeSpotlightSection";
+import AreasWeServeSection from "@site/components/home/AreasWeServeSection";
 import AwardsSection from "@site/components/home/AwardsSection";
 import TestimonialsSection from "@site/components/home/TestimonialsSection";
 import ProcessSection from "@site/components/home/ProcessSection";
@@ -12,6 +15,7 @@ import FaqSection from "@site/components/home/FaqSection";
 import ContactUsSection from "@site/components/home/ContactUsSection";
 import { useHomeContent } from "@site/hooks/useHomeContent";
 import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
+import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
 export default function Index() {
@@ -43,11 +47,31 @@ export default function Index() {
       />
 
       {/* Hero and Contact Form Section */}
-      <div className="max-w-[2560px] mx-auto w-[95%] py-[27px] my-[20px] md:my-[40px]">
+      <section
+        className="relative"
+        style={
+          heroContent.backgroundImage
+            ? {
+                backgroundImage: `url(${heroContent.backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : undefined
+        }
+      >
+        {heroContent.backgroundImage && (
+          <div className="absolute inset-0 bg-white/85" aria-hidden="true" />
+        )}
+        <div className="relative max-w-[2560px] mx-auto w-[95%] py-[27px] my-[20px] md:my-[40px]">
         <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-[3%]">
           {/* Left Side: Headline and Call Box */}
           <div className="lg:w-[65.667%]">
             <div className="mb-[30px] md:mb-[40px]">
+              {heroContent.eyebrow && (
+                <p className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent mb-[16px]">
+                  {heroContent.eyebrow}
+                </p>
+              )}
               <div className="relative">
                 <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.2] text-black text-left">
                   {heroContent.highlightedText && heroContent.headline.includes(heroContent.highlightedText)
@@ -79,6 +103,31 @@ export default function Index() {
                 <h1 className="font-outfit text-[18px] md:text-[20px] font-medium tracking-wider uppercase text-black mt-[20px] md:mt-[30px]">
                   {heroContent.h1Title}
                 </h1>
+              )}
+              {heroContent.subheadline && (
+                <p className="font-outfit text-[16px] md:text-[20px] leading-[26px] md:leading-[30px] text-black/80 mt-[18px] md:mt-[22px] max-w-[640px]">
+                  {heroContent.subheadline}
+                </p>
+              )}
+              {(heroContent.primaryCtaText || heroContent.secondaryCtaText) && (
+                <div className="flex flex-wrap gap-4 mt-[24px] md:mt-[30px]">
+                  {heroContent.primaryCtaText && (
+                    <Link
+                      to={heroContent.primaryCtaLink || "/contact/"}
+                      className="inline-block bg-brand-accent hover:bg-brand-accent-dark text-white font-outfit text-[16px] md:text-[18px] px-[30px] py-[14px] transition-colors duration-300"
+                    >
+                      {heroContent.primaryCtaText}
+                    </Link>
+                  )}
+                  {heroContent.secondaryCtaText && (
+                    <Link
+                      to={heroContent.secondaryCtaLink || "/practice-areas/"}
+                      className="inline-block border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white font-outfit text-[16px] md:text-[18px] px-[30px] py-[12px] transition-colors duration-300"
+                    >
+                      {heroContent.secondaryCtaText}
+                    </Link>
+                  )}
+                </div>
               )}
             </div>
 
@@ -113,7 +162,8 @@ export default function Index() {
             <ContactForm />
           </div>
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Partner Badges Section - Bottom of Hero */}
       {partnerLogos.length > 0 && (
@@ -142,6 +192,9 @@ export default function Index() {
         </div>
       )}
 
+      {/* Value / Positioning Section */}
+      <ValuePropsSection content={content.valueProps} headingTag={content.headingTags?.["valueProps.heading"]} />
+
       {/* About Us Section */}
       <AboutSection content={content.about} headingTag={content.headingTags?.["about.sectionLabel"]} />
 
@@ -150,6 +203,12 @@ export default function Index() {
 
       {/* Practice Areas Grid */}
       <PracticeAreasGrid areas={content.practiceAreas} />
+
+      {/* Practice Spotlights */}
+      <PracticeSpotlightSection content={content.practiceSpotlights} headingTag={content.headingTags?.["practiceSpotlights.heading"]} />
+
+      {/* Areas We Serve */}
+      <AreasWeServeSection content={content.areasWeServe} headingTag={content.headingTags?.["areasWeServe.heading"]} />
 
       {/* Awards & Membership Section */}
       <AwardsSection content={content.awards} headingTag={content.headingTags?.["awards.sectionLabel"]} />

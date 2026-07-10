@@ -233,9 +233,12 @@ export const DEFAULT_BLOG_SIDEBAR: BlogSidebarData = {
 const HOME_CONTENT_KEYS: (keyof HomePageContent)[] = [
   "hero",
   "partnerLogos",
+  "valueProps",
   "about",
   "practiceAreasIntro",
   "practiceAreas",
+  "practiceSpotlights",
+  "areasWeServe",
   "awards",
   "testimonials",
   "process",
@@ -486,6 +489,11 @@ export function mergeHomeContentWithDefaults(cmsContent: Partial<HomePageContent
   return {
     hero: { ...defaults.hero, ...cmsContent.hero },
     partnerLogos: cmsContent.partnerLogos?.length ? cmsContent.partnerLogos : defaults.partnerLogos,
+    valueProps: {
+      ...defaults.valueProps,
+      ...cmsContent.valueProps,
+      wants: cmsContent.valueProps?.wants?.length ? cmsContent.valueProps.wants : defaults.valueProps.wants,
+    },
     about: {
       ...defaults.about,
       ...cmsContent.about,
@@ -497,6 +505,16 @@ export function mergeHomeContentWithDefaults(cmsContent: Partial<HomePageContent
       ...cmsContent.practiceAreasIntro,
     },
     practiceAreas: cmsContent.practiceAreas?.length ? cmsContent.practiceAreas : defaults.practiceAreas,
+    practiceSpotlights: {
+      ...defaults.practiceSpotlights,
+      ...cmsContent.practiceSpotlights,
+      items: cmsContent.practiceSpotlights?.items?.length ? cmsContent.practiceSpotlights.items : defaults.practiceSpotlights.items,
+    },
+    areasWeServe: {
+      ...defaults.areasWeServe,
+      ...cmsContent.areasWeServe,
+      regions: cmsContent.areasWeServe?.regions?.length ? cmsContent.areasWeServe.regions : defaults.areasWeServe.regions,
+    },
     awards: {
       ...defaults.awards,
       ...cmsContent.awards,

@@ -15,9 +15,12 @@ export default function HomeEditor({ content, onChange }: HomeEditorProps) {
     <div className="space-y-6">
       <HeroSection content={content} update={update} />
       <PartnerLogosSection content={content} update={update} />
+      <ValuePropsSectionEditor content={content} update={update} />
       <AboutSectionEditor content={content} update={update} />
       <PracticeAreasIntroSection content={content} update={update} />
       <PracticeAreasItemsSection content={content} update={update} />
+      <PracticeSpotlightsSectionEditor content={content} update={update} />
+      <AreasWeServeSectionEditor content={content} update={update} />
       <AwardsSection content={content} update={update} />
       <TestimonialsSection content={content} update={update} />
       <ProcessSection content={content} update={update} />
@@ -49,6 +52,11 @@ function HeroSection({ content, update }: SectionProps) {
   return (
     <Section title="Hero Section">
       <div className="grid gap-4">
+        <div>
+          <Label>Eyebrow</Label>
+          <Input value={hero.eyebrow || ""} onChange={(e) => set({ eyebrow: e.target.value })} placeholder="Indiana & Illinois Trial Attorneys" />
+          <p className="text-xs text-gray-500 mt-1">Small label shown above the headline</p>
+        </div>
         <HeadingField
           label="H1 Title"
           value={hero.h1Title}
@@ -66,7 +74,264 @@ function HeroSection({ content, update }: SectionProps) {
           <Input value={hero.highlightedText} onChange={(e) => set({ highlightedText: e.target.value })} />
           <p className="text-xs text-gray-500 mt-1">Enter the exact portion of the headline to display in accent color</p>
         </div>
+        <div>
+          <Label>Subheadline</Label>
+          <Textarea value={hero.subheadline || ""} onChange={(e) => set({ subheadline: e.target.value })} placeholder="Supporting sentence below the headline" />
+        </div>
+        <ImageField
+          label="Background Image"
+          value={hero.backgroundImage || ""}
+          onChange={(url) => set({ backgroundImage: url })}
+          altValue={hero.backgroundImageAlt || ""}
+          onAltChange={(backgroundImageAlt) => set({ backgroundImageAlt })}
+          onSelectAsset={(asset) => set({
+            backgroundImage: asset.url,
+            backgroundImageAlt: asset.suggestedAltText || hero.backgroundImageAlt || "",
+          })}
+          folder="backgrounds"
+        />
+        <div>
+          <Label>Background Image Alt Text</Label>
+          <Input value={hero.backgroundImageAlt || ""} onChange={(e) => set({ backgroundImageAlt: e.target.value })} placeholder="Describe the background image" />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>Primary Button Text</Label>
+            <Input value={hero.primaryCtaText || ""} onChange={(e) => set({ primaryCtaText: e.target.value })} placeholder="Free Consultation" />
+          </div>
+          <div>
+            <Label>Primary Button Link</Label>
+            <Input value={hero.primaryCtaLink || ""} onChange={(e) => set({ primaryCtaLink: e.target.value })} placeholder="/contact/" />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>Secondary Button Text</Label>
+            <Input value={hero.secondaryCtaText || ""} onChange={(e) => set({ secondaryCtaText: e.target.value })} placeholder="Our Practice Areas" />
+          </div>
+          <div>
+            <Label>Secondary Button Link</Label>
+            <Input value={hero.secondaryCtaLink || ""} onChange={(e) => set({ secondaryCtaLink: e.target.value })} placeholder="/practice-areas/" />
+          </div>
+        </div>
         <p className="text-xs text-gray-500 italic">Phone number is managed in Site Settings &gt; Contact Info</p>
+      </div>
+    </Section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+function ValuePropsSectionEditor({ content, update }: SectionProps) {
+  const vp = content.valueProps;
+  const set = (patch: Partial<typeof vp>) => update("valueProps", { ...vp, ...patch });
+  const ht = useHeadingTag(content, update);
+
+  return (
+    <Section title="Value / Positioning Section" defaultOpen={false}>
+      <div className="grid gap-4">
+        <div>
+          <Label>Section Label</Label>
+          <Input value={vp.sectionLabel} onChange={(e) => set({ sectionLabel: e.target.value })} placeholder="We're proud to be your voice in a complicated legal system." />
+        </div>
+        <HeadingField
+          label="Heading"
+          value={vp.heading}
+          onChange={(v) => set({ heading: v })}
+          tag={ht.get("valueProps.heading")}
+          onTagChange={(t) => ht.set("valueProps.heading", t)}
+        />
+        <RichTextField label="Description" value={vp.description} onChange={(v) => set({ description: v })} />
+        <ImageField
+          label="Image"
+          value={vp.image}
+          onChange={(url) => set({ image: url })}
+          altValue={vp.imageAlt}
+          onAltChange={(imageAlt) => set({ imageAlt })}
+          onSelectAsset={(asset) => set({
+            image: asset.url,
+            imageAlt: asset.suggestedAltText || vp.imageAlt,
+          })}
+          folder="team"
+        />
+        <div>
+          <Label>Image Alt Text</Label>
+          <Input value={vp.imageAlt} onChange={(e) => set({ imageAlt: e.target.value })} placeholder="Describe the image" />
+        </div>
+        <div>
+          <Label>"We Want..." Heading</Label>
+          <Input value={vp.wantsHeading} onChange={(e) => set({ wantsHeading: e.target.value })} placeholder="We Want..." />
+        </div>
+        <h4 className="font-medium mt-2">"We Want..." Items</h4>
+        <ArrayEditor
+          items={vp.wants}
+          onChange={(items) => set({ wants: items })}
+          itemLabel="Item"
+          newItem={() => ({ text: "" })}
+          renderItem={(item, _, upd) => (
+            <div>
+              <Label>Text</Label>
+              <Input value={item.text} onChange={(e) => upd({ ...item, text: e.target.value })} placeholder="to preserve your freedom." />
+            </div>
+          )}
+        />
+      </div>
+    </Section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+function PracticeSpotlightsSectionEditor({ content, update }: SectionProps) {
+  const ps = content.practiceSpotlights;
+  const set = (patch: Partial<typeof ps>) => update("practiceSpotlights", { ...ps, ...patch });
+  const ht = useHeadingTag(content, update);
+
+  return (
+    <Section title="Practice Spotlights" defaultOpen={false}>
+      <div className="grid gap-4">
+        <div>
+          <Label>Section Label</Label>
+          <Input value={ps.sectionLabel} onChange={(e) => set({ sectionLabel: e.target.value })} placeholder="Focused Representation" />
+        </div>
+        <HeadingField
+          label="Heading"
+          value={ps.heading}
+          onChange={(v) => set({ heading: v })}
+          tag={ht.get("practiceSpotlights.heading")}
+          onTagChange={(t) => ht.set("practiceSpotlights.heading", t)}
+        />
+        <ArrayEditor
+          items={ps.items}
+          onChange={(items) => set({ items })}
+          itemLabel="Spotlight"
+          newItem={() => ({ tagline: "", title: "", description: "", image: "", imageAlt: "", itemsHeading: "", items: [], ctaText: "", ctaLink: "" })}
+          renderItem={(item, _, upd) => (
+            <div className="grid gap-3">
+              <div>
+                <Label>Tagline</Label>
+                <Input value={item.tagline} onChange={(e) => upd({ ...item, tagline: e.target.value })} placeholder="Don't let a criminal charge limit you or your future." />
+              </div>
+              <div>
+                <Label>Title</Label>
+                <Input value={item.title} onChange={(e) => upd({ ...item, title: e.target.value })} placeholder="Criminal Defense" />
+              </div>
+              <RichTextField label="Description" value={item.description} onChange={(v) => upd({ ...item, description: v })} />
+              <ImageField
+                label="Image"
+                value={item.image}
+                onChange={(url) => upd({ ...item, image: url })}
+                altValue={item.imageAlt}
+                onAltChange={(imageAlt) => upd({ ...item, imageAlt })}
+                onSelectAsset={(asset) => upd({
+                  ...item,
+                  image: asset.url,
+                  imageAlt: asset.suggestedAltText || item.imageAlt,
+                })}
+                folder="practice-areas"
+              />
+              <div>
+                <Label>Image Alt Text</Label>
+                <Input value={item.imageAlt} onChange={(e) => upd({ ...item, imageAlt: e.target.value })} placeholder="Describe the image" />
+              </div>
+              <div>
+                <Label>List Heading</Label>
+                <Input value={item.itemsHeading} onChange={(e) => upd({ ...item, itemsHeading: e.target.value })} placeholder="Criminal Defense Cases We Handle:" />
+              </div>
+              <h5 className="text-sm font-medium">List Items</h5>
+              <ArrayEditor
+                items={item.items}
+                onChange={(items) => upd({ ...item, items })}
+                itemLabel="List Item"
+                newItem={() => ({ label: "" })}
+                renderItem={(sub, __, updSub) => (
+                  <div>
+                    <Label>Label</Label>
+                    <Input value={sub.label} onChange={(e) => updSub({ ...sub, label: e.target.value })} placeholder="DUI/OWI" />
+                  </div>
+                )}
+              />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>Button Text</Label>
+                  <Input value={item.ctaText} onChange={(e) => upd({ ...item, ctaText: e.target.value })} placeholder="Learn More" />
+                </div>
+                <div>
+                  <Label>Button Link</Label>
+                  <Input value={item.ctaLink} onChange={(e) => upd({ ...item, ctaLink: e.target.value })} placeholder="/practice-areas/" />
+                </div>
+              </div>
+            </div>
+          )}
+        />
+      </div>
+    </Section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+function AreasWeServeSectionEditor({ content, update }: SectionProps) {
+  const aws = content.areasWeServe;
+  const set = (patch: Partial<typeof aws>) => update("areasWeServe", { ...aws, ...patch });
+  const ht = useHeadingTag(content, update);
+
+  return (
+    <Section title="Areas We Serve" defaultOpen={false}>
+      <div className="grid gap-4">
+        <div>
+          <Label>Section Label</Label>
+          <Input value={aws.sectionLabel} onChange={(e) => set({ sectionLabel: e.target.value })} placeholder="Areas We Serve" />
+        </div>
+        <HeadingField
+          label="Heading"
+          value={aws.heading}
+          onChange={(v) => set({ heading: v })}
+          tag={ht.get("areasWeServe.heading")}
+          onTagChange={(t) => ht.set("areasWeServe.heading", t)}
+        />
+        <RichTextField label="Description" value={aws.description} onChange={(v) => set({ description: v })} />
+        <ImageField
+          label="Map / Image"
+          value={aws.mapImage}
+          onChange={(url) => set({ mapImage: url })}
+          altValue={aws.mapImageAlt}
+          onAltChange={(mapImageAlt) => set({ mapImageAlt })}
+          onSelectAsset={(asset) => set({
+            mapImage: asset.url,
+            mapImageAlt: asset.suggestedAltText || aws.mapImageAlt,
+          })}
+          folder="backgrounds"
+        />
+        <div>
+          <Label>Map Image Alt Text</Label>
+          <Input value={aws.mapImageAlt} onChange={(e) => set({ mapImageAlt: e.target.value })} placeholder="Describe the map image" />
+        </div>
+        <h4 className="font-medium mt-2">Regions</h4>
+        <ArrayEditor
+          items={aws.regions}
+          onChange={(regions) => set({ regions })}
+          itemLabel="Region"
+          newItem={() => ({ state: "", counties: [] })}
+          renderItem={(region, _, upd) => (
+            <div className="grid gap-3">
+              <div>
+                <Label>State / Region Name</Label>
+                <Input value={region.state} onChange={(e) => upd({ ...region, state: e.target.value })} placeholder="Indiana Counties" />
+              </div>
+              <h5 className="text-sm font-medium">Counties</h5>
+              <ArrayEditor
+                items={region.counties}
+                onChange={(counties) => upd({ ...region, counties })}
+                itemLabel="County"
+                newItem={() => ({ name: "" })}
+                renderItem={(county, __, updCounty) => (
+                  <div>
+                    <Label>Name</Label>
+                    <Input value={county.name} onChange={(e) => updCounty({ ...county, name: e.target.value })} placeholder="Hamilton" />
+                  </div>
+                )}
+              />
+            </div>
+          )}
+        />
       </div>
     </Section>
   );
