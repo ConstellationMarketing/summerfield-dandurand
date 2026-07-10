@@ -112,11 +112,11 @@ export default function Index() {
                 </p>
               )}
               {(heroContent.primaryCtaText || heroContent.secondaryCtaText) && (
-                <div className="flex flex-wrap gap-4 mt-[24px] md:mt-[30px]">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-[24px] md:mt-[30px] w-full max-w-[400px] sm:max-w-none">
                   {heroContent.primaryCtaText && (
                     <Link
                       to={heroContent.primaryCtaLink || "/contact/"}
-                      className="inline-block bg-brand-accent hover:bg-white text-brand-dark font-outfit font-medium text-[16px] md:text-[18px] px-[32px] py-[15px] transition-colors duration-300"
+                      className="w-full sm:w-auto text-center inline-block bg-brand-accent hover:bg-white text-brand-dark font-outfit font-medium text-[16px] md:text-[18px] px-[32px] py-[15px] transition-colors duration-300"
                     >
                       {heroContent.primaryCtaText}
                     </Link>
@@ -124,7 +124,7 @@ export default function Index() {
                   {heroContent.secondaryCtaText && (
                     <Link
                       to={heroContent.secondaryCtaLink || "/practice-areas/"}
-                      className="inline-block border-2 border-white/70 text-white hover:bg-white hover:text-brand-dark font-outfit text-[16px] md:text-[18px] px-[32px] py-[13px] transition-colors duration-300"
+                      className="w-full sm:w-auto text-center inline-block border-2 border-white/70 text-white hover:bg-white hover:text-brand-dark font-outfit text-[16px] md:text-[18px] px-[32px] py-[13px] transition-colors duration-300"
                     >
                       {heroContent.secondaryCtaText}
                     </Link>
@@ -134,8 +134,8 @@ export default function Index() {
             </div>
 
             {/* Call Box */}
-            <a href={`tel:${phoneNumber.replace(/\D/g, "")}`}>
-              <div className="bg-brand-accent p-[8px] w-full max-w-[400px] cursor-pointer transition-all duration-300 hover:bg-white group">
+            <a href={`tel:${phoneNumber.replace(/\D/g, "")}`} className="block w-full max-w-[400px]">
+              <div className="bg-brand-accent p-[8px] w-full cursor-pointer transition-all duration-300 hover:bg-white group">
                 <div className="flex items-start gap-4">
                   <div className="bg-brand-dark p-[15px] mt-1 flex items-center justify-center transition-colors duration-300">
                     <svg
@@ -171,17 +171,17 @@ export default function Index() {
       {partnerLogos.length > 0 && (
         <div className="bg-brand-dark py-[20px] md:py-[30px]">
           <div className="max-w-[2560px] mx-auto w-[95%]">
-            <div className="bg-brand-card border border-brand-border py-[10px] px-0 flex flex-nowrap justify-center overflow-hidden">
+            <div className="bg-brand-card border border-brand-border py-[16px] px-[10px] grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-2 items-center justify-items-center">
               {partnerLogos.map((logo, index) => (
                 <div
                   key={index}
-                  className="px-[8px] sm:px-[15px] md:px-[30px] py-2 flex items-center justify-center flex-shrink"
+                  className="px-[8px] md:px-[20px] py-1 flex items-center justify-center"
                 >
                   <div className="text-center">
                     <img
                       src={logo.src}
                       alt={logo.alt}
-                      className="w-[80px] sm:w-[100px] md:w-[120px] lg:w-[190px] max-w-full inline-block"
+                      className="w-[150px] sm:w-[120px] md:w-[150px] lg:w-[190px] max-w-full inline-block"
                       width={190}
                       height={123}
                       loading="lazy"

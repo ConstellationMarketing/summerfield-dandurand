@@ -19,7 +19,7 @@ export default function ProcessSection({ content, headingTags }: ProcessSectionP
   return (
     <div className="bg-brand-dark pt-[30px] pb-[60px]">
       {/* Header Section */}
-      <div className="max-w-[1080px] mx-auto w-[80%] py-[27px]">
+      <div className="max-w-[1080px] mx-auto w-[90%] md:w-[85%] lg:w-[80%] py-[27px]">
         {data.sectionLabel && (
           <div className="text-center mb-[10px]">
             <DynamicHeading
@@ -46,7 +46,7 @@ export default function ProcessSection({ content, headingTags }: ProcessSectionP
       </div>
 
       {/* Steps Grid */}
-      <div className="max-w-[1600px] mx-auto w-[80%] flex flex-col md:flex-row gap-[3%]">
+      <div className="max-w-[1600px] mx-auto w-[90%] md:w-[85%] lg:w-[80%] flex flex-col md:flex-row gap-[3%]">
         {steps.map((step, index) => (
           <div
             key={index}
