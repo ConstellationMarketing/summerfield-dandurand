@@ -15,14 +15,12 @@ export default function PracticeAreasGrid({ areas }: PracticeAreasGridProps) {
       {" "}
       {/* Removed py-[40px] */}
       <div className="w-full">
-        {" "}
-        {/* Removed max-w-[2560px], mx-auto, w-[90%] */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
+        <div className="flex flex-wrap">
           {areas.map((area, index) => (
             <Link
               key={index}
               to={area.link}
-              className="relative min-h-[400px] lg:min-h-[500px] overflow-hidden group"
+              className="relative grow shrink-0 basis-full sm:basis-1/2 lg:basis-0 lg:min-w-[240px] min-h-[400px] lg:min-h-[500px] overflow-hidden group"
               role="img"
               aria-label={area.imageAlt || area.title}
               style={{

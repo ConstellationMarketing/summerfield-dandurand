@@ -18,6 +18,7 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
   const data = content;
   const features = data.features || [];
   const stats = data.stats || [];
+  const attorneys = data.attorneys || [];
   const { phoneNumber, phoneLabel, phoneDisplay } = useGlobalPhone();
 
   return (
@@ -88,17 +89,56 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
             </div>
           </div>
 
-          {data.attorneyImage && (
-            <div className="order-first lg:order-last">
-              <img
-                src={data.attorneyImage}
-                alt={data.attorneyImageAlt}
-                className="w-full h-full max-h-[560px] object-cover"
-                width={462}
-                height={631}
-                loading="lazy"
-              />
+          {attorneys.length > 0 ? (
+            <div className="order-first lg:order-last grid grid-cols-2 gap-5 sm:gap-6">
+              {attorneys.map((attorney, index) => {
+                const card = (
+                  <>
+                    <div className="overflow-hidden">
+                      <img
+                        src={attorney.image}
+                        alt={attorney.imageAlt || attorney.name}
+                        className="w-full h-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="bg-brand-dark px-4 py-[16px] text-center">
+                      <p className="font-playfair text-[19px] md:text-[22px] leading-tight text-white">
+                        {attorney.name}
+                      </p>
+                      {attorney.title && (
+                        <p className="font-outfit text-[13px] md:text-[14px] uppercase tracking-[0.14em] text-brand-accent mt-[6px]">
+                          {attorney.title}
+                        </p>
+                      )}
+                    </div>
+                  </>
+                );
+
+                return attorney.link ? (
+                  <Link key={index} to={attorney.link} className="group block">
+                    {card}
+                  </Link>
+                ) : (
+                  <div key={index} className="group block">
+                    {card}
+                  </div>
+                );
+              })}
             </div>
+          ) : (
+            data.attorneyImage && (
+              <div className="order-first lg:order-last">
+                <img
+                  src={data.attorneyImage}
+                  alt={data.attorneyImageAlt}
+                  className="w-full h-full max-h-[560px] object-cover"
+                  width={462}
+                  height={631}
+                  loading="lazy"
+                />
+              </div>
+            )
           )}
         </div>
 

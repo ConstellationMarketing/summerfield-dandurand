@@ -7,8 +7,7 @@ import PracticeAreasSection from "@site/components/home/PracticeAreasSection";
 import PracticeAreasGrid from "@site/components/home/PracticeAreasGrid";
 import PracticeSpotlightSection from "@site/components/home/PracticeSpotlightSection";
 import AreasWeServeSection from "@site/components/home/AreasWeServeSection";
-import AwardsSection from "@site/components/home/AwardsSection";
-import TestimonialsSection from "@site/components/home/TestimonialsSection";
+import ReviewsGridSection from "@site/components/home/ReviewsGridSection";
 import ProcessSection from "@site/components/home/ProcessSection";
 import GoogleReviewsSection from "@site/components/home/GoogleReviewsSection";
 import FaqSection from "@site/components/home/FaqSection";
@@ -213,12 +212,6 @@ export default function Index() {
       {/* Areas We Serve */}
       <AreasWeServeSection content={content.areasWeServe} headingTag={content.headingTags?.["areasWeServe.heading"]} />
 
-      {/* Awards & Membership Section */}
-      <AwardsSection content={content.awards} headingTag={content.headingTags?.["awards.sectionLabel"]} />
-
-      {/* Testimonials Section */}
-      <TestimonialsSection content={content.testimonials} headingTag={content.headingTags?.["testimonials.sectionLabel"]} />
-
       {/* Process Section */}
       <ProcessSection content={content.process} headingTags={content.headingTags} />
 
@@ -227,6 +220,9 @@ export default function Index() {
 
       {/* FAQ Section */}
       <FaqSection content={content.faq} />
+
+      {/* Google Reviews Grid (uses testimonials block) */}
+      <ReviewsGridSection content={content.testimonials} headingTag={content.headingTags?.["testimonials.sectionLabel"]} />
 
       {/* Contact Us Section */}
       <ContactUsSection content={content.contact} headingTag={content.headingTags?.["contact.sectionLabel"]} />

@@ -87,6 +87,14 @@ export interface AboutStat {
   label: string;
 }
 
+export interface AboutAttorney {
+  image: string;
+  imageAlt: string;
+  name: string;
+  title: string;
+  link: string;
+}
+
 export interface AboutContent {
   sectionLabel: string;
   heading: string;
@@ -97,6 +105,7 @@ export interface AboutContent {
   contactText: string;
   attorneyImage: string;
   attorneyImageAlt: string;
+  attorneys: AboutAttorney[];
   features: AboutFeature[];
   stats: AboutStat[];
 }
@@ -251,6 +260,7 @@ export const defaultHomeContent: HomePageContent = {
     contactText: "",
     attorneyImage: "",
     attorneyImageAlt: "",
+    attorneys: [],
     features: [],
     stats: [],
   },

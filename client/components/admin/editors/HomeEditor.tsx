@@ -404,6 +404,52 @@ function AboutSectionEditor({ content, update }: SectionProps) {
             <Input value={about.contactText} onChange={(e) => set({ contactText: e.target.value })} />
           </div>
         </div>
+        <h4 className="font-medium mt-2">Attorneys</h4>
+        <p className="text-xs text-gray-500">Each attorney shows their photo, name, title, and links to their profile page. Leave empty to fall back to the single image below.</p>
+        <ArrayEditor
+          items={about.attorneys}
+          onChange={(items) => set({ attorneys: items })}
+          itemLabel="Attorney"
+          newItem={() => ({ image: "", imageAlt: "", name: "", title: "", link: "" })}
+          renderItem={(item, _, upd) => (
+            <div className="grid gap-3">
+              <ImageField
+                label="Photo"
+                value={item.image}
+                onChange={(url) => upd({ ...item, image: url })}
+                altValue={item.imageAlt}
+                onAltChange={(imageAlt) => upd({ ...item, imageAlt })}
+                onSelectAsset={(asset) => upd({
+                  ...item,
+                  image: asset.url,
+                  imageAlt: asset.suggestedAltText || item.imageAlt,
+                })}
+                folder="team"
+              />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>Name</Label>
+                  <Input value={item.name} onChange={(e) => upd({ ...item, name: e.target.value })} placeholder="Nicholas Dandurand" />
+                </div>
+                <div>
+                  <Label>Title</Label>
+                  <Input value={item.title} onChange={(e) => upd({ ...item, title: e.target.value })} placeholder="Partner" />
+                </div>
+              </div>
+              <div>
+                <Label>Image Alt Text</Label>
+                <Input value={item.imageAlt} onChange={(e) => upd({ ...item, imageAlt: e.target.value })} placeholder="Describe the photo" />
+              </div>
+              <div>
+                <Label>Profile Link</Label>
+                <Input value={item.link} onChange={(e) => upd({ ...item, link: e.target.value })} placeholder="/attorneys/nicholas-dandurand/" />
+              </div>
+            </div>
+          )}
+        />
+
+        <h4 className="font-medium mt-2">Fallback Attorney Image</h4>
+        <p className="text-xs text-gray-500">Used only when no attorneys are added above.</p>
         <ImageField
           label="Attorney Image"
           value={about.attorneyImage}

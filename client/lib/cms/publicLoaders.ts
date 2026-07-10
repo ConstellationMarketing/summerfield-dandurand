@@ -497,6 +497,7 @@ export function mergeHomeContentWithDefaults(cmsContent: Partial<HomePageContent
     about: {
       ...defaults.about,
       ...cmsContent.about,
+      attorneys: cmsContent.about?.attorneys?.length ? cmsContent.about.attorneys : defaults.about.attorneys,
       features: cmsContent.about?.features?.length ? cmsContent.about.features : defaults.about.features,
       stats: cmsContent.about?.stats?.length ? cmsContent.about.stats : defaults.about.stats,
     },
