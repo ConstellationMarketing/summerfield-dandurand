@@ -84,7 +84,7 @@ export default function Header() {
             {/* Contact CTA Button - Desktop */}
             <div className="hidden lg:block w-[280px]">
               {ctaText ? (
-                <Button asChild className="bg-brand-accent text-white font-outfit text-[22px] py-[25px] px-[15.4px] h-auto w-[200px] hover:bg-brand-accent-dark hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                <Button asChild className="bg-brand-accent text-brand-dark font-outfit text-[22px] py-[25px] px-[15.4px] h-auto w-[200px] hover:bg-brand-accent-dark hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
                   <Link to={ctaUrl}>
                     {ctaText}
                     <ArrowRight className="w-5 h-5" />
@@ -114,7 +114,7 @@ export default function Header() {
                     );
                   })}
                   {ctaText ? (
-                    <Button asChild className="bg-brand-accent text-white font-outfit text-[22px] py-[25px] w-full hover:bg-brand-accent-dark hover:text-white transition-all duration-300 flex items-center justify-center gap-2 mt-4">
+                    <Button asChild className="bg-brand-accent text-brand-dark font-outfit text-[22px] py-[25px] w-full hover:bg-brand-accent-dark hover:text-white transition-all duration-300 flex items-center justify-center gap-2 mt-4">
                       <Link to={ctaUrl}>
                         {ctaText}
                         <ArrowRight className="w-5 h-5" />

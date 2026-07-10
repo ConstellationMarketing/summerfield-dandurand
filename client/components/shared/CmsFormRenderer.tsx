@@ -143,7 +143,7 @@ function FormInner({
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-brand-accent text-white border-brand-accent font-outfit text-[22px] h-[50px] hover:bg-brand-accent-dark transition-all duration-300 rounded-none"
+          className="w-full bg-brand-accent text-brand-dark border-brand-accent hover:text-white font-outfit text-[22px] h-[50px] hover:bg-brand-accent-dark transition-all duration-300 rounded-none"
         >
           {isSubmitting ? "SUBMITTING..." : form.submit_button_text}
         </Button>

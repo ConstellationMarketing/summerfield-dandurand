@@ -19,7 +19,7 @@ export default function BlogCategoryFilter({
         className={cn(
           "px-4 py-2 rounded-full text-sm font-medium transition-colors",
           activeCategory === "all"
-            ? "bg-brand-accent text-white"
+            ? "bg-brand-accent text-brand-dark"
             : "bg-gray-100 text-gray-600 hover:bg-gray-200"
         )}
       >
@@ -32,7 +32,7 @@ export default function BlogCategoryFilter({
           className={cn(
             "px-4 py-2 rounded-full text-sm font-medium transition-colors",
             activeCategory === cat.slug
-              ? "bg-brand-accent text-white"
+              ? "bg-brand-accent text-brand-dark"
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           )}
         >
