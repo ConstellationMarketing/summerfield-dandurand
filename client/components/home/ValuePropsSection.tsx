@@ -19,23 +19,23 @@ export default function ValuePropsSection({ content, headingTag }: ValuePropsSec
   return (
     <div className="bg-brand-dark py-[40px] md:py-[70px]">
       <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[6%] items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[6%] items-stretch">
           {/* Left - Image */}
           {data.image && (
             <div className="order-2 lg:order-1">
               <img
                 src={data.image}
                 alt={data.imageAlt}
-                className="w-full h-auto object-cover"
+                className="w-full h-full min-h-[320px] object-cover"
                 loading="lazy"
               />
             </div>
           )}
 
           {/* Right - Copy */}
-          <div className={data.image ? "order-1 lg:order-2" : "lg:col-span-2 max-w-[900px]"}>
+          <div className={data.image ? "order-1 lg:order-2 flex flex-col justify-center" : "lg:col-span-2 max-w-[900px]"}>
             {data.sectionLabel && (
-              <p className="font-outfit text-[18px] md:text-[22px] leading-snug text-brand-accent mb-[14px]">
+              <p className="font-serif-italic text-[20px] md:text-[26px] leading-snug text-brand-accent mb-[14px]">
                 {data.sectionLabel}
               </p>
             )}
@@ -58,7 +58,7 @@ export default function ValuePropsSection({ content, headingTag }: ValuePropsSec
             {wants.length > 0 && (
               <div className="mt-[26px]">
                 {data.wantsHeading && (
-                  <p className="font-playfair italic text-[22px] md:text-[26px] text-brand-accent mb-[16px]">
+                  <p className="font-serif-italic text-[22px] md:text-[26px] text-brand-accent mb-[16px]">
                     {data.wantsHeading}
                   </p>
                 )}

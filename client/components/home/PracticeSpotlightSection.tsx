@@ -22,7 +22,7 @@ export default function PracticeSpotlightSection({ content, headingTag }: Practi
         {(data.sectionLabel || data.heading) && (
           <div className="max-w-[820px] mb-[36px] md:mb-[54px]">
             {data.sectionLabel && (
-              <p className="font-outfit text-[18px] md:text-[24px] leading-snug text-brand-accent mb-[10px]">
+              <p className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent-dark mb-[10px]">
                 {data.sectionLabel}
               </p>
             )}
@@ -44,7 +44,7 @@ export default function PracticeSpotlightSection({ content, headingTag }: Practi
             return (
               <div
                 key={index}
-                className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[6%] items-center"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[6%] items-stretch"
               >
                 {/* Image */}
                 {item.image && (
@@ -52,16 +52,16 @@ export default function PracticeSpotlightSection({ content, headingTag }: Practi
                     <img
                       src={item.image}
                       alt={item.imageAlt}
-                      className="w-full h-full max-h-[520px] object-cover"
+                      className="w-full h-full min-h-[340px] object-cover"
                       loading="lazy"
                     />
                   </div>
                 )}
 
                 {/* Copy */}
-                <div className={reversed ? "lg:order-1" : "lg:order-2"}>
+                <div className={`flex flex-col justify-center ${reversed ? "lg:order-1" : "lg:order-2"}`}>
                   {item.tagline && (
-                    <p className="font-playfair italic text-[22px] md:text-[28px] leading-tight text-brand-accent mb-[14px]">
+                    <p className="font-serif-italic text-[20px] md:text-[26px] leading-tight text-brand-accent-dark mb-[14px]">
                       {item.tagline}
                     </p>
                   )}
@@ -87,7 +87,7 @@ export default function PracticeSpotlightSection({ content, headingTag }: Practi
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
                         {item.items.map((sub, subIndex) => (
                           <li key={subIndex} className="flex items-start gap-3">
-                            <Check className="w-5 h-5 mt-[3px] flex-shrink-0 text-brand-accent" strokeWidth={2.5} />
+                            <Check className="w-5 h-5 mt-[3px] flex-shrink-0 text-brand-accent-dark" strokeWidth={2.5} />
                             <span className="font-outfit text-[16px] md:text-[18px] leading-snug text-black">
                               {sub.label}
                             </span>
@@ -100,7 +100,7 @@ export default function PracticeSpotlightSection({ content, headingTag }: Practi
                   {item.ctaText && (
                     <Link
                       to={item.ctaLink || "/practice-areas/"}
-                      className="inline-block mt-[26px] bg-brand-accent hover:bg-brand-accent-dark text-white font-outfit text-[16px] md:text-[18px] px-[28px] py-[14px] transition-colors duration-300"
+                      className="inline-block mt-[26px] bg-brand-accent text-brand-dark hover:bg-brand-accent-dark hover:text-white font-outfit font-medium text-[16px] md:text-[18px] px-[30px] py-[14px] transition-colors duration-300"
                     >
                       {item.ctaText}
                     </Link>

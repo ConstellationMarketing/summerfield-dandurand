@@ -21,7 +21,7 @@ export default function PracticeAreasSection({ content }: PracticeAreasSectionPr
           {/* Left Column - Section Label + Heading */}
           <div className="md:w-full">
             {data.sectionLabel && (
-              <p className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-brand-accent mb-[10px]">
+              <p className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent mb-[10px]">
                 {data.sectionLabel}
               </p>
             )}
@@ -37,17 +37,17 @@ export default function PracticeAreasSection({ content }: PracticeAreasSectionPr
             <div className="md:w-full flex items-center">
               <Link
                 to={data.buttonLink || "/practice-areas/"}
-                className="bg-brand-accent p-[8px] w-full max-w-[400px] mx-auto md:mx-auto cursor-pointer transition-all duration-300 hover:bg-brand-accent-dark group block"
+                className="bg-brand-accent p-[8px] w-full max-w-[400px] mx-auto md:mx-auto cursor-pointer transition-all duration-300 hover:bg-white group block"
               >
                 <div className="flex items-start gap-4">
-                  <div className="bg-white p-[15px] mt-1 flex items-center justify-center group-hover:bg-black transition-colors duration-300">
-                    <Scale className="w-8 h-8 text-black group-hover:text-white transition-colors duration-300" />
+                  <div className="bg-brand-dark p-[15px] mt-1 flex items-center justify-center transition-colors duration-300">
+                    <Scale className="w-8 h-8 text-white transition-colors duration-300" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-white pb-[10px] transition-colors duration-300">
+                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-brand-dark font-medium pb-[10px] transition-colors duration-300">
                       {data.buttonTextLine1}
                     </p>
-                    <p className="font-outfit text-[18px] md:text-[24px] text-white leading-none transition-colors duration-300">
+                    <p className="font-outfit text-[18px] md:text-[24px] text-brand-dark leading-none transition-colors duration-300">
                       {data.buttonTextLine2}
                     </p>
                   </div>

@@ -22,26 +22,23 @@ export default function Header() {
 
   return (
     <>
-      {/* Top padding that scrolls away */}
-      <div className="h-[30px]"></div>
-
-      {/* Sticky header wrapper */}
-      <div className="sticky top-0 z-50 pb-[30px]">
+      {/* Sticky header wrapper — navy, integrated with the hero */}
+      <div className="sticky top-0 z-50 bg-brand-dark">
         <div className="max-w-[2560px] mx-auto w-[95%]">
-          <div className="bg-white border border-brand-border/30 shadow-sm px-[30px] py-[10px] flex items-center justify-between">
+          <div className="px-0 md:px-[10px] py-[14px] flex items-center justify-between gap-4">
             {/* Logo */}
-            <div className="flex items-center w-[300px]">
-              <Link to="/" className="mr-[30px]">
+            <div className="flex items-center shrink-0">
+              <Link to="/" className="mr-[20px]">
                 {logoUrl ? (
                   <img
                     src={logoUrl}
                     alt={logoAlt}
-                    className="w-[306px] max-w-full"
-                    width={306}
+                    className="w-[240px] lg:w-[300px] max-w-full h-auto"
+                    width={300}
                     height={50}
                   />
                 ) : (
-                  <span className="font-outfit text-black text-[22px] leading-none">
+                  <span className="font-outfit text-white text-[22px] leading-none">
                     {settings.siteName || " "}
                   </span>
                 )}
@@ -70,7 +67,7 @@ export default function Header() {
                               ? "noopener noreferrer"
                               : undefined
                           }
-                          className="font-outfit text-[20px] text-black py-[31px] mr-[20px] whitespace-nowrap hover:text-brand-accent transition-colors duration-300"
+                          className="font-outfit text-[17px] xl:text-[19px] text-white py-[10px] whitespace-nowrap hover:text-brand-accent transition-colors duration-300"
                         >
                           {item.label}
                         </Link>
@@ -82,9 +79,9 @@ export default function Header() {
             </nav>
 
             {/* Contact CTA Button - Desktop */}
-            <div className="hidden lg:block w-[280px]">
+            <div className="hidden lg:block shrink-0">
               {ctaText ? (
-                <Button asChild className="bg-brand-accent text-brand-dark font-outfit text-[22px] py-[25px] px-[15.4px] h-auto w-[200px] hover:bg-brand-accent-dark hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                <Button asChild className="bg-brand-accent text-brand-dark font-outfit text-[17px] xl:text-[19px] font-medium py-[22px] px-[22px] h-auto hover:bg-white hover:text-brand-dark transition-all duration-300 flex items-center justify-center gap-2">
                   <Link to={ctaUrl}>
                     {ctaText}
                     <ArrowRight className="w-5 h-5" />
@@ -96,7 +93,7 @@ export default function Header() {
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild className="lg:hidden">
-                <Button variant="ghost" size="icon" className="text-black hover:text-brand-accent">
+                <Button variant="ghost" size="icon" className="text-white hover:text-brand-accent hover:bg-white/10">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>

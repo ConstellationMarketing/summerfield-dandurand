@@ -48,7 +48,7 @@ export default function Index() {
 
       {/* Hero and Contact Form Section */}
       <section
-        className="relative"
+        className="relative bg-brand-dark"
         style={
           heroContent.backgroundImage
             ? {
@@ -60,9 +60,12 @@ export default function Index() {
         }
       >
         {heroContent.backgroundImage && (
-          <div className="absolute inset-0 bg-white/85" aria-hidden="true" />
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/70"
+            aria-hidden="true"
+          />
         )}
-        <div className="relative max-w-[2560px] mx-auto w-[95%] py-[27px] my-[20px] md:my-[40px]">
+        <div className="relative max-w-[2560px] mx-auto w-[95%] pt-[24px] pb-[50px] md:pt-[40px] md:pb-[80px]">
         <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-[3%]">
           {/* Left Side: Headline and Call Box */}
           <div className="lg:w-[65.667%]">
@@ -73,7 +76,7 @@ export default function Index() {
                 </p>
               )}
               <div className="relative">
-                <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.2] text-black text-left">
+                <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.15] text-white text-left">
                   {heroContent.highlightedText && heroContent.headline.includes(heroContent.highlightedText)
                     ? (() => {
                         const idx = heroContent.headline.indexOf(heroContent.highlightedText);
@@ -100,12 +103,12 @@ export default function Index() {
               </div>
               {/* H1 Title - All caps, positioned between headline and phone button */}
               {heroContent.h1Title && (
-                <h1 className="font-outfit text-[18px] md:text-[20px] font-medium tracking-wider uppercase text-black mt-[20px] md:mt-[30px]">
+                <h1 className="font-outfit text-[16px] md:text-[18px] font-medium tracking-[0.15em] uppercase text-brand-accent mt-[20px] md:mt-[26px]">
                   {heroContent.h1Title}
                 </h1>
               )}
               {heroContent.subheadline && (
-                <p className="font-outfit text-[16px] md:text-[20px] leading-[26px] md:leading-[30px] text-black/80 mt-[18px] md:mt-[22px] max-w-[640px]">
+                <p className="font-outfit text-[16px] md:text-[20px] leading-[26px] md:leading-[32px] text-white/80 mt-[18px] md:mt-[22px] max-w-[640px]">
                   {heroContent.subheadline}
                 </p>
               )}
@@ -114,7 +117,7 @@ export default function Index() {
                   {heroContent.primaryCtaText && (
                     <Link
                       to={heroContent.primaryCtaLink || "/contact/"}
-                      className="inline-block bg-brand-accent hover:bg-brand-accent-dark text-white font-outfit text-[16px] md:text-[18px] px-[30px] py-[14px] transition-colors duration-300"
+                      className="inline-block bg-brand-accent hover:bg-white text-brand-dark font-outfit font-medium text-[16px] md:text-[18px] px-[32px] py-[15px] transition-colors duration-300"
                     >
                       {heroContent.primaryCtaText}
                     </Link>
@@ -122,7 +125,7 @@ export default function Index() {
                   {heroContent.secondaryCtaText && (
                     <Link
                       to={heroContent.secondaryCtaLink || "/practice-areas/"}
-                      className="inline-block border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white font-outfit text-[16px] md:text-[18px] px-[30px] py-[12px] transition-colors duration-300"
+                      className="inline-block border-2 border-white/70 text-white hover:bg-white hover:text-brand-dark font-outfit text-[16px] md:text-[18px] px-[32px] py-[13px] transition-colors duration-300"
                     >
                       {heroContent.secondaryCtaText}
                     </Link>
@@ -133,11 +136,11 @@ export default function Index() {
 
             {/* Call Box */}
             <a href={`tel:${phoneNumber.replace(/\D/g, "")}`}>
-              <div className="bg-brand-accent p-[8px] w-full max-w-[400px] cursor-pointer transition-all duration-300 hover:bg-brand-accent-dark group">
+              <div className="bg-brand-accent p-[8px] w-full max-w-[400px] cursor-pointer transition-all duration-300 hover:bg-white group">
                 <div className="flex items-start gap-4">
-                  <div className="bg-white p-[15px] mt-1 flex items-center justify-center group-hover:bg-black transition-colors duration-300">
+                  <div className="bg-brand-dark p-[15px] mt-1 flex items-center justify-center transition-colors duration-300">
                     <svg
-                      className="w-8 h-8 text-black group-hover:text-white transition-colors duration-300"
+                      className="w-8 h-8 text-white transition-colors duration-300"
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
@@ -145,10 +148,10 @@ export default function Index() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-white pb-[10px] font-normal transition-colors duration-300">
+                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-brand-dark pb-[10px] font-medium transition-colors duration-300">
                       {phoneLabel}
                     </p>
-                    <p className="font-outfit text-[clamp(1.75rem,5vw,40px)] text-white leading-tight transition-colors duration-300">
+                    <p className="font-outfit text-[clamp(1.75rem,5vw,40px)] text-brand-dark leading-tight transition-colors duration-300">
                       {phoneDisplay}
                     </p>
                   </div>

@@ -114,6 +114,12 @@
   h6,
   .font-playfair {
     font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
+    font-style: normal;
+  }
+
+  /* Opt-in italic for elegant accents (eyebrows, taglines) */
+  .font-serif-italic {
+    font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
     font-style: italic;
   }
 
