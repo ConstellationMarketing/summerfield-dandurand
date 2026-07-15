@@ -1,22 +1,34 @@
 import { Scale } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { PracticeAreasIntroContent } from "@site/lib/cms/homePageTypes";
+import { useSiteSettings } from "@site/contexts/SiteSettingsContext";
 
 interface PracticeAreasSectionProps {
   content?: PracticeAreasIntroContent;
 }
 
 export default function PracticeAreasSection({ content }: PracticeAreasSectionProps) {
+  const { settings } = useSiteSettings();
   // Guard: if no meaningful content, don't render
   if (!content || (!content.heading && !content.sectionLabel)) {
     return null;
   }
 
   const data = content;
+  const emblemUrl = settings.emblemUrl?.trim() || "";
 
   return (
-    <div className="bg-brand-dark py-[15px] md:py-[20px]">
-      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[85%] lg:w-[80%] py-[20px] md:py-[27px]">
+    <div className="bg-brand-dark py-[15px] md:py-[20px] relative overflow-hidden">
+      {emblemUrl ? (
+        <img
+          src={emblemUrl}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute -right-[4%] top-1/2 -translate-y-1/2 w-[320px] md:w-[420px] lg:w-[500px] max-w-[55%] opacity-[0.06] object-contain"
+          loading="lazy"
+        />
+      ) : null}
+      <div className="relative max-w-[2560px] mx-auto w-[95%] md:w-[85%] lg:w-[80%] py-[20px] md:py-[27px]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 md:gap-[5.5%]">
           {/* Left Column - Section Label + Heading */}
           <div className="md:w-full">

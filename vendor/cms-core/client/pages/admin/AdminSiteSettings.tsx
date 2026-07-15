@@ -500,6 +500,55 @@ export default function AdminSiteSettings() {
 
           <Card>
             <CardHeader>
+              <CardTitle>Emblem / Brand Crest</CardTitle>
+              <CardDescription>
+                Standalone brand mark shown in the footer and as a faded background accent in page sections
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label>Emblem Image</Label>
+                <ImageUploader
+                  value={settings.emblemUrl}
+                  onChange={(url) => updateSettings({ emblemUrl: url.trim() })}
+                  onSelectAsset={(asset) => {
+                    if (asset.suggestedAltText && asset.suggestedAltText !== settings.emblemAlt) {
+                      updateSettings({ emblemAlt: asset.suggestedAltText });
+                    }
+                  }}
+                  folder="site/logos"
+                  accept="image/*"
+                  preserveOriginal
+                  placeholder="Upload or choose the firm emblem"
+                  helperText="Full-color emblem used in the footer and as a subtle background accent."
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="emblemAlt">Emblem Alt Text</Label>
+                <Input
+                  id="emblemAlt"
+                  value={settings.emblemAlt}
+                  onChange={(e) => updateSettings({ emblemAlt: e.target.value })}
+                  placeholder="Firm emblem"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="footerBrandText">Footer Brand Text</Label>
+                <Input
+                  id="footerBrandText"
+                  value={settings.footerBrandText}
+                  onChange={(e) => updateSettings({ footerBrandText: e.target.value })}
+                  placeholder="Summerfield-Dandurand Law Group, LLP - Founders of Custom Law"
+                />
+                <p className="text-xs text-gray-500">
+                  Serif tagline shown under the emblem in the footer.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
               <CardTitle>Favicon</CardTitle>
               <CardDescription>
                 Displayed in browser tabs, bookmarks, and mobile shortcuts. This stays separate from your social sharing image and site logo.

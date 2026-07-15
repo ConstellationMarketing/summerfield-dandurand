@@ -13,14 +13,13 @@ import FaqSection from "@site/components/home/FaqSection";
 import ContactUsSection from "@site/components/home/ContactUsSection";
 import { useHomeContent } from "@site/hooks/useHomeContent";
 import type { HeroImage } from "@site/lib/cms/homePageTypes";
-import { useGlobalPhone, useSiteSettings } from "@site/contexts/SiteSettingsContext";
+import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
 export default function Index() {
   const { content, meta, title, publishedAt, updatedAt, isLoading } = useHomeContent();
   const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
-  const { settings } = useSiteSettings();
 
   if (isLoading) {
     return (

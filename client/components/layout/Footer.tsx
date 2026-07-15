@@ -34,6 +34,10 @@ export default function Footer() {
 const logoUrl = settings.logoUrl?.trim() || "";
 const logoAlt = settings.logoAlt?.trim() || settings.siteName?.trim() || "Logo";
 
+const emblemUrl = settings.emblemUrl?.trim() || "";
+const emblemAlt = settings.emblemAlt?.trim() || settings.siteName?.trim() || "Firm emblem";
+const footerBrandText = settings.footerBrandText?.trim() || "";
+
 const phoneNumber = settings.phoneNumber?.trim() || "";
 const phoneDisplay = settings.phoneDisplay?.trim() || "";
 const phoneLabel = settings.phoneAvailability?.trim() || "";
@@ -101,10 +105,19 @@ const enabledSocialLinks = (settings.socialLinks ?? []).filter((s) => s.enabled)
 
       {/* Footer Links Section */}
       <div className="border-t border-b border-[#838383] max-w-[2560px] mx-auto w-[95%] py-[20px] md:py-[27px] flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-[3%]">
-        {/* Logo Column */}
+        {/* Logo / Emblem Column */}
         <div className="lg:w-[20%] lg:mr-[3%]">
           <Link to="/" className="block">
-            {logoUrl ? (
+            {emblemUrl ? (
+              <img
+                src={emblemUrl}
+                alt={emblemAlt}
+                className="w-[160px] max-w-full h-auto"
+                width={160}
+                height={160}
+                loading="lazy"
+              />
+            ) : logoUrl ? (
               <img
                 src={logoUrl}
                 alt={logoAlt}
@@ -118,7 +131,11 @@ const enabledSocialLinks = (settings.socialLinks ?? []).filter((s) => s.enabled)
               </span>
             )}
           </Link>
-
+          {footerBrandText && (
+            <p className="font-outfit text-white/80 text-[15px] leading-snug mt-[14px] max-w-[240px]">
+              {footerBrandText}
+            </p>
+          )}
         </div>
 
         {/* Resources Column */}

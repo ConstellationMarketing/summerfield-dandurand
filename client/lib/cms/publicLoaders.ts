@@ -21,6 +21,9 @@ export interface SiteSettings {
   siteName: string;
   logoUrl: string;
   logoAlt: string;
+  emblemUrl: string;
+  emblemAlt: string;
+  footerBrandText: string;
   faviconSourceUrl: string;
   faviconAssets: FaviconAssets | null;
   phoneNumber: string;
@@ -147,6 +150,9 @@ interface SiteSettingsRow {
   site_name?: string | null;
   logo_url?: string | null;
   logo_alt?: string | null;
+  emblem_url?: string | null;
+  emblem_alt?: string | null;
+  footer_brand_text?: string | null;
   favicon_source_url?: string | null;
   favicon_assets?: FaviconAssets | Record<string, unknown> | null;
   phone_number?: string | null;
@@ -185,6 +191,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   siteName: "Michael G. Murray, P.A.",
   logoUrl: "",
   logoAlt: "",
+  emblemUrl: "",
+  emblemAlt: "",
+  footerBrandText: "",
   faviconSourceUrl: "",
   faviconAssets: null,
   phoneNumber: "",
@@ -424,6 +433,9 @@ export function shapeSiteSettings(row?: SiteSettingsRow | null): SiteSettings {
     siteName: row.site_name || DEFAULT_SITE_SETTINGS.siteName,
     logoUrl: row.logo_url || DEFAULT_SITE_SETTINGS.logoUrl,
     logoAlt: row.logo_alt || DEFAULT_SITE_SETTINGS.logoAlt,
+    emblemUrl: row.emblem_url || DEFAULT_SITE_SETTINGS.emblemUrl,
+    emblemAlt: row.emblem_alt || DEFAULT_SITE_SETTINGS.emblemAlt,
+    footerBrandText: row.footer_brand_text || DEFAULT_SITE_SETTINGS.footerBrandText,
     faviconSourceUrl: row.favicon_source_url || DEFAULT_SITE_SETTINGS.faviconSourceUrl,
     faviconAssets: normalizeFaviconAssets(row.favicon_assets) || DEFAULT_SITE_SETTINGS.faviconAssets,
     phoneNumber: row.phone_number || DEFAULT_SITE_SETTINGS.phoneNumber,
