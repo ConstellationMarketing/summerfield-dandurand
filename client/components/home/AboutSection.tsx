@@ -78,7 +78,7 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
               </a>
 
               {data.contactLabel && (
-                <Link to="/contact/" className="flex-1">
+                <Link to={data.contactLink || "/contact/"} className="flex-1">
                   <div className="border-2 border-brand-dark p-[8px] cursor-pointer transition-all duration-300 hover:bg-brand-dark group h-full">
                     <div className="flex items-center gap-3">
                       <div className="bg-brand-dark p-[12px] flex items-center justify-center group-hover:bg-brand-accent transition-colors duration-300">

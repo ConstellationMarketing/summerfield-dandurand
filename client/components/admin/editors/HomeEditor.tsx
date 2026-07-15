@@ -465,6 +465,10 @@ function AboutSectionEditor({ content, update }: SectionProps) {
             <Input value={about.contactText} onChange={(e) => set({ contactText: e.target.value })} />
           </div>
         </div>
+        <div>
+          <Label>Contact Button Link</Label>
+          <Input value={about.contactLink || ""} onChange={(e) => set({ contactLink: e.target.value })} placeholder="/contact/" />
+        </div>
         <h4 className="font-medium mt-2">Attorneys</h4>
         <p className="text-xs text-gray-500">Each attorney shows their photo, name, title, and links to their profile page. Leave empty to fall back to the single image below.</p>
         <ArrayEditor
@@ -746,6 +750,16 @@ function TestimonialsSection({ content, update }: SectionProps) {
         <div>
           <Label>Background Image Alt Text</Label>
           <Input value={t.backgroundImageAlt || ""} onChange={(e) => set({ backgroundImageAlt: e.target.value })} placeholder="Describe the background image" />
+        </div>
+        <div>
+          <Label>Review Badge Text</Label>
+          <Input value={t.reviewBadgeText || ""} onChange={(e) => set({ reviewBadgeText: e.target.value })} placeholder="Rated 5.0 on Google Reviews" />
+          <p className="text-xs text-gray-500 mt-1">Shown below the section heading with a Google icon. Leave blank to hide.</p>
+        </div>
+        <div>
+          <Label>Author Prefix</Label>
+          <Input value={t.authorPrefix || ""} onChange={(e) => set({ authorPrefix: e.target.value })} placeholder="Posted By" />
+          <p className="text-xs text-gray-500 mt-1">Text shown before the testimonial author name (e.g. "Posted By").</p>
         </div>
         <ArrayEditor
           items={t.items}

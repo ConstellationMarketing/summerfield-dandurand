@@ -114,6 +114,7 @@ export interface AboutContent {
   phoneLabel: string;
   contactLabel: string;
   contactText: string;
+  contactLink: string;
   attorneyImage: string;
   attorneyImageAlt: string;
   attorneys: AboutAttorney[];
@@ -155,6 +156,8 @@ export interface TestimonialsContent {
   heading: string;
   backgroundImage: string;
   backgroundImageAlt?: string;
+  reviewBadgeText?: string;
+  authorPrefix?: string;
   items: TestimonialItem[];
 }
 
@@ -272,6 +275,7 @@ export const defaultHomeContent: HomePageContent = {
     phoneLabel: "",
     contactLabel: "",
     contactText: "",
+    contactLink: "/contact/",
     attorneyImage: "",
     attorneyImageAlt: "",
     attorneys: [],
@@ -310,6 +314,8 @@ export const defaultHomeContent: HomePageContent = {
     heading: "",
     backgroundImage: "",
     backgroundImageAlt: "",
+    reviewBadgeText: "",
+    authorPrefix: "Posted By",
     items: [],
   },
   process: {

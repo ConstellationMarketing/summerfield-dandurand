@@ -59,12 +59,14 @@ export default function ReviewsGridSection({ content, headingTag }: ReviewsGridS
               {data.heading}
             </DynamicHeading>
           )}
-          <div className="flex items-center justify-center gap-2 mt-[16px]">
-            <GoogleG />
-            <span className="font-outfit text-[16px] md:text-[18px] text-brand-dark">
-              Rated 5.0 on Google Reviews
-            </span>
-          </div>
+          {data.reviewBadgeText && (
+            <div className="flex items-center justify-center gap-2 mt-[16px]">
+              <GoogleG />
+              <span className="font-outfit text-[16px] md:text-[18px] text-brand-dark">
+                {data.reviewBadgeText}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

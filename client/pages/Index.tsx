@@ -75,11 +75,6 @@ export default function Index() {
           {/* Left Side: Headline and Call Box */}
           <div className="lg:w-[56%]">
             <div className="mb-[30px] md:mb-[40px]">
-              {heroContent.eyebrow && (
-                <p className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent mb-[16px]">
-                  {heroContent.eyebrow}
-                </p>
-              )}
               <div className="relative">
                 <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.15] text-white text-left">
                   {heroContent.highlightedText && heroContent.headline.includes(heroContent.highlightedText)
@@ -106,6 +101,11 @@ export default function Index() {
                   }
                 </p>
               </div>
+              {heroContent.eyebrow && (
+                <p className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent mt-[16px]">
+                  {heroContent.eyebrow}
+                </p>
+              )}
               {(heroContent.primaryCtaText || heroContent.secondaryCtaText) && (
                 <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-[24px] md:mt-[30px] w-full max-w-[400px] sm:max-w-none">
                   {heroContent.primaryCtaText && (
@@ -270,25 +270,11 @@ function HeroAttorneyCard({ attorney }: { attorney: HeroImage }) {
       <div className="relative overflow-hidden">
         <img
           src={attorney.image}
-          alt={attorney.alt || attorney.name || ""}
+          alt={attorney.alt}
           className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
           loading="eager"
         />
       </div>
-      {(attorney.name || attorney.title) && (
-        <div className="bg-brand-dark px-3 py-3 text-center">
-          {attorney.name && (
-            <p className="font-playfair text-[15px] md:text-[17px] leading-tight text-white">
-              {attorney.name}
-            </p>
-          )}
-          {attorney.title && (
-            <p className="font-outfit text-[11px] md:text-[12px] font-medium tracking-[0.12em] uppercase text-brand-accent mt-1">
-              {attorney.title}
-            </p>
-          )}
-        </div>
-      )}
     </div>
   );
 

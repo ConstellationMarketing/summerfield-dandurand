@@ -68,7 +68,7 @@ export default function TestimonialsSection({
           <div className="lg:w-[48.5%] flex items-center justify-center">
             <img
               src={data.backgroundImage}
-              alt={data.backgroundImageAlt || "Testimonials"}
+              alt={data.backgroundImageAlt}
               width={609}
               height={530}
               loading="lazy"
@@ -108,7 +108,7 @@ export default function TestimonialsSection({
                           />
                         )}
                         <br />
-                        Posted By {testimonial.author}
+                        {data.authorPrefix ? `${data.authorPrefix} ` : ""}{testimonial.author}
                       </div>
                     </div>
                   </div>
