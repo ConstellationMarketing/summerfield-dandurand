@@ -12,13 +12,15 @@ import GoogleReviewsSection from "@site/components/home/GoogleReviewsSection";
 import FaqSection from "@site/components/home/FaqSection";
 import ContactUsSection from "@site/components/home/ContactUsSection";
 import { useHomeContent } from "@site/hooks/useHomeContent";
-import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
+import type { HeroImage } from "@site/lib/cms/homePageTypes";
+import { useGlobalPhone, useSiteSettings } from "@site/contexts/SiteSettingsContext";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
 export default function Index() {
   const { content, meta, title, publishedAt, updatedAt, isLoading } = useHomeContent();
   const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
+  const { settings } = useSiteSettings();
 
   if (isLoading) {
     return (
@@ -57,21 +59,15 @@ export default function Index() {
             : undefined
         }
       >
-        {heroContent.backgroundImage && (
+        {heroContent.backgroundImage ? (
           <div
-            className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/70"
+            className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/75"
             aria-hidden="true"
           />
-        )}
-
-        {/* Large firm emblem watermark for instant brand recognition */}
-        {heroContent.emblem && (
-          <img
-            src={heroContent.emblem}
-            alt={heroContent.emblemAlt || ""}
+        ) : (
+          <div
+            className="absolute inset-0 bg-gradient-to-br from-brand-dark to-black/40"
             aria-hidden="true"
-            className="pointer-events-none select-none absolute -right-[8%] top-1/2 -translate-y-1/2 w-[70%] max-w-[900px] opacity-[0.06] lg:opacity-[0.08] object-contain"
-            loading="eager"
           />
         )}
 
@@ -79,6 +75,23 @@ export default function Index() {
         <div className="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-[4%]">
           {/* Left Side: Headline and Call Box */}
           <div className="lg:w-[56%]">
+            {(heroContent.emblem || settings.siteName) && (
+              <div className="flex items-center gap-3 md:gap-4 mb-[24px] md:mb-[32px]">
+                {heroContent.emblem && (
+                  <img
+                    src={heroContent.emblem}
+                    alt={heroContent.emblemAlt || "Firm emblem"}
+                    className="h-[52px] md:h-[68px] w-auto object-contain shrink-0"
+                    loading="eager"
+                  />
+                )}
+                {settings.siteName && (
+                  <span className="font-playfair text-[20px] md:text-[26px] leading-tight text-white font-medium">
+                    {settings.siteName}
+                  </span>
+                )}
+              </div>
+            )}
             <div className="mb-[30px] md:mb-[40px]">
               {heroContent.eyebrow && (
                 <p className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent mb-[16px]">
@@ -170,10 +183,10 @@ export default function Index() {
             </a>
           </div>
 
-          {/* Right Side: Attorney collage */}
+          {/* Right Side: Attorney duo */}
           {heroContent.images.length > 0 && (
             <div className="lg:w-[40%]">
-              <HeroCollage images={heroContent.images} />
+              <HeroAttorneyDuo images={heroContent.images} />
             </div>
           )}
         </div>
@@ -243,47 +256,61 @@ export default function Index() {
   );
 }
 
-function HeroCollage({ images }: { images: { image: string; alt: string }[] }) {
+function HeroAttorneyDuo({ images }: { images: HeroImage[] }) {
   const valid = images.filter((img) => img.image);
   if (valid.length === 0) {
     return null;
   }
 
-  if (valid.length === 1) {
-    return (
-      <div className="relative">
-        <div className="absolute -inset-3 bg-brand-accent/20" aria-hidden="true" />
-        <img
-          src={valid[0].image}
-          alt={valid[0].alt || ""}
-          className="relative w-full aspect-[3/4] object-cover object-top shadow-2xl ring-1 ring-white/10"
-          loading="eager"
-        />
-      </div>
-    );
-  }
-
-  const [first, second] = valid;
   return (
-    <div className="relative mx-auto max-w-[440px] lg:max-w-none pt-6 pb-10 pr-10 lg:pr-14">
-      <div className="relative w-[72%]">
-        <div className="absolute -inset-2 bg-brand-accent/20" aria-hidden="true" />
-        <img
-          src={first.image}
-          alt={first.alt || ""}
-          className="relative w-full aspect-[3/4] object-cover object-top shadow-2xl ring-1 ring-white/10"
-          loading="eager"
-        />
-      </div>
-      <div className="absolute bottom-0 right-0 w-[62%]">
-        <div className="absolute -inset-2 bg-brand-dark" aria-hidden="true" />
-        <img
-          src={second.image}
-          alt={second.alt || ""}
-          className="relative w-full aspect-[3/4] object-cover object-top shadow-2xl ring-1 ring-white/10"
-          loading="eager"
-        />
-      </div>
+    <div
+      className={
+        valid.length === 1
+          ? "mx-auto max-w-[320px]"
+          : "grid grid-cols-2 gap-4 md:gap-5 mx-auto max-w-[520px] lg:max-w-none"
+      }
+    >
+      {valid.map((att, i) => (
+        <HeroAttorneyCard key={i} attorney={att} />
+      ))}
     </div>
   );
+}
+
+function HeroAttorneyCard({ attorney }: { attorney: HeroImage }) {
+  const card = (
+    <div className="group h-full bg-white/5 p-2 ring-1 ring-brand-accent/60 shadow-2xl transition-colors duration-300 hover:ring-brand-accent">
+      <div className="relative overflow-hidden">
+        <img
+          src={attorney.image}
+          alt={attorney.alt || attorney.name || ""}
+          className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+          loading="eager"
+        />
+      </div>
+      {(attorney.name || attorney.title) && (
+        <div className="bg-brand-dark px-3 py-3 text-center">
+          {attorney.name && (
+            <p className="font-playfair text-[15px] md:text-[17px] leading-tight text-white">
+              {attorney.name}
+            </p>
+          )}
+          {attorney.title && (
+            <p className="font-outfit text-[11px] md:text-[12px] font-medium tracking-[0.12em] uppercase text-brand-accent mt-1">
+              {attorney.title}
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+
+  if (attorney.link) {
+    return (
+      <Link to={attorney.link} className="block h-full">
+        {card}
+      </Link>
+    );
+  }
+  return card;
 }

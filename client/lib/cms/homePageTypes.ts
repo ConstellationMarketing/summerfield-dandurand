@@ -4,6 +4,9 @@
 export interface HeroImage {
   image: string;
   alt: string;
+  name?: string; // attorney name shown in caption
+  title?: string; // attorney title shown in caption (accent color)
+  link?: string; // profile page link
 }
 
 export interface HeroContent {
