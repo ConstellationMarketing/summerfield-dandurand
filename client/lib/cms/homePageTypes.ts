@@ -1,6 +1,11 @@
 // Type definitions for structured homepage content
 // Each section maps directly to a static component's data needs
 
+export interface HeroImage {
+  image: string;
+  alt: string;
+}
+
 export interface HeroContent {
   h1Title: string; // H1 title text (all caps, ~20px) between headline and phone button
   headline: string;
@@ -11,6 +16,9 @@ export interface HeroContent {
   subheadline: string; // supporting paragraph below the headline
   backgroundImage: string;
   backgroundImageAlt: string;
+  images: HeroImage[]; // attorney collage set (2 = duo collage, 1 = single/group photo)
+  emblem: string; // large firm emblem watermark behind the hero
+  emblemAlt: string;
   primaryCtaText: string;
   primaryCtaLink: string;
   secondaryCtaText: string;
@@ -235,6 +243,9 @@ export const defaultHomeContent: HomePageContent = {
     subheadline: "",
     backgroundImage: "",
     backgroundImageAlt: "",
+    images: [],
+    emblem: "",
+    emblemAlt: "",
     primaryCtaText: "",
     primaryCtaLink: "",
     secondaryCtaText: "",

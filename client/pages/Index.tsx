@@ -1,6 +1,5 @@
 import Seo from "@site/components/Seo";
 import Layout from "@site/components/layout/Layout";
-import ContactForm from "@site/components/home/ContactForm";
 import AboutSection from "@site/components/home/AboutSection";
 import ValuePropsSection from "@site/components/home/ValuePropsSection";
 import PracticeAreasSection from "@site/components/home/PracticeAreasSection";
@@ -45,9 +44,9 @@ export default function Index() {
         updatedTime={updatedAt}
       />
 
-      {/* Hero and Contact Form Section */}
+      {/* Hero Section - brand-forward, two column */}
       <section
-        className="relative bg-brand-dark"
+        className="relative overflow-hidden bg-brand-dark"
         style={
           heroContent.backgroundImage
             ? {
@@ -64,10 +63,22 @@ export default function Index() {
             aria-hidden="true"
           />
         )}
+
+        {/* Large firm emblem watermark for instant brand recognition */}
+        {heroContent.emblem && (
+          <img
+            src={heroContent.emblem}
+            alt={heroContent.emblemAlt || ""}
+            aria-hidden="true"
+            className="pointer-events-none select-none absolute -right-[8%] top-1/2 -translate-y-1/2 w-[70%] max-w-[900px] opacity-[0.06] lg:opacity-[0.08] object-contain"
+            loading="eager"
+          />
+        )}
+
         <div className="relative max-w-[2560px] mx-auto w-[95%] pt-[24px] pb-[50px] md:pt-[40px] md:pb-[80px]">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-[3%]">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-[4%]">
           {/* Left Side: Headline and Call Box */}
-          <div className="lg:w-[65.667%]">
+          <div className="lg:w-[56%]">
             <div className="mb-[30px] md:mb-[40px]">
               {heroContent.eyebrow && (
                 <p className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent mb-[16px]">
@@ -159,10 +170,12 @@ export default function Index() {
             </a>
           </div>
 
-          {/* Right Side: Contact Form */}
-          <div className="lg:w-[31.3333%]">
-            <ContactForm />
-          </div>
+          {/* Right Side: Attorney collage */}
+          {heroContent.images.length > 0 && (
+            <div className="lg:w-[40%]">
+              <HeroCollage images={heroContent.images} />
+            </div>
+          )}
         </div>
         </div>
       </section>
@@ -227,5 +240,50 @@ export default function Index() {
       {/* Contact Us Section */}
       <ContactUsSection content={content.contact} headingTag={content.headingTags?.["contact.sectionLabel"]} />
     </Layout>
+  );
+}
+
+function HeroCollage({ images }: { images: { image: string; alt: string }[] }) {
+  const valid = images.filter((img) => img.image);
+  if (valid.length === 0) {
+    return null;
+  }
+
+  if (valid.length === 1) {
+    return (
+      <div className="relative">
+        <div className="absolute -inset-3 bg-brand-accent/20" aria-hidden="true" />
+        <img
+          src={valid[0].image}
+          alt={valid[0].alt || ""}
+          className="relative w-full aspect-[3/4] object-cover object-top shadow-2xl ring-1 ring-white/10"
+          loading="eager"
+        />
+      </div>
+    );
+  }
+
+  const [first, second] = valid;
+  return (
+    <div className="relative mx-auto max-w-[440px] lg:max-w-none pt-6 pb-10 pr-10 lg:pr-14">
+      <div className="relative w-[72%]">
+        <div className="absolute -inset-2 bg-brand-accent/20" aria-hidden="true" />
+        <img
+          src={first.image}
+          alt={first.alt || ""}
+          className="relative w-full aspect-[3/4] object-cover object-top shadow-2xl ring-1 ring-white/10"
+          loading="eager"
+        />
+      </div>
+      <div className="absolute bottom-0 right-0 w-[62%]">
+        <div className="absolute -inset-2 bg-brand-dark" aria-hidden="true" />
+        <img
+          src={second.image}
+          alt={second.alt || ""}
+          className="relative w-full aspect-[3/4] object-cover object-top shadow-2xl ring-1 ring-white/10"
+          loading="eager"
+        />
+      </div>
+    </div>
   );
 }

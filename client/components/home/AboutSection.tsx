@@ -1,9 +1,19 @@
+import { useEffect, useState } from "react";
 import { Phone, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
-import type { AboutContent } from "@site/lib/cms/homePageTypes";
+import type { AboutContent, AboutAttorney } from "@site/lib/cms/homePageTypes";
 import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
 import RichText from "@site/components/shared/RichText";
 import DynamicHeading from "@site/components/shared/DynamicHeading";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+  type CarouselApi,
+} from "@site/components/ui/carousel";
+import { cn } from "@site/lib/utils";
 
 interface AboutSectionProps {
   content?: AboutContent;
@@ -90,41 +100,8 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
           </div>
 
           {attorneys.length > 0 ? (
-            <div className="order-first lg:order-last grid grid-cols-2 gap-5 sm:gap-6">
-              {attorneys.map((attorney, index) => {
-                const card = (
-                  <>
-                    <div className="overflow-hidden">
-                      <img
-                        src={attorney.image}
-                        alt={attorney.imageAlt || attorney.name}
-                        className="w-full h-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="bg-brand-dark px-4 py-[16px] text-center">
-                      <p className="font-playfair text-[19px] md:text-[22px] leading-tight text-white">
-                        {attorney.name}
-                      </p>
-                      {attorney.title && (
-                        <p className="font-outfit text-[13px] md:text-[14px] uppercase tracking-[0.14em] text-brand-accent mt-[6px]">
-                          {attorney.title}
-                        </p>
-                      )}
-                    </div>
-                  </>
-                );
-
-                return attorney.link ? (
-                  <Link key={index} to={attorney.link} className="group block">
-                    {card}
-                  </Link>
-                ) : (
-                  <div key={index} className="group block">
-                    {card}
-                  </div>
-                );
-              })}
+            <div className="order-first lg:order-last">
+              <AttorneySlider attorneys={attorneys} />
             </div>
           ) : (
             data.attorneyImage && (
@@ -187,5 +164,99 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
         )}
       </div>
     </section>
+  );
+}
+
+function AttorneyCard({ attorney }: { attorney: AboutAttorney }) {
+  const card = (
+    <>
+      <div className="overflow-hidden">
+        <img
+          src={attorney.image}
+          alt={attorney.imageAlt || attorney.name}
+          className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+      <div className="bg-brand-dark px-4 py-[16px] text-center">
+        <p className="font-playfair text-[19px] md:text-[22px] leading-tight text-white">
+          {attorney.name}
+        </p>
+        {attorney.title && (
+          <p className="font-outfit text-[13px] md:text-[14px] uppercase tracking-[0.14em] text-brand-accent mt-[6px]">
+            {attorney.title}
+          </p>
+        )}
+      </div>
+    </>
+  );
+
+  return attorney.link ? (
+    <Link to={attorney.link} className="group block">
+      {card}
+    </Link>
+  ) : (
+    <div className="group block">{card}</div>
+  );
+}
+
+function AttorneySlider({ attorneys }: { attorneys: AboutAttorney[] }) {
+  const [api, setApi] = useState<CarouselApi>();
+  const [selected, setSelected] = useState(0);
+  const [snaps, setSnaps] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setSelected(api.selectedScrollSnap());
+    setSnaps(api.scrollSnapList());
+    onSelect();
+    api.on("select", onSelect);
+    api.on("reInit", () => {
+      setSnaps(api.scrollSnapList());
+      onSelect();
+    });
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
+
+  // With 2 or fewer attorneys, no slider controls are needed.
+  const showControls = attorneys.length > 2;
+
+  return (
+    <div className="relative">
+      <Carousel setApi={setApi} opts={{ align: "start", loop: false }}>
+        <CarouselContent className="-ml-5 sm:-ml-6">
+          {attorneys.map((attorney, index) => (
+            <CarouselItem key={index} className="pl-5 sm:pl-6 basis-full sm:basis-1/2">
+              <AttorneyCard attorney={attorney} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        {showControls && (
+          <>
+            <CarouselPrevious className="left-2 h-10 w-10 border-none bg-brand-dark text-white hover:bg-brand-accent hover:text-brand-dark" />
+            <CarouselNext className="right-2 h-10 w-10 border-none bg-brand-dark text-white hover:bg-brand-accent hover:text-brand-dark" />
+          </>
+        )}
+      </Carousel>
+
+      {showControls && snaps.length > 1 && (
+        <div className="flex justify-center gap-2 mt-5">
+          {snaps.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              aria-label={`Go to slide ${index + 1}`}
+              onClick={() => api?.scrollTo(index)}
+              className={cn(
+                "h-2.5 rounded-full transition-all duration-300",
+                index === selected ? "w-7 bg-brand-accent" : "w-2.5 bg-brand-dark/25 hover:bg-brand-dark/50",
+              )}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

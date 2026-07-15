@@ -83,12 +83,12 @@ const enabledSocialLinks = (settings.socialLinks ?? []).filter((s) => s.enabled)
                     </span>
                   </span>
                 </div>
-                <div className="table-cell align-top pl-[15px]">
+                <div className="table-cell align-top pl-[15px] min-w-0">
                   <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-white pb-[10px] transition-colors duration-300">
                     {phoneLabel}
                   </p>
                   <div>
-                    <p className="font-outfit text-[28px] md:text-[40px] leading-tight md:leading-[44px] text-white transition-colors duration-300 whitespace-nowrap">
+                    <p className="font-outfit text-[clamp(1.25rem,2.4vw,40px)] leading-tight text-white transition-colors duration-300 whitespace-nowrap">
                       {phoneDisplay}
                     </p>
                   </div>

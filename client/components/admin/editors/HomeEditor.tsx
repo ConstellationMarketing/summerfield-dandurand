@@ -79,7 +79,53 @@ function HeroSection({ content, update }: SectionProps) {
           <Textarea value={hero.subheadline || ""} onChange={(e) => set({ subheadline: e.target.value })} placeholder="Supporting sentence below the headline" />
         </div>
         <ImageField
-          label="Background Image"
+          label="Firm Emblem (brand watermark)"
+          value={hero.emblem || ""}
+          onChange={(url) => set({ emblem: url })}
+          altValue={hero.emblemAlt || ""}
+          onAltChange={(emblemAlt) => set({ emblemAlt })}
+          onSelectAsset={(asset) => set({
+            emblem: asset.url,
+            emblemAlt: asset.suggestedAltText || hero.emblemAlt || "",
+          })}
+          folder="logos"
+        />
+        <div>
+          <Label>Emblem Alt Text</Label>
+          <Input value={hero.emblemAlt || ""} onChange={(e) => set({ emblemAlt: e.target.value })} placeholder="Firm emblem" />
+          <p className="text-xs text-gray-500 mt-1">Large brand mark shown behind the hero for instant recognition.</p>
+        </div>
+        <h4 className="font-medium mt-2">Hero Images (attorney collage)</h4>
+        <p className="text-xs text-gray-500">Add 2 for an overlapping duo collage, or 1 for a single/group photo.</p>
+        <ArrayEditor
+          items={hero.images || []}
+          onChange={(images) => set({ images })}
+          itemLabel="Hero Image"
+          newItem={() => ({ image: "", alt: "" })}
+          renderItem={(item, _, upd) => (
+            <div className="grid gap-3">
+              <ImageField
+                label="Photo"
+                value={item.image}
+                onChange={(url) => upd({ ...item, image: url })}
+                altValue={item.alt}
+                onAltChange={(alt) => upd({ ...item, alt })}
+                onSelectAsset={(asset) => upd({
+                  ...item,
+                  image: asset.url,
+                  alt: asset.suggestedAltText || item.alt,
+                })}
+                folder="team"
+              />
+              <div>
+                <Label>Image Alt Text</Label>
+                <Input value={item.alt} onChange={(e) => upd({ ...item, alt: e.target.value })} placeholder="Describe the photo" />
+              </div>
+            </div>
+          )}
+        />
+        <ImageField
+          label="Background Image (optional)"
           value={hero.backgroundImage || ""}
           onChange={(url) => set({ backgroundImage: url })}
           altValue={hero.backgroundImageAlt || ""}
@@ -93,6 +139,7 @@ function HeroSection({ content, update }: SectionProps) {
         <div>
           <Label>Background Image Alt Text</Label>
           <Input value={hero.backgroundImageAlt || ""} onChange={(e) => set({ backgroundImageAlt: e.target.value })} placeholder="Describe the background image" />
+          <p className="text-xs text-gray-500 mt-1">Optional — the hero uses the navy brand background with the emblem watermark by default.</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
