@@ -75,23 +75,6 @@ export default function Index() {
         <div className="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-[4%]">
           {/* Left Side: Headline and Call Box */}
           <div className="lg:w-[56%]">
-            {(heroContent.emblem || settings.siteName) && (
-              <div className="flex items-center gap-3 md:gap-4 mb-[24px] md:mb-[32px]">
-                {heroContent.emblem && (
-                  <img
-                    src={heroContent.emblem}
-                    alt={heroContent.emblemAlt || "Firm emblem"}
-                    className="h-[52px] md:h-[68px] w-auto object-contain shrink-0"
-                    loading="eager"
-                  />
-                )}
-                {settings.siteName && (
-                  <span className="font-playfair text-[20px] md:text-[26px] leading-tight text-white font-medium">
-                    {settings.siteName}
-                  </span>
-                )}
-              </div>
-            )}
             <div className="mb-[30px] md:mb-[40px]">
               {heroContent.eyebrow && (
                 <p className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent mb-[16px]">
