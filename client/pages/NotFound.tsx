@@ -33,7 +33,7 @@ const NotFound = () => {
           <p className="font-outfit text-[18px] text-black/70 mb-8">
             The page you are looking for doesn't exist or has been moved.
           </p>
-          <Button asChild className="bg-brand-accent text-white font-outfit text-[20px] px-8 py-6 h-auto hover:bg-brand-accent-dark">
+          <Button asChild className="bg-brand-accent text-white font-outfit text-[20px] px-8 py-6 h-auto hover:bg-brand-accent">
             <Link to="/">
               Return to Home
             </Link>

@@ -68,7 +68,7 @@ export default function BlogPostHero({
         <div className="flex flex-col sm:flex-row gap-3 mt-8">
           <a
             href={`tel:${phoneNumber.replace(/\D/g, "")}`}
-            className="inline-flex items-center gap-3 bg-brand-accent px-5 py-3 text-white font-outfit font-medium hover:bg-brand-accent-dark transition-colors duration-300"
+            className="inline-flex items-center gap-3 bg-brand-accent px-5 py-3 text-white font-outfit font-medium hover:bg-brand-accent transition-colors duration-300"
           >
             <Phone className="h-5 w-5" strokeWidth={1.5} />
             <span>{phoneDisplay}</span>

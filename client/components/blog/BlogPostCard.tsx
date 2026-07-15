@@ -29,7 +29,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
           />
         </div>
       ) : (
-        <div className="aspect-[16/9] bg-gradient-to-br from-brand-accent to-brand-accent-dark flex items-center justify-center">
+        <div className="aspect-[16/9] bg-gradient-to-br from-brand-accent to-brand-accent flex items-center justify-center">
           <span
             className="text-white/30 text-6xl font-light"
             style={{ fontFamily: "Libre Baskerville, Georgia, serif", fontStyle: "italic" }}
@@ -67,7 +67,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
           <p className="text-gray-600 text-sm line-clamp-3">{post.excerpt}</p>
         )}
 
-        <span className="inline-block mt-4 text-sm font-semibold text-brand-accent group-hover:text-brand-accent-dark transition-colors">
+        <span className="inline-block mt-4 text-sm font-semibold text-brand-accent group-hover:text-brand-accent transition-colors">
           Read More →
         </span>
       </div>

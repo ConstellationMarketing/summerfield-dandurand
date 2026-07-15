@@ -123,7 +123,7 @@ export default function TestimonialsBlock({ block }: TestimonialsBlockProps) {
                   <button
                     key={index}
                     onClick={() => goToSlide(index)}
-                    className={`inline-block w-[7px] h-[7px] bg-brand-accent-dark border border-brand-accent ${
+                    className={`inline-block w-[7px] h-[7px] bg-brand-accent border border-brand-accent ${
                       index === activeSlide ? "opacity-100" : "opacity-50"
                     } ${index < testimonials.length - 1 ? "mr-[10px]" : ""} cursor-pointer transition-opacity hover:opacity-100`}
                     aria-label={`Go to testimonial ${index + 1}`}

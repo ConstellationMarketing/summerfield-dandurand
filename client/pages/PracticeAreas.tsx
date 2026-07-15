@@ -223,7 +223,7 @@ export default function PracticeAreas() {
               title={phoneLabel}
               subtitle={phoneDisplay}
               phone={phoneNumber}
-              className="bg-brand-accent-dark hover:bg-black"
+              className="bg-brand-accent hover:bg-black"
               variant="dark"
             />
             <CallBox
@@ -231,7 +231,7 @@ export default function PracticeAreas() {
               title={content.cta.secondaryButton.label}
               subtitle={content.cta.secondaryButton.sublabel}
               link={content.cta.secondaryButton.link}
-              className="bg-brand-accent-dark hover:bg-black"
+              className="bg-brand-accent hover:bg-black"
               variant="dark"
             />
           </div>

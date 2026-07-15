@@ -26,7 +26,7 @@ export default function AreasWeServeSection({ content, headingTag }: AreasWeServ
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[6%] items-center mb-[40px] md:mb-[60px]">
           <div>
             {data.sectionLabel && (
-              <p className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent-dark mb-[12px]">
+              <p className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent mb-[12px]">
                 {data.sectionLabel}
               </p>
             )}
@@ -66,7 +66,7 @@ export default function AreasWeServeSection({ content, headingTag }: AreasWeServ
               <div key={index} className="bg-white border border-brand-dark/10 p-[26px] md:p-[32px]">
                 {region.state && (
                   <div className="flex items-center gap-3 pb-[18px] mb-[20px] border-b border-brand-dark/10">
-                    <MapPin className="w-6 h-6 flex-shrink-0 text-brand-accent-dark" strokeWidth={2} />
+                    <MapPin className="w-6 h-6 flex-shrink-0 text-brand-accent" strokeWidth={2} />
                     <h3 className="font-playfair text-[22px] md:text-[28px] text-brand-dark">
                       {region.state}
                     </h3>

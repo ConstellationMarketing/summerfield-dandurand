@@ -36,7 +36,7 @@ export default function PracticeAreaCard({
       ></div>
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90 transition-all duration-500 group-hover:from-brand-accent-dark/40 group-hover:via-brand-accent-dark/70 group-hover:to-brand-dark/95"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black/90 transition-all duration-500 group-hover:from-brand-accent/40 group-hover:via-brand-accent/70 group-hover:to-brand-dark/95"></div>
 
       {/* Content */}
       <div className="relative h-full flex flex-col justify-between p-[25px] md:p-[30px]">

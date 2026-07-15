@@ -192,26 +192,25 @@ export default function Index() {
       )}
 
       {/* Value / Positioning Section */}
-      <ValuePropsSection content={content.valueProps} headingTag={content.headingTags?.["valueProps.heading"]} />
-
-      {/* About Us Section */}
       {(heroContent.h1Title || heroContent.subheadline) && (
-        <section className="bg-white pt-[50px] md:pt-[80px]">
+        <div className="bg-brand-dark pt-[40px] md:pt-[70px]">
           <div className="max-w-[900px] mx-auto w-[90%] text-center">
             {heroContent.h1Title && (
-              <h1 className="font-outfit text-[18px] md:text-[22px] font-semibold tracking-[0.14em] uppercase text-brand-accent-dark">
+              <h1 className="font-outfit text-[18px] md:text-[22px] font-semibold tracking-[0.14em] uppercase text-brand-accent">
                 {heroContent.h1Title}
               </h1>
             )}
             {heroContent.subheadline && (
-              <p className="font-outfit text-[17px] md:text-[20px] leading-[27px] md:leading-[32px] text-black/70 mt-[16px] md:mt-[20px]">
+              <p className="font-outfit text-[17px] md:text-[20px] leading-[27px] md:leading-[32px] text-white/80 mt-[16px] md:mt-[20px]">
                 {heroContent.subheadline}
               </p>
             )}
           </div>
-        </section>
+        </div>
       )}
+      <ValuePropsSection content={content.valueProps} headingTag={content.headingTags?.["valueProps.heading"]} />
 
+      {/* About Us Section */}
       <AboutSection content={content.about} headingTag={content.headingTags?.["about.sectionLabel"]} />
 
       {/* Practice Areas Section */}

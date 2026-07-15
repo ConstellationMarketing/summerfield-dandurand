@@ -75,7 +75,7 @@ const enabledSocialLinks = (settings.socialLinks ?? []).filter((s) => s.enabled)
         {/* Right: Call Us Box */}
         <div className="lg:w-[25%]">
           <a href={`tel:${phoneNumber.replace(/\D/g, "")}`}>
-            <div className="bg-brand-accent p-[8px] w-full ml-auto cursor-pointer transition-all duration-300 hover:bg-brand-accent-dark group">
+            <div className="bg-brand-accent p-[8px] w-full ml-auto cursor-pointer transition-all duration-300 hover:bg-brand-accent group">
               <div className="table w-full mx-auto max-w-full flex-row-reverse">
                 <div className="table-cell w-[32px] leading-[0] mb-[30px]">
                   <span className="m-auto">
@@ -253,7 +253,7 @@ function SocialLinksSection() {
                   rel="noopener noreferrer"
                   className={`inline-block w-[52px] h-[52px] bg-white border border-white ${
                     isLast ? "" : "mr-[8px]"
-                  } align-middle transition-all duration-300 hover:bg-brand-accent-dark hover:border-white group flex items-center justify-center`}
+                  } align-middle transition-all duration-300 hover:bg-brand-accent hover:border-white group flex items-center justify-center`}
                   title={`Follow on ${label}`}
                 >
                   <Icon className="w-6 h-6 text-brand-accent group-hover:text-white transition-colors duration-300" />

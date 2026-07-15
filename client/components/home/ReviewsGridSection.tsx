@@ -46,7 +46,7 @@ export default function ReviewsGridSection({ content, headingTag }: ReviewsGridS
       <div className="max-w-[1360px] mx-auto w-[95%] md:w-[90%]">
         <div className="text-center mb-[36px] md:mb-[50px] max-w-[720px] mx-auto">
           {data.sectionLabel && (
-            <p className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent-dark mb-[10px]">
+            <p className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent mb-[10px]">
               {data.sectionLabel}
             </p>
           )}

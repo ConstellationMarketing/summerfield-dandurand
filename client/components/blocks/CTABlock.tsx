@@ -30,7 +30,7 @@ export default function CTABlock({ block }: CTABlockProps) {
             title={phoneLabel}
             subtitle={phoneDisplay}
             phone={phoneNumber}
-            className="bg-brand-accent-dark hover:bg-black"
+            className="bg-brand-accent hover:bg-black"
             variant="dark"
           />
           {block.secondaryButton && (
@@ -39,7 +39,7 @@ export default function CTABlock({ block }: CTABlockProps) {
               title={block.secondaryButton.label}
               subtitle={block.secondaryButton.sublabel}
               link={block.secondaryButton.link}
-              className="bg-brand-accent-dark hover:bg-black"
+              className="bg-brand-accent hover:bg-black"
               variant="dark"
             />
           )}

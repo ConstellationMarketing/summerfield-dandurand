@@ -164,7 +164,7 @@ export default function AboutUs() {
 
       {/* Mission & Vision Section */}
       {(content.missionVision.mission.heading || content.missionVision.vision.heading) && (
-      <div className="bg-brand-accent-dark py-[40px] md:py-[60px]">
+      <div className="bg-brand-accent py-[40px] md:py-[60px]">
         <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[8%]">
             {/* Mission */}
@@ -357,7 +357,7 @@ export default function AboutUs() {
               title={phoneLabel}
               subtitle={phoneDisplay}
               phone={phoneNumber}
-              className="bg-brand-accent-dark hover:bg-black"
+              className="bg-brand-accent hover:bg-black"
               variant="dark"
             />
             <CallBox
@@ -365,7 +365,7 @@ export default function AboutUs() {
               title={content.cta.secondaryButton.label}
               subtitle={content.cta.secondaryButton.sublabel}
               link={content.cta.secondaryButton.link}
-              className="bg-brand-accent-dark hover:bg-black"
+              className="bg-brand-accent hover:bg-black"
               variant="dark"
             />
           </div>

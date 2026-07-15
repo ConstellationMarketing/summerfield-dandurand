@@ -30,7 +30,7 @@ export default function PracticeAreasGrid({ areas }: PracticeAreasGridProps) {
               }}
             >
               {/* Dark Overlay with Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70 transition-all duration-500 group-hover:from-brand-accent-dark/60 group-hover:via-brand-accent-dark/70 group-hover:to-brand-dark/90"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70 transition-all duration-500 group-hover:from-brand-accent/60 group-hover:via-brand-accent/70 group-hover:to-brand-dark/90"></div>
 
               {/* Content */}
               <div className="relative h-full flex items-end p-4">

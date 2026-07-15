@@ -41,7 +41,7 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
               <DynamicHeading
                 tag={headingTag}
                 defaultTag="h2"
-                className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent-dark mb-[12px]"
+                className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent mb-[12px]"
               >
                 {data.sectionLabel}
               </DynamicHeading>
