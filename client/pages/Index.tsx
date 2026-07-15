@@ -106,17 +106,6 @@ export default function Index() {
                   }
                 </p>
               </div>
-              {/* H1 Title - All caps, positioned between headline and phone button */}
-              {heroContent.h1Title && (
-                <h1 className="font-outfit text-[16px] md:text-[18px] font-medium tracking-[0.15em] uppercase text-brand-accent mt-[20px] md:mt-[26px]">
-                  {heroContent.h1Title}
-                </h1>
-              )}
-              {heroContent.subheadline && (
-                <p className="font-outfit text-[16px] md:text-[20px] leading-[26px] md:leading-[32px] text-white/80 mt-[18px] md:mt-[22px] max-w-[640px]">
-                  {heroContent.subheadline}
-                </p>
-              )}
               {(heroContent.primaryCtaText || heroContent.secondaryCtaText) && (
                 <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-[24px] md:mt-[30px] w-full max-w-[400px] sm:max-w-none">
                   {heroContent.primaryCtaText && (
@@ -206,6 +195,23 @@ export default function Index() {
       <ValuePropsSection content={content.valueProps} headingTag={content.headingTags?.["valueProps.heading"]} />
 
       {/* About Us Section */}
+      {(heroContent.h1Title || heroContent.subheadline) && (
+        <section className="bg-white pt-[50px] md:pt-[80px]">
+          <div className="max-w-[900px] mx-auto w-[90%] text-center">
+            {heroContent.h1Title && (
+              <h1 className="font-outfit text-[18px] md:text-[22px] font-semibold tracking-[0.14em] uppercase text-brand-accent-dark">
+                {heroContent.h1Title}
+              </h1>
+            )}
+            {heroContent.subheadline && (
+              <p className="font-outfit text-[17px] md:text-[20px] leading-[27px] md:leading-[32px] text-black/70 mt-[16px] md:mt-[20px]">
+                {heroContent.subheadline}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
+
       <AboutSection content={content.about} headingTag={content.headingTags?.["about.sectionLabel"]} />
 
       {/* Practice Areas Section */}
