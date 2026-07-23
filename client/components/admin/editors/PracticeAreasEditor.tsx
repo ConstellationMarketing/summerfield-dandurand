@@ -81,7 +81,7 @@ function GridSection({ content, update }: SectionProps) {
           items={grid.areas}
           onChange={(items) => set({ areas: items })}
           itemLabel="Practice Area"
-          newItem={() => ({ icon: "FileText", title: "", description: "", image: "", imageAlt: "", link: "/practice-areas" })}
+          newItem={() => ({ icon: "FileText", title: "", description: "", image: "", imageAlt: "", link: "/practice-areas/", subPractices: [] })}
           renderItem={(item, _, upd) => (
             <div className="grid gap-3">
               <div className="grid grid-cols-4 gap-3">
@@ -115,6 +115,32 @@ function GridSection({ content, update }: SectionProps) {
               <div>
                 <Label>Link</Label>
                 <Input value={item.link} onChange={(e) => upd({ ...item, link: e.target.value })} />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-700 mt-1">Sub-Practices</p>
+                <p className="text-xs text-gray-500 mb-2">Shown as icon+link chips inside the card. Use Lucide icon names (e.g. Scale, Shield, FileText).</p>
+                <ArrayEditor
+                  items={(item.subPractices ?? []).map((s, i) => ({ ...s, id: String(i) }))}
+                  onChange={(subs) => upd({ ...item, subPractices: subs.map(({ id: _id, ...s }) => s) })}
+                  itemLabel="Sub-Practice"
+                  newItem={() => ({ id: String(Date.now()), icon: "FileText", title: "", link: "" })}
+                  renderItem={(sub, __, updSub) => (
+                    <div className="grid grid-cols-4 gap-2">
+                      <div>
+                        <Label>Icon</Label>
+                        <Input value={sub.icon} onChange={(e) => updSub({ ...sub, icon: e.target.value })} placeholder="Scale" />
+                      </div>
+                      <div className="col-span-2">
+                        <Label>Title</Label>
+                        <Input value={sub.title} onChange={(e) => updSub({ ...sub, title: e.target.value })} />
+                      </div>
+                      <div>
+                        <Label>Link</Label>
+                        <Input value={sub.link} onChange={(e) => updSub({ ...sub, link: e.target.value })} placeholder="/practice-areas/" />
+                      </div>
+                    </div>
+                  )}
+                />
               </div>
             </div>
           )}

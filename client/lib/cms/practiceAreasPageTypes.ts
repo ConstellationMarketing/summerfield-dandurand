@@ -9,6 +9,12 @@ export interface PracticeAreasHeroContent {
   phoneLabel: string;
 }
 
+export interface SubPracticeItem {
+  icon: string; // Lucide icon name
+  title: string;
+  link: string;
+}
+
 export interface PracticeAreaGridItem {
   icon: string; // Lucide icon name
   title: string; // "Personal Injury"
@@ -16,6 +22,7 @@ export interface PracticeAreaGridItem {
   image: string; // Background image URL
   imageAlt: string; // Image alt text
   link: string; // Link to detail page
+  subPractices?: SubPracticeItem[];
 }
 
 export interface PracticeAreasGridContent {
