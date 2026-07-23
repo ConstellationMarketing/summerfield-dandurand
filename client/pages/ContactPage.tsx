@@ -320,30 +320,30 @@ function FormAndHoursSection({
           <div className="space-y-[24px]" id="office-hours">
             {/* Office Hours card */}
             {officeHours.length > 0 && (
-              <div className="bg-brand-card border border-brand-border p-[28px] md:p-[36px]">
+              <div className="bg-white border border-brand-dark/15 p-[28px] md:p-[36px]">
                 <div className="flex items-center gap-3 mb-[20px]">
                   <div className="bg-brand-accent p-[14px]">
                     <Clock className="w-[28px] h-[28px] text-brand-dark" strokeWidth={1.5} />
                   </div>
                   {officeHoursHeading && (
-                    <p className="font-playfair text-[22px] md:text-[26px] leading-tight text-white">
+                    <p className="font-playfair text-[22px] md:text-[26px] leading-tight text-brand-dark">
                       {officeHoursHeading}
                     </p>
                   )}
                 </div>
                 <div className="space-y-[12px]">
                   {officeHours.map((item, i) => (
-                    <div key={i} className="flex justify-between items-center pb-[12px] border-b border-brand-border/50 last:border-0 last:pb-0">
-                      <span className="font-outfit text-[15px] md:text-[16px] text-white/75">{item.day}</span>
+                    <div key={i} className="flex justify-between items-center pb-[12px] border-b border-brand-dark/10 last:border-0 last:pb-0">
+                      <span className="font-outfit text-[15px] md:text-[16px] text-black/70">{item.day}</span>
                       <span className="font-outfit text-[15px] md:text-[16px] text-brand-accent font-medium">{item.hours}</span>
                     </div>
                   ))}
                 </div>
                 {officeNote && (
-                  <div className="mt-[20px] pt-[20px] border-t border-brand-border/50">
+                  <div className="mt-[20px] pt-[20px] border-t border-brand-dark/10">
                     <RichText
                       html={officeNote}
-                      className="font-outfit text-[13px] md:text-[14px] text-white/60 leading-[22px]"
+                      className="font-outfit text-[13px] md:text-[14px] text-black/60 leading-[22px]"
                     />
                   </div>
                 )}
