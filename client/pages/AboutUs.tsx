@@ -1,37 +1,32 @@
 import Seo from "@site/components/Seo";
 import Layout from "@site/components/layout/Layout";
-import CallBox from "@site/components/shared/CallBox";
-import StatsGrid from "@site/components/shared/StatsGrid";
-import TeamMemberCard from "@site/components/about/TeamMemberCard";
-import ValueCard from "@site/components/about/ValueCard";
-import {
-  Phone as PhoneIcon,
-  Calendar,
-  Scale,
-  Award,
-  Users,
-  Heart,
-  type LucideIcon,
-  Loader2,
-} from "lucide-react";
-import { useAboutContent } from "@site/hooks/useAboutContent";
-import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
+import ReviewsGridSection from "@site/components/home/ReviewsGridSection";
 import RichText from "@site/components/shared/RichText";
 import DynamicHeading from "@site/components/shared/DynamicHeading";
-
-// Icon mapping for values section
-const iconMap: Record<string, LucideIcon> = {
-  Scale,
-  Award,
-  Users,
-  Heart,
-};
+import { useAboutContent } from "@site/hooks/useAboutContent";
+import { useHomeContent } from "@site/hooks/useHomeContent";
+import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
+import { Link } from "react-router-dom";
+import { Calendar, Loader2 } from "lucide-react";
+import type {
+  HeroImage,
+  AboutAttorney,
+  PartnerLogo,
+  AboutFeature,
+  AboutStat,
+} from "@site/lib/cms/homePageTypes";
+import type {
+  StoryContent,
+  MissionVisionContent,
+  CTAContent,
+} from "@site/lib/cms/aboutPageTypes";
 
 export default function AboutUs() {
   const { content, meta, title, publishedAt, updatedAt, isLoading } = useAboutContent();
+  const { content: homeContent, isLoading: homeLoading } = useHomeContent();
   const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
 
-  if (isLoading) {
+  if (isLoading || homeLoading) {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-[60vh]">
@@ -41,21 +36,15 @@ export default function AboutUs() {
     );
   }
 
-  // Map team members from CMS content
-  const teamMembers = content.team.members;
-
-  // Map core values from CMS content with icon components
-  const coreValues = content.values.items.map((item) => ({
-    icon: iconMap[item.icon] || Scale,
-    title: item.title,
-    description: item.description,
-  }));
-
-  // Map stats from CMS content
-  const stats = content.stats.stats;
-
-  // Map why choose us from CMS content
-  const whyChooseUs = content.whyChooseUs.items;
+  const heroImages = homeContent.hero.images;
+  const bgImage = homeContent.hero.backgroundImage;
+  const partnerLogos = homeContent.partnerLogos;
+  const stats = homeContent.about.stats;
+  const features = homeContent.about.features;
+  const attorneys = homeContent.about.attorneys;
+  const teamSectionLabel = homeContent.about.sectionLabel;
+  const teamHeading = homeContent.about.heading;
+  const testimonials = homeContent.testimonials;
 
   return (
     <Layout>
@@ -67,311 +56,547 @@ export default function AboutUs() {
         updatedTime={updatedAt}
       />
 
-      {/* Hero Section */}
-      <div className="bg-brand-dark pt-[30px] md:pt-[54px] pb-[30px] md:pb-[54px]">
-        <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%]">
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-[5%]">
-            {/* Left Side - Heading */}
-            <div className="lg:w-[65%]">
-              {/* H1 Title - Section Heading */}
-              <DynamicHeading
-                tag={content.headingTags?.["hero.sectionLabel"]}
-                defaultTag="h1"
-                className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-brand-accent mb-[10px]"
-              >
-                {content.hero.sectionLabel}
-              </DynamicHeading>
-              {/* Tagline - styled as large text but not H1 */}
-              <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.2] text-white mb-[20px] md:mb-[30px]">
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: content.hero.tagline.replace(
-                      /(Justice & Excellence|Justice|Excellence)/g,
-                      '<span class="text-brand-accent">$1</span>',
-                    ),
-                  }}
-                />
-              </p>
-              <RichText
-                html={content.hero.description}
-                className="font-outfit text-[16px] md:text-[20px] leading-[24px] md:leading-[30px] text-white/90"
-              />
-            </div>
+      <AboutHero
+        bgImage={bgImage}
+        tagline={content.hero.tagline}
+        h1Label={content.hero.sectionLabel}
+        description={content.hero.description}
+        images={heroImages}
+        phoneNumber={phoneNumber}
+        phoneDisplay={phoneDisplay}
+        phoneLabel={phoneLabel}
+      />
 
-            {/* Right Side - CallBox */}
-            <div className="w-full lg:w-[30%] lg:flex lg:items-center">
-              <CallBox
-                icon={PhoneIcon}
-                title={phoneLabel}
-                subtitle={phoneDisplay}
-                phone={phoneNumber}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      {partnerLogos.length > 0 && (
+        <AwardsBadgesStrip logos={partnerLogos} />
+      )}
 
-      {/* Our Story Section */}
       {(content.story.heading || content.story.paragraphs.length > 0) && (
-      <div className="bg-white pt-[30px] md:pt-[54px] pb-[30px] md:pb-[54px]">
-        <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[8%]">
-            {/* Left Side - Content */}
-            <div>
-              <div className="mb-[10px]">
-                <DynamicHeading
-                  tag={content.headingTags?.["story.sectionLabel"]}
-                  defaultTag="h2"
-                  className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-[rgb(107,141,12)]"
-                >
-                  {content.story.sectionLabel}
-                </DynamicHeading>
-              </div>
-              <p className="font-playfair text-[32px] md:text-[48px] lg:text-[54px] leading-tight md:leading-[54px] text-black pb-[20px]">
-                {content.story.heading}
-              </p>
-              <div className="space-y-[15px] md:space-y-[20px]">
-                {content.story.paragraphs.map((paragraph, index) => (
-                  <RichText
-                    key={index}
-                    html={paragraph}
-                    className="font-outfit text-[16px] md:text-[18px] leading-[24px] md:leading-[28px] text-black"
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Right Side - Image */}
-            <div className="flex items-center justify-center">
-              <div className="relative">
-                <img
-                  src={content.story.image}
-                  alt={content.story.imageAlt}
-                  className="max-w-full w-auto h-auto object-contain"
-                  width={338}
-                  height={462}
-                  loading="lazy"
-                />
-                {/* Fade-out gradient at the bottom */}
-                <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-t from-white to-transparent pointer-events-none" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+        <StorySection story={content.story} headingTag={content.headingTags?.["story.sectionLabel"]} />
       )}
 
-      {/* Mission & Vision Section */}
-      {(content.missionVision.mission.heading || content.missionVision.vision.heading) && (
-      <div className="bg-brand-accent py-[40px] md:py-[60px]">
-        <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[8%]">
-            {/* Mission */}
-            <div className="text-center lg:text-left">
-              <h2 className="font-playfair text-[32px] md:text-[40px] leading-tight text-brand-accent pb-[15px] md:pb-[20px]">
-                {content.missionVision.mission.heading}
-              </h2>
-              <RichText
-                html={content.missionVision.mission.text}
-                className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-white"
-              />
-            </div>
-
-            {/* Vision */}
-            <div className="text-center lg:text-left">
-              <h2 className="font-playfair text-[32px] md:text-[40px] leading-tight text-brand-accent pb-[15px] md:pb-[20px]">
-                {content.missionVision.vision.heading}
-              </h2>
-              <RichText
-                html={content.missionVision.vision.text}
-                className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-white"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
+      {(content.missionVision.mission.heading || content.missionVision.mission.text) && (
+        <MissionSection mv={content.missionVision} headingTags={content.headingTags} />
       )}
 
-      {/* Team Section */}
-      {teamMembers.length > 0 && (
-      <div className="bg-white pt-[40px] md:pt-[60px] pb-[30px] md:pb-[54px]">
-        <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[85%]">
-          <div className="text-center mb-[30px] md:mb-[50px]">
-            <div className="mb-[10px]">
-              <DynamicHeading
-                tag={content.headingTags?.["team.sectionLabel"]}
-                defaultTag="h2"
-                className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-[rgb(107,141,12)]"
-              >
-                {content.team.sectionLabel}
-              </DynamicHeading>
-            </div>
-            <p className="font-playfair text-[32px] md:text-[48px] lg:text-[54px] leading-tight md:leading-[54px] text-black">
-              {content.team.heading.split("\n").map((line, i) => (
-                <span key={i}>
-                  {line}
-                  {i < content.team.heading.split("\n").length - 1 && (
-                    <br className="hidden md:block" />
-                  )}
-                </span>
-              ))}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {teamMembers.map((member, index) => (
-              <TeamMemberCard key={index} {...member} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      )}
-
-      {/* Core Values Section */}
-      {coreValues.length > 0 && (
-      <div className="bg-brand-dark py-[40px] md:py-[60px]">
-        <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[85%]">
-          <div className="text-center mb-[30px] md:mb-[50px]">
-            <div className="mb-[10px]">
-              <DynamicHeading
-                tag={content.headingTags?.["values.sectionLabel"]}
-                defaultTag="h2"
-                className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-brand-accent"
-              >
-                {content.values.sectionLabel}
-              </DynamicHeading>
-            </div>
-            <p className="font-playfair text-[32px] md:text-[48px] lg:text-[54px] leading-tight md:leading-[54px] text-white">
-              {content.values.heading}
-            </p>
-            {content.values.subtitle && (
-              <p className="font-outfit text-[16px] md:text-[18px] leading-[24px] md:leading-[28px] text-white/80 mt-[15px]">
-                {content.values.subtitle}
-              </p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-[5%]">
-            {coreValues.map((value, index) => (
-              <ValueCard key={index} {...value} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      )}
-
-      {/* Stats Section */}
       {stats.length > 0 && (
-      <div className="bg-white py-[30px] md:py-[40px]">
-        <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%]">
-          <StatsGrid stats={stats} />
-        </div>
-      </div>
-
+        <StatsStrip stats={stats} />
       )}
 
-      {/* Why Choose Us Section */}
-      {whyChooseUs.length > 0 && (
-      <div className="bg-white pt-[30px] md:pt-[40px] pb-[40px] md:pb-[60px]">
-        <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-[8%]">
-            {/* Left Side - Heading + Image */}
-            <div>
-              <div className="mb-[10px]">
-                <DynamicHeading
-                  tag={content.headingTags?.["whyChooseUs.sectionLabel"]}
-                  defaultTag="h2"
-                  className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-[rgb(107,141,12)]"
-                >
-                  {content.whyChooseUs.sectionLabel}
-                </DynamicHeading>
-              </div>
-              <p className="font-playfair text-[32px] md:text-[48px] lg:text-[54px] leading-tight md:leading-[54px] text-black pb-[20px]">
-                {content.whyChooseUs.heading}
-              </p>
-              <RichText
-                html={content.whyChooseUs.description}
-                className="font-outfit text-[16px] md:text-[18px] leading-[24px] md:leading-[28px] text-black mb-[30px]"
-              />
-              {/* Stock image */}
-              {content.whyChooseUs.image && (
-                <div className="hidden lg:block">
-                  <img
-                    src={content.whyChooseUs.image}
-                    alt={content.whyChooseUs.imageAlt || "Why Choose Us"}
-                    className="w-full max-w-[400px] h-auto object-cover"
-                    width={400}
-                    height={300}
-                    loading="lazy"
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Right Side - Features List */}
-            <div className="space-y-[20px] md:space-y-[30px]">
-              {whyChooseUs.map((feature, index) => (
-                <div key={index}>
-                  <div className="mb-[15px] md:mb-[20px]">
-                    <h3 className="font-outfit text-[22px] md:text-[28px] leading-tight md:leading-[28px] text-black pb-[10px]">
-                      {feature.number}. {feature.title}
-                    </h3>
-                    <RichText
-                      html={feature.description}
-                      className="font-outfit text-[16px] md:text-[18px] leading-[24px] md:leading-[28px] text-black"
-                    />
-                  </div>
-                  {index < whyChooseUs.length - 1 && (
-                    <div className="h-[1px] bg-brand-border/30"></div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
+      {features.length > 0 && (
+        <FeaturesSection features={features} />
       )}
 
-      {/* Call to Action Section */}
+      {attorneys.length > 0 && (
+        <TeamSection
+          attorneys={attorneys}
+          sectionLabel={teamSectionLabel}
+          heading={teamHeading}
+        />
+      )}
+
+      <ReviewsGridSection content={testimonials} />
+
       {content.cta.heading && (
-      <div className="bg-brand-accent py-[40px] md:py-[60px]">
-        <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
-          <div className="text-center mb-[30px] md:mb-[40px]">
-            <h2 className="font-playfair text-[36px] md:text-[48px] lg:text-[60px] leading-tight text-black pb-[15px]">
-              {content.cta.heading}
-            </h2>
-            <RichText
-              html={content.cta.description}
-              className="font-outfit text-[18px] md:text-[22px] leading-[26px] md:leading-[32px] text-black/80"
-            />
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 justify-center items-center md:items-start">
-            <CallBox
-              icon={PhoneIcon}
-              title={phoneLabel}
-              subtitle={phoneDisplay}
-              phone={phoneNumber}
-              className="bg-brand-accent hover:bg-black"
-              variant="dark"
-            />
-            <CallBox
-              icon={Calendar}
-              title={content.cta.secondaryButton.label}
-              subtitle={content.cta.secondaryButton.sublabel}
-              link={content.cta.secondaryButton.link}
-              className="bg-brand-accent hover:bg-black"
-              variant="dark"
-            />
-          </div>
-        </div>
-      </div>
+        <CtaSection
+          cta={content.cta}
+          phoneNumber={phoneNumber}
+          phoneDisplay={phoneDisplay}
+          phoneLabel={phoneLabel}
+        />
       )}
     </Layout>
   );
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero                                                                 */
+/* ------------------------------------------------------------------ */
+
+function AboutHero({
+  bgImage,
+  tagline,
+  h1Label,
+  description,
+  images,
+  phoneNumber,
+  phoneDisplay,
+  phoneLabel,
+}: {
+  bgImage: string;
+  tagline: string;
+  h1Label: string;
+  description: string;
+  images: HeroImage[];
+  phoneNumber: string;
+  phoneDisplay: string;
+  phoneLabel: string;
+}) {
+  const validImages = images.filter((img) => img.image);
+
+  return (
+    <section
+      className="relative overflow-hidden bg-brand-dark"
+      style={
+        bgImage
+          ? { backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center" }
+          : undefined
+      }
+    >
+      {bgImage ? (
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/75" aria-hidden="true" />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark to-black/40" aria-hidden="true" />
+      )}
+
+      <div className="relative max-w-[2560px] mx-auto w-[95%] pt-[24px] pb-[50px] md:pt-[40px] md:pb-[80px]">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-[4%]">
+          {/* Left */}
+          <div className="lg:w-[56%]">
+            <div className="mb-[30px] md:mb-[40px]">
+              {tagline && (
+                <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.15] text-white">
+                  {tagline}
+                </p>
+              )}
+              {h1Label && (
+                <h1 className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent mt-[16px]">
+                  {h1Label}
+                </h1>
+              )}
+              {description && (
+                <RichText
+                  html={description}
+                  className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-white/80 mt-[20px]"
+                />
+              )}
+            </div>
+
+            <a href={`tel:${phoneNumber.replace(/\D/g, "")}`} className="block w-full max-w-[400px]">
+              <div className="bg-brand-accent p-[8px] w-full cursor-pointer transition-all duration-300 hover:bg-white group">
+                <div className="flex items-start gap-4">
+                  <div className="bg-brand-dark p-[15px] mt-1 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-brand-dark pb-[10px] font-medium">
+                      {phoneLabel}
+                    </p>
+                    <p className="font-outfit text-[clamp(1.75rem,5vw,40px)] text-brand-dark leading-tight">
+                      {phoneDisplay}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          {/* Right: Attorney duo */}
+          {validImages.length > 0 && (
+            <div className="lg:w-[40%]">
+              <HeroAttorneyDuo images={validImages} />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Awards strip                                                         */
+/* ------------------------------------------------------------------ */
+
+function AwardsBadgesStrip({ logos }: { logos: PartnerLogo[] }) {
+  return (
+    <div className="bg-brand-dark py-[20px] md:py-[30px]">
+      <div className="max-w-[2560px] mx-auto w-[95%]">
+        <div className="bg-brand-card border border-brand-border py-[16px] px-[10px] grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-2 items-center justify-items-center">
+          {logos.map((logo, i) => (
+            <div key={i} className="px-[8px] md:px-[20px] py-1 flex items-center justify-center">
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                className="w-[150px] sm:w-[120px] md:w-[150px] lg:w-[190px] max-w-full inline-block"
+                width={190}
+                height={123}
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Our Story                                                            */
+/* ------------------------------------------------------------------ */
+
+function StorySection({ story, headingTag }: { story: StoryContent; headingTag?: string }) {
+  return (
+    <div className="bg-white py-[50px] md:py-[80px]">
+      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[8%]">
+          <div>
+            {story.sectionLabel && (
+              <DynamicHeading
+                tag={headingTag}
+                defaultTag="h2"
+                className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent mb-[12px]"
+              >
+                {story.sectionLabel}
+              </DynamicHeading>
+            )}
+            {story.heading && (
+              <p className="font-playfair text-[30px] md:text-[44px] lg:text-[50px] leading-tight text-brand-dark pb-[20px]">
+                {story.heading}
+              </p>
+            )}
+            <div className="space-y-[15px] md:space-y-[20px]">
+              {story.paragraphs.map((paragraph, i) => (
+                <RichText
+                  key={i}
+                  html={paragraph}
+                  className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-black/80"
+                />
+              ))}
+            </div>
+          </div>
+
+          {story.image && (
+            <div className="flex items-center justify-center">
+              <div className="relative">
+                <img
+                  src={story.image}
+                  alt={story.imageAlt}
+                  className="max-w-full w-auto h-auto object-contain"
+                  loading="lazy"
+                />
+                <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-t from-white to-transparent pointer-events-none" />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Mission (& Vision)                                                   */
+/* ------------------------------------------------------------------ */
+
+function MissionSection({
+  mv,
+  headingTags,
+}: {
+  mv: MissionVisionContent;
+  headingTags?: Record<string, string>;
+}) {
+  const hasMission = mv.mission.heading || mv.mission.text;
+  const hasVision = mv.vision.heading || mv.vision.text;
+
+  return (
+    <div className="bg-brand-dark py-[50px] md:py-[80px]">
+      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
+        <div className={`grid grid-cols-1 ${hasVision ? "lg:grid-cols-2" : ""} gap-10 lg:gap-[8%]`}>
+          {hasMission && (
+            <div>
+              {mv.mission.heading && (
+                <DynamicHeading
+                  tag={headingTags?.["mission.heading"]}
+                  defaultTag="h2"
+                  className="font-playfair text-[26px] md:text-[36px] lg:text-[42px] leading-tight text-white pb-[20px]"
+                >
+                  {mv.mission.heading}
+                </DynamicHeading>
+              )}
+              <RichText
+                html={mv.mission.text}
+                className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-white/80"
+              />
+            </div>
+          )}
+          {hasVision && (
+            <div>
+              {mv.vision.heading && (
+                <DynamicHeading
+                  tag={headingTags?.["vision.heading"]}
+                  defaultTag="h2"
+                  className="font-playfair text-[26px] md:text-[36px] lg:text-[42px] leading-tight text-white pb-[20px]"
+                >
+                  {mv.vision.heading}
+                </DynamicHeading>
+              )}
+              <RichText
+                html={mv.vision.text}
+                className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-white/80"
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Stats strip                                                          */
+/* ------------------------------------------------------------------ */
+
+function StatsStrip({ stats }: { stats: AboutStat[] }) {
+  return (
+    <div className="bg-brand-accent">
+      <div className="max-w-[2560px] mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat, i) => (
+            <div
+              key={i}
+              className="text-center px-4 py-[32px] md:py-[44px] border-r border-brand-dark/20 last:border-r-0"
+            >
+              <div className="font-playfair text-[38px] md:text-[54px] leading-none text-brand-dark pb-[8px]">
+                {stat.value}
+              </div>
+              <div className="font-outfit text-[13px] md:text-[15px] font-medium uppercase tracking-wider text-brand-dark/80">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Feature boxes                                                        */
+/* ------------------------------------------------------------------ */
+
+function FeaturesSection({ features }: { features: AboutFeature[] }) {
+  return (
+    <div className="bg-white py-[50px] md:py-[80px]">
+      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feature, i) => (
+            <div
+              key={i}
+              className="border border-brand-dark/10 bg-gray-50 p-[26px] md:p-[30px] transition-colors duration-300 hover:border-brand-accent"
+            >
+              {feature.number && (
+                <span className="inline-flex items-center justify-center w-[48px] h-[48px] bg-brand-dark text-brand-accent font-playfair text-[22px] mb-[16px]">
+                  {feature.number}
+                </span>
+              )}
+              <h3 className="font-playfair text-[22px] md:text-[26px] leading-tight text-brand-dark pb-[10px]">
+                {feature.title}
+              </h3>
+              <RichText
+                html={feature.description}
+                className="font-outfit text-[15px] md:text-[17px] leading-[24px] md:leading-[28px] text-black/70"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Team section                                                         */
+/* ------------------------------------------------------------------ */
+
+function TeamSection({
+  attorneys,
+  sectionLabel,
+  heading,
+}: {
+  attorneys: AboutAttorney[];
+  sectionLabel: string;
+  heading: string;
+}) {
+  return (
+    <div className="bg-brand-dark py-[50px] md:py-[80px]">
+      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[85%]">
+        {(sectionLabel || heading) && (
+          <div className="text-center mb-[40px] md:mb-[60px]">
+            {sectionLabel && (
+              <p className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent mb-[12px]">
+                {sectionLabel}
+              </p>
+            )}
+            {heading && (
+              <p className="font-playfair text-[30px] md:text-[44px] lg:text-[50px] leading-tight text-white">
+                {heading}
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-[800px] mx-auto">
+          {attorneys.map((attorney, i) => (
+            <AttorneyProfileCard key={i} attorney={attorney} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AttorneyProfileCard({ attorney }: { attorney: AboutAttorney }) {
+  const card = (
+    <div className="group bg-white/5 ring-1 ring-brand-accent/40 hover:ring-brand-accent transition-all duration-300 overflow-hidden">
+      <div className="overflow-hidden">
+        <img
+          src={attorney.image}
+          alt={attorney.imageAlt || attorney.name}
+          className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+      <div className="bg-brand-dark px-[24px] py-[20px] text-center border-t border-brand-accent/30">
+        <p className="font-playfair text-[22px] md:text-[26px] leading-tight text-white">
+          {attorney.name}
+        </p>
+        {attorney.title && (
+          <p className="font-outfit text-[13px] md:text-[14px] uppercase tracking-[0.14em] text-brand-accent mt-[6px]">
+            {attorney.title}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+
+  return attorney.link ? (
+    <Link to={attorney.link} className="block">
+      {card}
+    </Link>
+  ) : (
+    <div>{card}</div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* CTA                                                                  */
+/* ------------------------------------------------------------------ */
+
+function CtaSection({
+  cta,
+  phoneNumber,
+  phoneDisplay,
+  phoneLabel,
+}: {
+  cta: CTAContent;
+  phoneNumber: string;
+  phoneDisplay: string;
+  phoneLabel: string;
+}) {
+  return (
+    <div className="bg-brand-dark py-[50px] md:py-[80px]">
+      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
+        <div className="text-center mb-[40px] md:mb-[50px]">
+          <p className="font-playfair text-[32px] md:text-[48px] lg:text-[56px] leading-tight text-white">
+            {cta.heading}
+          </p>
+          {cta.description && (
+            <RichText
+              html={cta.description}
+              className="font-outfit text-[17px] md:text-[20px] leading-[26px] md:leading-[32px] text-white/80 mt-[16px] max-w-[700px] mx-auto"
+            />
+          )}
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center sm:items-stretch">
+          <a href={`tel:${phoneNumber.replace(/\D/g, "")}`} className="w-full sm:w-auto">
+            <div className="bg-brand-accent p-[8px] cursor-pointer transition-all duration-300 hover:bg-white group h-full">
+              <div className="flex items-center gap-3">
+                <div className="bg-brand-dark p-[15px] flex items-center justify-center">
+                  <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-outfit text-[15px] text-brand-dark font-medium">{phoneLabel}</p>
+                  <p className="font-outfit text-[26px] md:text-[32px] text-brand-dark leading-tight">{phoneDisplay}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          {cta.secondaryButton.label && cta.secondaryButton.link && (
+            <Link to={cta.secondaryButton.link} className="w-full sm:w-auto">
+              <div className="border-2 border-brand-accent p-[8px] cursor-pointer transition-all duration-300 hover:bg-brand-accent group h-full">
+                <div className="flex items-center gap-3">
+                  <div className="bg-brand-accent p-[15px] flex items-center justify-center group-hover:bg-brand-dark transition-colors duration-300">
+                    <Calendar className="w-7 h-7 text-brand-dark group-hover:text-brand-accent transition-colors duration-300" strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    {cta.secondaryButton.sublabel && (
+                      <p className="font-outfit text-[15px] text-white font-medium group-hover:text-brand-dark transition-colors duration-300">
+                        {cta.secondaryButton.sublabel}
+                      </p>
+                    )}
+                    <p className="font-outfit text-[22px] md:text-[26px] text-white leading-tight group-hover:text-brand-dark transition-colors duration-300">
+                      {cta.secondaryButton.label}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero attorney duo (mirrors homepage)                                 */
+/* ------------------------------------------------------------------ */
+
+function HeroAttorneyDuo({ images }: { images: HeroImage[] }) {
+  const valid = images.filter((img) => img.image);
+  if (valid.length === 0) return null;
+
+  return (
+    <div
+      className={
+        valid.length === 1
+          ? "mx-auto max-w-[320px]"
+          : "grid grid-cols-2 gap-4 md:gap-5 mx-auto max-w-[520px] lg:max-w-none"
+      }
+    >
+      {valid.map((att, i) => (
+        <HeroAttorneyCard key={i} attorney={att} />
+      ))}
+    </div>
+  );
+}
+
+function HeroAttorneyCard({ attorney }: { attorney: HeroImage }) {
+  const card = (
+    <div className="group h-full bg-white/5 p-2 ring-1 ring-brand-accent/60 shadow-2xl transition-colors duration-300 hover:ring-brand-accent">
+      <div className="relative overflow-hidden">
+        <img
+          src={attorney.image}
+          alt={attorney.alt}
+          className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+          loading="eager"
+        />
+      </div>
+    </div>
+  );
+
+  if (attorney.link) {
+    return (
+      <Link to={attorney.link} className="block h-full">
+        {card}
+      </Link>
+    );
+  }
+  return card;
 }
