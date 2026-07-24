@@ -204,6 +204,7 @@ function AttorneySlider({ attorneys }: { attorneys: AboutAttorney[] }) {
   const [api, setApi] = useState<CarouselApi>();
   const [selected, setSelected] = useState(0);
   const [snaps, setSnaps] = useState<number[]>([]);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     if (!api) return;
@@ -220,12 +221,25 @@ function AttorneySlider({ attorneys }: { attorneys: AboutAttorney[] }) {
     };
   }, [api]);
 
+  useEffect(() => {
+    if (!api || isPaused || attorneys.length < 2) return;
+
+    const autoplay = window.setInterval(() => api.scrollNext(), 4500);
+    return () => window.clearInterval(autoplay);
+  }, [api, attorneys.length, isPaused]);
+
   // With 2 or fewer attorneys, no slider controls are needed.
   const showControls = attorneys.length > 2;
 
   return (
-    <div className="relative">
-      <Carousel setApi={setApi} opts={{ align: "start", loop: false }}>
+    <div
+      className="relative"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
+    >
+      <Carousel setApi={setApi} opts={{ align: "start", loop: true }}>
         <CarouselContent className="-ml-5 sm:-ml-6">
           {attorneys.map((attorney, index) => (
             <CarouselItem key={index} className="pl-5 sm:pl-6 basis-full sm:basis-1/2">
