@@ -349,14 +349,23 @@ function MissionSection({
 /* ------------------------------------------------------------------ */
 
 function StatsStrip({ stats }: { stats: AboutStat[] }) {
+  const gridColumns =
+    stats.length === 1
+      ? "grid-cols-1"
+      : stats.length === 2
+        ? "grid-cols-1 sm:grid-cols-2"
+        : stats.length === 3
+          ? "grid-cols-1 sm:grid-cols-3"
+          : "grid-cols-2 lg:grid-cols-4";
+
   return (
     <div className="bg-brand-accent">
       <div className="max-w-[2560px] mx-auto">
-        <div className="grid grid-cols-2 lg:grid-cols-4">
+        <div className={`grid ${gridColumns}`}>
           {stats.map((stat, i) => (
             <div
               key={i}
-              className="text-center px-4 py-[32px] md:py-[44px] border-r border-brand-dark/20 last:border-r-0"
+              className="text-center px-4 py-[32px] md:py-[44px] border-r border-b border-brand-dark/20 sm:border-b-0 last:border-r-0 last:border-b-0"
             >
               <div className="font-playfair text-[38px] md:text-[54px] leading-none text-brand-dark pb-[8px]">
                 {stat.value}
