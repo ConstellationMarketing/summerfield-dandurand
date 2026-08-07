@@ -12,7 +12,6 @@ import GoogleReviewsSection from "@site/components/home/GoogleReviewsSection";
 import FaqSection from "@site/components/home/FaqSection";
 import ContactUsSection from "@site/components/home/ContactUsSection";
 import { useHomeContent } from "@site/hooks/useHomeContent";
-import type { HeroImage } from "@site/lib/cms/homePageTypes";
 import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
@@ -71,12 +70,11 @@ export default function Index() {
         )}
 
         <div className="relative max-w-[2560px] mx-auto w-[95%] pt-[24px] pb-[50px] md:pt-[40px] md:pb-[80px]">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-[4%]">
-          {/* Left Side: Headline and Call Box */}
-          <div className="lg:w-[56%]">
+        <div className="flex justify-center">
+          <div className="w-full max-w-[1100px] text-center">
             <div className="mb-[30px] md:mb-[40px]">
               <div className="relative">
-                <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.15] text-white text-left">
+                <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.15] text-white text-center">
                   {heroContent.highlightedText && heroContent.headline.includes(heroContent.highlightedText)
                     ? (() => {
                         const idx = heroContent.headline.indexOf(heroContent.highlightedText);
@@ -107,7 +105,7 @@ export default function Index() {
                 </p>
               )}
               {(heroContent.primaryCtaText || heroContent.secondaryCtaText) && (
-                <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mt-[24px] md:mt-[30px] w-full max-w-[400px] sm:max-w-none">
+                <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 mt-[24px] md:mt-[30px] w-full">
                   {heroContent.primaryCtaText && (
                     <Link
                       to={heroContent.primaryCtaLink || "/contact/"}
@@ -129,7 +127,7 @@ export default function Index() {
             </div>
 
             {/* Call Box */}
-            <a href={`tel:${phoneNumber.replace(/\D/g, "")}`} className="block w-full max-w-[400px]">
+            <a href={`tel:${phoneNumber.replace(/\D/g, "")}`} className="block w-full max-w-[400px] mx-auto text-left">
               <div className="bg-brand-accent p-[8px] w-full cursor-pointer transition-all duration-300 hover:bg-white group">
                 <div className="flex items-start gap-4">
                   <div className="bg-brand-dark p-[15px] mt-1 flex items-center justify-center transition-colors duration-300">
@@ -153,13 +151,6 @@ export default function Index() {
               </div>
             </a>
           </div>
-
-          {/* Right Side: Attorney duo */}
-          {heroContent.images.length > 0 && (
-            <div className="lg:w-[40%]">
-              <HeroAttorneyDuo images={heroContent.images} />
-            </div>
-          )}
         </div>
         </div>
       </section>
@@ -241,49 +232,4 @@ export default function Index() {
       <ContactUsSection content={content.contact} headingTag={content.headingTags?.["contact.sectionLabel"]} />
     </Layout>
   );
-}
-
-function HeroAttorneyDuo({ images }: { images: HeroImage[] }) {
-  const valid = images.filter((img) => img.image);
-  if (valid.length === 0) {
-    return null;
-  }
-
-  return (
-    <div
-      className={
-        valid.length === 1
-          ? "mx-auto max-w-[320px]"
-          : "grid grid-cols-2 gap-4 md:gap-5 mx-auto max-w-[520px] lg:max-w-none"
-      }
-    >
-      {valid.map((att, i) => (
-        <HeroAttorneyCard key={i} attorney={att} />
-      ))}
-    </div>
-  );
-}
-
-function HeroAttorneyCard({ attorney }: { attorney: HeroImage }) {
-  const card = (
-    <div className="group h-full bg-white/5 p-2 ring-1 ring-brand-accent/60 shadow-2xl transition-colors duration-300 hover:ring-brand-accent">
-      <div className="relative overflow-hidden">
-        <img
-          src={attorney.image}
-          alt={attorney.alt}
-          className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-          loading="eager"
-        />
-      </div>
-    </div>
-  );
-
-  if (attorney.link) {
-    return (
-      <Link to={attorney.link} className="block h-full">
-        {card}
-      </Link>
-    );
-  }
-  return card;
 }
