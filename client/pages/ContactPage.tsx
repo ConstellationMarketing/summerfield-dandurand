@@ -409,6 +409,15 @@ function ProcessSection({
   steps: Array<{ number: string; title: string; description: string }>;
   sectionLabelTag?: string;
 }) {
+  const gridColumns =
+    steps.length === 1
+      ? "grid-cols-1"
+      : steps.length === 2
+        ? "grid-cols-1 md:grid-cols-2"
+        : steps.length === 3
+          ? "grid-cols-1 md:grid-cols-3"
+          : "grid-cols-1 md:grid-cols-2 lg:grid-cols-4";
+
   return (
     <div className="bg-white py-[50px] md:py-[80px]">
       <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
@@ -434,7 +443,7 @@ function ProcessSection({
           )}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className={`grid ${gridColumns} gap-6 md:gap-8`}>
           {steps.map((step, i) => (
             <div key={i} className="text-center">
               <div className="mb-[20px] flex justify-center">
