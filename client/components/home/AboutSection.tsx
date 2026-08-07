@@ -29,6 +29,14 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
   const features = data.features || [];
   const stats = data.stats || [];
   const attorneys = data.attorneys || [];
+  const statsGridColumns =
+    stats.length === 1
+      ? "grid-cols-1"
+      : stats.length === 2
+        ? "grid-cols-1 sm:grid-cols-2"
+        : stats.length === 3
+          ? "grid-cols-1 sm:grid-cols-3"
+          : "grid-cols-2 lg:grid-cols-4";
   const { phoneNumber, phoneLabel, phoneDisplay } = useGlobalPhone();
 
   return (
@@ -146,11 +154,11 @@ export default function AboutSection({ content, headingTag }: AboutSectionProps)
 
         {/* Stats bar */}
         {stats.length > 0 && (
-          <div className="mt-[44px] md:mt-[60px] bg-brand-dark grid grid-cols-2 lg:grid-cols-4">
+          <div className={cn("mt-[44px] md:mt-[60px] bg-brand-dark grid", statsGridColumns)}>
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="text-center px-4 py-[32px] md:py-[44px] border-b border-r border-white/10 lg:border-b-0"
+                className="text-center px-4 py-[32px] md:py-[44px] border-b border-r border-white/10 sm:border-b-0 last:border-r-0 last:border-b-0"
               >
                 <div className="font-playfair text-[38px] md:text-[54px] leading-none text-brand-accent pb-[10px]">
                   {stat.value}
