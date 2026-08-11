@@ -20,7 +20,9 @@ export default function PracticeAreasGrid({ areas }: PracticeAreasGridProps) {
             <Link
               key={index}
               to={area.link}
-              className="relative min-h-[400px] lg:min-h-[500px] overflow-hidden group"
+              className={`relative min-h-[400px] lg:min-h-[500px] overflow-hidden group ${
+                areas.length % 4 === 2 && index >= areas.length - 2 ? "lg:col-span-2" : ""
+              }`}
               role="img"
               aria-label={area.imageAlt || area.title}
               style={{
