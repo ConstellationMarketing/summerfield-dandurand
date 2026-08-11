@@ -12,12 +12,13 @@ import GoogleReviewsSection from "@site/components/home/GoogleReviewsSection";
 import FaqSection from "@site/components/home/FaqSection";
 import ContactUsSection from "@site/components/home/ContactUsSection";
 import { useHomeContent } from "@site/hooks/useHomeContent";
-import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
+import { useGlobalPhone, useSiteSettings } from "@site/contexts/SiteSettingsContext";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 
 export default function Index() {
   const { content, meta, title, publishedAt, updatedAt, isLoading } = useHomeContent();
+  const { settings } = useSiteSettings();
   const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
 
   if (isLoading) {
@@ -33,6 +34,11 @@ export default function Index() {
   // Use CMS content for hero and partner logos
   const heroContent = content.hero;
   const partnerLogos = content.partnerLogos;
+  const heroLogoUrl = settings.emblemUrl?.trim() || settings.logoUrl?.trim() || "";
+  const heroLogoAlt =
+    settings.emblemUrl?.trim()
+      ? settings.emblemAlt?.trim() || settings.siteName?.trim() || "Firm emblem"
+      : settings.logoAlt?.trim() || settings.siteName?.trim() || "Firm logo";
 
   return (
     <Layout>
@@ -99,8 +105,22 @@ export default function Index() {
                   }
                 </p>
               </div>
+              {heroLogoUrl && (
+                <div className="flex items-center justify-center gap-4 my-[22px] md:my-[28px]" aria-hidden="true">
+                  <span className="h-px w-full max-w-[180px] bg-white/25" />
+                  <img
+                    src={heroLogoUrl}
+                    alt={heroLogoAlt}
+                    className="w-[120px] md:w-[150px] max-h-[150px] shrink-0 object-contain"
+                    width={150}
+                    height={150}
+                    loading="eager"
+                  />
+                  <span className="h-px w-full max-w-[180px] bg-white/25" />
+                </div>
+              )}
               {heroContent.eyebrow && (
-                <p className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent mt-[16px]">
+                <p className="font-outfit text-[15px] md:text-[18px] font-medium tracking-wider uppercase text-brand-accent">
                   {heroContent.eyebrow}
                 </p>
               )}
@@ -157,20 +177,20 @@ export default function Index() {
 
       {/* Partner Badges Section - Bottom of Hero */}
       {partnerLogos.length > 0 && (
-        <div className="bg-brand-dark py-[20px] md:py-[30px]">
-          <div className="max-w-[2560px] mx-auto w-[95%]">
-            <div className="bg-brand-card border border-brand-border py-[16px] px-[10px] grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-2 items-center justify-items-center">
+        <div className="bg-brand-dark py-[12px] md:py-[18px]">
+          <div className="max-w-[1600px] mx-auto w-[95%]">
+            <div className="bg-brand-card border border-brand-border py-[8px] px-[6px] grid grid-cols-2 sm:grid-cols-4 gap-y-2 items-center justify-items-center">
               {partnerLogos.map((logo, index) => (
                 <div
                   key={index}
-                  className="px-[8px] md:px-[20px] py-1 flex items-center justify-center"
+                  className="px-[4px] py-0 flex items-center justify-center"
                 >
                   <div className="text-center">
                     <img
                       src={logo.src}
                       alt={logo.alt}
-                      className="w-[150px] sm:w-[120px] md:w-[150px] lg:w-[190px] max-w-full inline-block"
-                      width={190}
+                      className="w-[175px] sm:w-[170px] md:w-[210px] lg:w-[240px] max-w-full inline-block"
+                      width={240}
                       height={123}
                       loading="lazy"
                     />
