@@ -12,9 +12,11 @@ export interface ContactMethodItem {
   title: string; // "Phone", "Email", "Office"
   detail: string; // Primary detail (phone number, email, address line 1)
   subDetail: string; // Secondary detail (availability, response time, address line 2)
+  link?: string;
 }
 
 export interface ContactMethodsContent {
+  heading: string;
   methods: ContactMethodItem[];
 }
 
@@ -88,6 +90,7 @@ export const defaultContactContent: ContactPageContent = {
     description: "",
   },
   contactMethods: {
+    heading: "",
     methods: [],
   },
   form: {

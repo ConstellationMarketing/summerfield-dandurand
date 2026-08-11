@@ -1,5 +1,5 @@
 import type { ContactPageContent } from "@site/lib/cms/contactPageTypes";
-import { Section, ArrayEditor, GlobalSectionInfo, RichTextField, HeadingField, Input, Label, Textarea } from "./EditorShared";
+import { Section, ArrayEditor, RichTextField, HeadingField, Input, Label, Textarea } from "./EditorShared";
 
 interface ContactEditorProps {
   content: ContactPageContent;
@@ -19,7 +19,6 @@ export default function ContactEditor({ content, onChange }: ContactEditorProps)
       <OfficeHoursSection content={content} update={update} />
       <ProcessSection content={content} update={update} />
       <VisitOfficeSection content={content} update={update} />
-      <GlobalSectionInfo sectionTitle="Call to Action" managedIn="About Us" />
     </div>
   );
 }
@@ -64,38 +63,51 @@ function HeroSection({ content, update }: SectionProps) {
 
 /* ------------------------------------------------------------------ */
 function ContactMethodsSection({ content, update }: SectionProps) {
+  const methods = content.contactMethods;
+  const set = (patch: Partial<typeof methods>) => update("contactMethods", { ...methods, ...patch });
+
   return (
     <Section title="Contact Methods" defaultOpen={false}>
-      <ArrayEditor
-        items={content.contactMethods.methods}
-        onChange={(items) => update("contactMethods", { methods: items })}
-        itemLabel="Method"
-        newItem={() => ({ icon: "Phone", title: "", detail: "", subDetail: "" })}
-        renderItem={(item, _, upd) => (
-          <div className="grid gap-3">
-            <div className="grid grid-cols-4 gap-3">
-              <div>
-                <Label>Icon</Label>
-                <Input value={item.icon} onChange={(e) => upd({ ...item, icon: e.target.value })} placeholder="Lucide icon name" />
+      <div className="grid gap-4">
+        <div>
+          <Label>Section Heading</Label>
+          <Input value={methods.heading} onChange={(e) => set({ heading: e.target.value })} />
+        </div>
+        <ArrayEditor
+          items={methods.methods}
+          onChange={(items) => set({ methods: items })}
+          itemLabel="Method"
+          newItem={() => ({ icon: "Phone", title: "", detail: "", subDetail: "", link: "" })}
+          renderItem={(item, _, upd) => (
+            <div className="grid gap-3">
+              <div className="grid grid-cols-4 gap-3">
+                <div>
+                  <Label>Icon</Label>
+                  <Input value={item.icon} onChange={(e) => upd({ ...item, icon: e.target.value })} placeholder="Lucide icon name" />
+                </div>
+                <div className="col-span-3">
+                  <Label>Title</Label>
+                  <Input value={item.title} onChange={(e) => upd({ ...item, title: e.target.value })} />
+                </div>
               </div>
-              <div className="col-span-3">
-                <Label>Title</Label>
-                <Input value={item.title} onChange={(e) => upd({ ...item, title: e.target.value })} />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>Detail</Label>
+                  <Input value={item.detail} onChange={(e) => upd({ ...item, detail: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Sub-Detail</Label>
+                  <Input value={item.subDetail} onChange={(e) => upd({ ...item, subDetail: e.target.value })} />
+                </div>
+              </div>
+              <div>
+                <Label>Link</Label>
+                <Input value={item.link || ""} onChange={(e) => upd({ ...item, link: e.target.value })} />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label>Detail</Label>
-                <Input value={item.detail} onChange={(e) => upd({ ...item, detail: e.target.value })} />
-              </div>
-              <div>
-                <Label>Sub-Detail</Label>
-                <Input value={item.subDetail} onChange={(e) => upd({ ...item, subDetail: e.target.value })} />
-              </div>
-            </div>
-          </div>
-        )}
-      />
+          )}
+        />
+      </div>
     </Section>
   );
 }

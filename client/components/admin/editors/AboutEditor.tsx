@@ -20,10 +20,7 @@ export default function AboutEditor({ content, onChange }: AboutEditorProps) {
         title="Stats"
         description="The stats shown below Mission & Vision are shared from the Homepage About section. Edit them in Homepage > About Section > Stats; changes there update both pages."
       />
-      <SharedHomepageSection
-        title="Team Members"
-        description="The attorneys, section heading, and subtitle shown on this page are shared from the Homepage About section. Edit them in Homepage > About Section > Attorneys; changes there update both pages."
-      />
+      <TeamSection content={content} update={update} />
       <ValuesSection content={content} update={update} />
       <WhyChooseUsSection content={content} update={update} />
       <CTASection content={content} update={update} />
@@ -161,6 +158,82 @@ function SharedHomepageSection({ title, description }: { title: string; descript
       <div className="rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">
         <p className="font-semibold">This content is not stored on the About page.</p>
         <p>{description}</p>
+      </div>
+    </Section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+function TeamSection({ content, update }: SectionProps) {
+  const team = content.team;
+  const set = (patch: Partial<typeof team>) => update("team", { ...team, ...patch });
+  const ht = useHeadingTag(content, update);
+
+  return (
+    <Section title="Team Members" defaultOpen={false}>
+      <div className="grid gap-4">
+        <HeadingField
+          label="Section Heading"
+          value={team.sectionLabel}
+          onChange={(v) => set({ sectionLabel: v })}
+          tag={ht.get("team.sectionLabel")}
+          onTagChange={(t) => ht.set("team.sectionLabel", t)}
+        />
+        <div>
+          <Label>Subtitle</Label>
+          <Input value={team.heading} onChange={(e) => set({ heading: e.target.value })} />
+        </div>
+        <ArrayEditor
+          items={team.members}
+          onChange={(items) => set({ members: items })}
+          itemLabel="Attorney"
+          newItem={() => ({ name: "", title: "", bio: "", image: "", imageAlt: "", credentialsHeading: "Credentials", specialties: [] })}
+          renderItem={(item, _, upd) => (
+            <div className="grid gap-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>Name</Label>
+                  <Input value={item.name} onChange={(e) => upd({ ...item, name: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Title</Label>
+                  <Input value={item.title} onChange={(e) => upd({ ...item, title: e.target.value })} />
+                </div>
+              </div>
+              <RichTextField label="Biography" value={item.bio} onChange={(v) => upd({ ...item, bio: v })} />
+              <ImageField
+                label="Photo"
+                value={item.image}
+                onChange={(url) => upd({ ...item, image: url })}
+                altValue={item.imageAlt}
+                onAltChange={(imageAlt) => upd({ ...item, imageAlt })}
+                onSelectAsset={(asset) => upd({
+                  ...item,
+                  image: asset.url,
+                  imageAlt: asset.suggestedAltText || item.imageAlt,
+                })}
+                folder="team"
+              />
+              <div>
+                <Label>Photo Alt Text</Label>
+                <Input value={item.imageAlt} onChange={(e) => upd({ ...item, imageAlt: e.target.value })} />
+              </div>
+              <div>
+                <Label>Credentials Heading</Label>
+                <Input value={item.credentialsHeading || ""} onChange={(e) => upd({ ...item, credentialsHeading: e.target.value })} />
+              </div>
+              <ArrayEditor
+                items={item.specialties.map((text, i) => ({ id: String(i), text }))}
+                onChange={(credentials) => upd({ ...item, specialties: credentials.map((credential) => credential.text) })}
+                itemLabel="Credential"
+                newItem={() => ({ id: String(Date.now()), text: "" })}
+                renderItem={(credential, __, updateCredential) => (
+                  <Input value={credential.text} onChange={(e) => updateCredential({ ...credential, text: e.target.value })} />
+                )}
+              />
+            </div>
+          )}
+        />
       </div>
     </Section>
   );

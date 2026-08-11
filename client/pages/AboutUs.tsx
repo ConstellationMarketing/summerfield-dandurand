@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 import { Calendar, Loader2 } from "lucide-react";
 import type {
   HeroImage,
-  AboutAttorney,
   PartnerLogo,
   AboutFeature,
   AboutStat,
@@ -18,6 +17,7 @@ import type {
 import type {
   StoryContent,
   MissionVisionContent,
+  TeamMember,
   CTAContent,
 } from "@site/lib/cms/aboutPageTypes";
 
@@ -41,9 +41,6 @@ export default function AboutUs() {
   const partnerLogos = homeContent.partnerLogos;
   const stats = homeContent.about.stats;
   const features = homeContent.about.features;
-  const attorneys = homeContent.about.attorneys;
-  const teamSectionLabel = homeContent.about.sectionLabel;
-  const teamHeading = homeContent.about.heading;
   const testimonials = homeContent.testimonials;
 
   return (
@@ -75,6 +72,14 @@ export default function AboutUs() {
         <StorySection story={content.story} headingTag={content.headingTags?.["story.sectionLabel"]} />
       )}
 
+      {content.team.members.length > 0 && (
+        <TeamSection
+          members={content.team.members}
+          sectionLabel={content.team.sectionLabel}
+          heading={content.team.heading}
+        />
+      )}
+
       {(content.missionVision.mission.heading || content.missionVision.mission.text) && (
         <MissionSection mv={content.missionVision} headingTags={content.headingTags} />
       )}
@@ -85,14 +90,6 @@ export default function AboutUs() {
 
       {features.length > 0 && (
         <FeaturesSection features={features} />
-      )}
-
-      {attorneys.length > 0 && (
-        <TeamSection
-          attorneys={attorneys}
-          sectionLabel={teamSectionLabel}
-          heading={teamHeading}
-        />
       )}
 
       <ReviewsGridSection content={testimonials} />
@@ -420,17 +417,17 @@ function FeaturesSection({ features }: { features: AboutFeature[] }) {
 /* ------------------------------------------------------------------ */
 
 function TeamSection({
-  attorneys,
+  members,
   sectionLabel,
   heading,
 }: {
-  attorneys: AboutAttorney[];
+  members: TeamMember[];
   sectionLabel: string;
   heading: string;
 }) {
   return (
-    <div className="bg-brand-dark py-[50px] md:py-[80px]">
-      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[85%]">
+    <section className="bg-brand-dark py-[50px] md:py-[80px]">
+      <div className="max-w-[1400px] mx-auto w-[95%] md:w-[90%]">
         {(sectionLabel || heading) && (
           <div className="text-center mb-[40px] md:mb-[60px]">
             {sectionLabel && (
@@ -446,46 +443,53 @@ function TeamSection({
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-[800px] mx-auto">
-          {attorneys.map((attorney, i) => (
-            <AttorneyProfileCard key={i} attorney={attorney} />
+        <div className="space-y-8">
+          {members.map((member, index) => (
+            <article key={index} className="grid grid-cols-1 lg:grid-cols-[320px_1fr] bg-white border border-white/10">
+              {member.image && (
+                <img
+                  src={member.image}
+                  alt={member.imageAlt || member.name}
+                  className="w-full h-full max-h-[500px] lg:max-h-none object-cover object-top"
+                  loading="lazy"
+                />
+              )}
+              <div className="p-[26px] md:p-[38px] lg:p-[44px]">
+                <h3 className="font-playfair text-[28px] md:text-[36px] leading-tight text-brand-dark">
+                  {member.name}
+                </h3>
+                {member.title && (
+                  <p className="font-outfit text-[14px] md:text-[16px] uppercase tracking-[0.12em] text-brand-accent font-semibold mt-[6px] mb-[22px]">
+                    {member.title}
+                  </p>
+                )}
+                <RichText
+                  html={member.bio}
+                  className="font-outfit text-[16px] md:text-[17px] leading-[26px] md:leading-[29px] text-black/75 space-y-4"
+                />
+                {member.specialties.length > 0 && (
+                  <div className="mt-[28px] pt-[24px] border-t border-brand-dark/10">
+                    {member.credentialsHeading && (
+                      <h4 className="font-playfair text-[22px] md:text-[26px] text-brand-dark mb-[14px]">
+                        {member.credentialsHeading}
+                      </h4>
+                    )}
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                      {member.specialties.map((credential, credentialIndex) => (
+                        <li key={credentialIndex} className="font-outfit text-[14px] md:text-[15px] leading-[22px] text-black/70 flex gap-2">
+                          <span className="text-brand-accent font-bold" aria-hidden="true">•</span>
+                          <span>{credential}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </article>
           ))}
         </div>
       </div>
-    </div>
-  );
-}
-
-function AttorneyProfileCard({ attorney }: { attorney: AboutAttorney }) {
-  const card = (
-    <div className="group bg-white/5 ring-1 ring-brand-accent/40 hover:ring-brand-accent transition-all duration-300 overflow-hidden">
-      <div className="overflow-hidden">
-        <img
-          src={attorney.image}
-          alt={attorney.imageAlt || attorney.name}
-          className="w-full aspect-[3/4] object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
-      </div>
-      <div className="bg-brand-dark px-[24px] py-[20px] text-center border-t border-brand-accent/30">
-        <p className="font-playfair text-[22px] md:text-[26px] leading-tight text-white">
-          {attorney.name}
-        </p>
-        {attorney.title && (
-          <p className="font-outfit text-[13px] md:text-[14px] uppercase tracking-[0.14em] text-brand-accent mt-[6px]">
-            {attorney.title}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-
-  return attorney.link ? (
-    <Link to={attorney.link} className="block">
-      {card}
-    </Link>
-  ) : (
-    <div>{card}</div>
+    </section>
   );
 }
 

@@ -141,11 +141,6 @@ export interface BlogSidebarData {
   awardImages: BlogSidebarAwardImage[];
 }
 
-export interface PracticeSharedSections {
-  whyChooseUs: Partial<AboutPageContent["whyChooseUs"]> | null;
-  cta: Partial<AboutPageContent["cta"]> | null;
-}
-
 interface SiteSettingsRow {
   site_name?: string | null;
   logo_url?: string | null;
@@ -482,17 +477,6 @@ export function shapeGenericPageDocument<TContent = unknown>(row: CmsPageRow | n
   };
 }
 
-export function extractPracticeSharedSections(aboutContent?: Partial<AboutPageContent> | null): PracticeSharedSections | null {
-  if (!aboutContent?.whyChooseUs && !aboutContent?.cta) {
-    return null;
-  }
-
-  return {
-    whyChooseUs: aboutContent.whyChooseUs ?? null,
-    cta: aboutContent.cta ?? null,
-  };
-}
-
 export function mergeHomeContentWithDefaults(cmsContent: Partial<HomePageContent> | null | undefined, defaults: HomePageContent = defaultHomeContent): HomePageContent {
   if (!cmsContent) {
     return defaults;
@@ -660,29 +644,6 @@ export function mergeContactContentWithDefaults(cmsContent: Partial<ContactPageC
   };
 }
 
-export function applyPracticeSharedSectionsToContact(content: ContactPageContent, sharedSections: PracticeSharedSections | null): ContactPageContent {
-  if (!sharedSections?.cta) {
-    return content;
-  }
-
-  return {
-    ...content,
-    cta: {
-      ...content.cta,
-      heading: sharedSections.cta.heading || content.cta.heading,
-      description: sharedSections.cta.description || content.cta.description,
-      primaryButton: {
-        ...content.cta.primaryButton,
-        ...sharedSections.cta.primaryButton,
-      },
-      secondaryButton: {
-        ...content.cta.secondaryButton,
-        ...sharedSections.cta.secondaryButton,
-      },
-    },
-  };
-}
-
 export function mergePracticeAreasContentWithDefaults(cmsContent: Partial<PracticeAreasPageContent> | null | undefined, defaults: PracticeAreasPageContent = defaultPracticeAreasContent): PracticeAreasPageContent {
   if (!cmsContent) {
     return defaults;
@@ -714,46 +675,6 @@ export function mergePracticeAreasContentWithDefaults(cmsContent: Partial<Practi
     },
     headingTags: cmsContent.headingTags ?? defaults.headingTags,
   };
-}
-
-export function applyPracticeSharedSectionsToPracticeAreas(content: PracticeAreasPageContent, sharedSections: PracticeSharedSections | null): PracticeAreasPageContent {
-  let mergedContent = content;
-
-  if (sharedSections?.whyChooseUs) {
-    mergedContent = {
-      ...mergedContent,
-      whyChoose: {
-        sectionLabel: sharedSections.whyChooseUs.sectionLabel || mergedContent.whyChoose.sectionLabel,
-        heading: sharedSections.whyChooseUs.heading || mergedContent.whyChoose.heading,
-        subtitle: mergedContent.whyChoose.subtitle,
-        description: sharedSections.whyChooseUs.description || mergedContent.whyChoose.description,
-        image: sharedSections.whyChooseUs.image || mergedContent.whyChoose.image,
-        imageAlt: sharedSections.whyChooseUs.imageAlt || mergedContent.whyChoose.imageAlt,
-        items: sharedSections.whyChooseUs.items?.length ? sharedSections.whyChooseUs.items : mergedContent.whyChoose.items,
-      },
-    };
-  }
-
-  if (sharedSections?.cta) {
-    mergedContent = {
-      ...mergedContent,
-      cta: {
-        ...mergedContent.cta,
-        heading: sharedSections.cta.heading || mergedContent.cta.heading,
-        description: sharedSections.cta.description || mergedContent.cta.description,
-        primaryButton: {
-          ...mergedContent.cta.primaryButton,
-          ...sharedSections.cta.primaryButton,
-        },
-        secondaryButton: {
-          ...mergedContent.cta.secondaryButton,
-          ...sharedSections.cta.secondaryButton,
-        },
-      },
-    };
-  }
-
-  return mergedContent;
 }
 
 export function mergePracticeAreaPageContentWithDefaults(cmsContent: Partial<PracticeAreaPageContent> | null | undefined, defaults: PracticeAreaPageContent = defaultPracticeAreaPageContent): PracticeAreaPageContent {
@@ -817,40 +738,30 @@ export function shapeAboutPageDocument(row: CmsPageRow | null): PreloadedPageDoc
   };
 }
 
-export function shapeContactPageDocument(row: CmsPageRow | null, sharedSections: PracticeSharedSections | null = null): PreloadedPageDocument<ContactPageContent> | null {
+export function shapeContactPageDocument(row: CmsPageRow | null): PreloadedPageDocument<ContactPageContent> | null {
   if (!row) {
     return null;
   }
 
-  const content = applyPracticeSharedSectionsToContact(
-    normalizeContactPageContent(row.content),
-    sharedSections,
-  );
-
   return {
     urlPath: normalizeCmsUrlPath(row.url_path || "/contact/"),
     title: row.title || "",
-    content,
+    content: normalizeContactPageContent(row.content),
     meta: shapePageMeta(row),
     publishedAt: row.published_at ?? null,
     updatedAt: row.updated_at ?? null,
   };
 }
 
-export function shapePracticeAreasPageDocument(row: CmsPageRow | null, sharedSections: PracticeSharedSections | null = null): PreloadedPageDocument<PracticeAreasPageContent> | null {
+export function shapePracticeAreasPageDocument(row: CmsPageRow | null): PreloadedPageDocument<PracticeAreasPageContent> | null {
   if (!row) {
     return null;
   }
 
-  const content = applyPracticeSharedSectionsToPracticeAreas(
-    normalizePracticeAreasPageContent(row.content),
-    sharedSections,
-  );
-
   return {
     urlPath: normalizeCmsUrlPath(row.url_path || "/practice-areas/"),
     title: row.title || "",
-    content,
+    content: normalizePracticeAreasPageContent(row.content),
     meta: shapePageMeta(row),
     publishedAt: row.published_at ?? null,
     updatedAt: row.updated_at ?? null,
@@ -954,12 +865,6 @@ export async function loadSiteSettings(): Promise<SiteSettings> {
   return shapeSiteSettings(row);
 }
 
-export async function loadAboutSharedSections(): Promise<PracticeSharedSections | null> {
-  const aboutRow = await fetchPublishedPageRow("/about/", "content");
-  const aboutContent = aboutRow ? normalizeAboutPageContent(aboutRow.content) : null;
-  return extractPracticeSharedSections(aboutContent);
-}
-
 const PAGE_PUBLIC_SELECT = "title,url_path,content,meta_title,meta_description,canonical_url,og_title,og_description,og_image,noindex,schema_type,schema_data,published_at,updated_at";
 const PAGE_PUBLIC_WITH_TYPE_SELECT = "title,url_path,page_type,content,meta_title,meta_description,canonical_url,og_title,og_description,og_image,noindex,schema_type,schema_data,published_at,updated_at";
 
@@ -974,27 +879,13 @@ export async function loadAboutPageDocument() {
 }
 
 export async function loadContactPageDocument() {
-  const [row, sharedSections] = await Promise.all([
-    fetchPublishedPageRow("/contact/", PAGE_PUBLIC_SELECT),
-    loadAboutSharedSections(),
-  ]);
-
-  return {
-    document: shapeContactPageDocument(row, sharedSections),
-    sharedSections,
-  };
+  const row = await fetchPublishedPageRow("/contact/", PAGE_PUBLIC_SELECT);
+  return { document: shapeContactPageDocument(row) };
 }
 
 export async function loadPracticeAreasPageDocument() {
-  const [row, sharedSections] = await Promise.all([
-    fetchPublishedPageRow("/practice-areas/", PAGE_PUBLIC_SELECT),
-    loadAboutSharedSections(),
-  ]);
-
-  return {
-    document: shapePracticeAreasPageDocument(row, sharedSections),
-    sharedSections,
-  };
+  const row = await fetchPublishedPageRow("/practice-areas/", PAGE_PUBLIC_SELECT);
+  return { document: shapePracticeAreasPageDocument(row) };
 }
 
 export async function loadPracticeAreaPageDocument(urlPath: string) {

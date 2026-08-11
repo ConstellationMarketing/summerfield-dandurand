@@ -1,5 +1,5 @@
 import type { PracticeAreasPageContent } from "@site/lib/cms/practiceAreasPageTypes";
-import { Section, ArrayEditor, ImageField, GlobalSectionInfo, RichTextField, HeadingField, Input, Label, Textarea } from "./EditorShared";
+import { Section, ArrayEditor, ImageField, RichTextField, HeadingField, Input, Label, Textarea } from "./EditorShared";
 
 interface PracticeAreasEditorProps {
   content: PracticeAreasPageContent;
@@ -15,8 +15,7 @@ export default function PracticeAreasEditor({ content, onChange }: PracticeAreas
     <div className="space-y-6">
       <HeroSection content={content} update={update} />
       <GridSection content={content} update={update} />
-      <GlobalSectionInfo sectionTitle="Why Choose Us" managedIn="About Us" />
-      <GlobalSectionInfo sectionTitle="Call to Action" managedIn="About Us" />
+      <CTASection content={content} update={update} />
     </div>
   );
 }
@@ -145,6 +144,43 @@ function GridSection({ content, update }: SectionProps) {
             </div>
           )}
         />
+      </div>
+    </Section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+function CTASection({ content, update }: SectionProps) {
+  const cta = content.cta;
+  const set = (patch: Partial<typeof cta>) => update("cta", { ...cta, ...patch });
+  const ht = useHeadingTag(content, update);
+
+  return (
+    <Section title="Call to Action" defaultOpen={false}>
+      <div className="grid gap-4">
+        <HeadingField
+          label="Heading"
+          value={cta.heading}
+          onChange={(v) => set({ heading: v })}
+          tag={ht.get("cta.heading")}
+          onTagChange={(t) => ht.set("cta.heading", t)}
+        />
+        <RichTextField label="Description" value={cta.description} onChange={(v) => set({ description: v })} />
+        <p className="text-xs text-gray-500 italic">Phone number is managed in Site Settings &gt; Contact Info</p>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <Label>Secondary Label</Label>
+            <Input value={cta.secondaryButton.label} onChange={(e) => set({ secondaryButton: { ...cta.secondaryButton, label: e.target.value } })} />
+          </div>
+          <div>
+            <Label>Secondary Sublabel</Label>
+            <Input value={cta.secondaryButton.sublabel} onChange={(e) => set({ secondaryButton: { ...cta.secondaryButton, sublabel: e.target.value } })} />
+          </div>
+          <div>
+            <Label>Secondary Link</Label>
+            <Input value={cta.secondaryButton.link} onChange={(e) => set({ secondaryButton: { ...cta.secondaryButton, link: e.target.value } })} />
+          </div>
+        </div>
       </div>
     </Section>
   );
