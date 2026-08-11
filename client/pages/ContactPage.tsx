@@ -82,6 +82,8 @@ export default function ContactPage() {
         ctaSecondaryLabel={content.cta.secondaryButton.label}
         ctaSecondarySublabel={content.cta.secondaryButton.sublabel}
         ctaSecondaryLink={content.cta.secondaryButton.link}
+        emblemUrl={settings.emblemUrl?.trim() || ""}
+        emblemAlt={settings.emblemAlt?.trim() || settings.siteName?.trim() || "Custom Law emblem"}
       />
 
       {locations.length > 0 && (
@@ -313,6 +315,8 @@ function FormAndHoursSection({
   ctaSecondaryLabel,
   ctaSecondarySublabel,
   ctaSecondaryLink,
+  emblemUrl,
+  emblemAlt,
 }: {
   formHeading: string;
   formSubtext: string;
@@ -325,11 +329,13 @@ function FormAndHoursSection({
   ctaSecondaryLabel: string;
   ctaSecondarySublabel: string;
   ctaSecondaryLink: string;
+  emblemUrl: string;
+  emblemAlt: string;
 }) {
   return (
     <div id="contact-form" className="bg-brand-dark py-[50px] md:py-[80px]">
       <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[85%]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[8%]">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.12fr)_minmax(360px,0.88fr)] gap-10 lg:gap-[6%] items-stretch">
           {/* Form */}
           <div>
             {formHeading && (
@@ -347,7 +353,7 @@ function FormAndHoursSection({
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-[24px]" id="office-hours">
+          <div className="flex flex-col gap-[24px] h-full" id="office-hours">
             {/* Office Hours card */}
             {officeHours.length > 0 && (
               <div className="bg-white border border-brand-dark/15 p-[28px] md:p-[36px]">
@@ -414,6 +420,18 @@ function FormAndHoursSection({
                   </div>
                 </div>
               </Link>
+            )}
+
+            {emblemUrl && (
+              <div className="relative flex flex-1 min-h-[210px] items-center justify-center overflow-hidden border border-white/10 bg-white/[0.045] px-8 py-7">
+                <span className="absolute left-0 top-0 h-1 w-full bg-brand-accent" aria-hidden="true" />
+                <img
+                  src={emblemUrl}
+                  alt={emblemAlt}
+                  className="max-h-[190px] w-auto max-w-[72%] object-contain opacity-80"
+                  loading="lazy"
+                />
+              </div>
             )}
           </div>
         </div>
