@@ -25,19 +25,19 @@ export default function FaqSection({ content }: FaqSectionProps) {
   };
 
   return (
-    <section className="bg-brand-dark py-[50px] md:py-[80px]">
+    <section className="bg-white py-[50px] md:py-[80px]">
       {/* Header Section */}
       <div className="max-w-[900px] mx-auto w-[90%] pb-[30px] md:pb-[44px]">
         <div className="text-center">
           {data.heading && (
-            <h2 className="font-playfair text-[32px] md:text-[46px] lg:text-[52px] leading-tight text-white pb-[12px]">
+            <h2 className="font-playfair text-[32px] md:text-[46px] lg:text-[52px] leading-tight text-brand-dark pb-[12px]">
               {data.heading}
             </h2>
           )}
           {data.description && (
             <RichText
               html={data.description}
-              className="font-outfit text-[16px] md:text-[18px] leading-[25px] md:leading-[29px] text-white/70 text-center"
+              className="font-outfit text-[16px] md:text-[18px] leading-[25px] md:leading-[29px] text-black/70 text-center"
             />
           )}
         </div>
@@ -47,7 +47,7 @@ export default function FaqSection({ content }: FaqSectionProps) {
       <div className="max-w-[1200px] mx-auto w-[90%] flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-[5%]">
         {/* Left Side - Image */}
         {data.videoThumbnail && (
-          <div className="lg:w-[42%] border border-white/15 p-2">
+          <div className="lg:w-[42%] border border-brand-dark/10 p-2">
             <img
               src={data.videoThumbnail}
               alt={data.videoThumbnailAlt || "Frequently Asked Questions"}
@@ -66,15 +66,13 @@ export default function FaqSection({ content }: FaqSectionProps) {
               key={index}
               className={`border transition-colors duration-200 ${
                 openIndex === index
-                  ? "border-brand-accent bg-white"
-                  : "border-white/15 bg-white/5 hover:border-brand-accent/70"
+                  ? "border-brand-accent bg-white shadow-sm"
+                  : "border-brand-dark/10 bg-gray-50 hover:border-brand-accent/70"
               }`}
             >
               <button
                 onClick={() => toggleFaq(index)}
-                className={`w-full font-outfit text-[19px] md:text-[22px] leading-tight px-[18px] md:px-[22px] py-[16px] md:py-[18px] text-left flex items-center justify-between gap-5 cursor-pointer ${
-                  openIndex === index ? "text-brand-dark" : "text-white"
-                }`}
+                className="w-full font-outfit text-[19px] md:text-[22px] leading-tight px-[18px] md:px-[22px] py-[16px] md:py-[18px] text-left text-brand-dark flex items-center justify-between gap-5 cursor-pointer"
               >
                 <span>{faq.question}</span>
                 <ChevronDown

@@ -42,7 +42,7 @@ export default function ReviewsGridSection({ content, headingTag }: ReviewsGridS
   const reviews = data.items;
 
   return (
-    <section className="bg-gray-50 py-[50px] md:py-[80px]">
+    <section className="bg-brand-dark py-[50px] md:py-[80px]">
       <div className="max-w-[1360px] mx-auto w-[95%] md:w-[90%]">
         <div className="text-center mb-[36px] md:mb-[50px] max-w-[720px] mx-auto">
           {data.sectionLabel && (
@@ -54,7 +54,7 @@ export default function ReviewsGridSection({ content, headingTag }: ReviewsGridS
             <DynamicHeading
               tag={headingTag}
               defaultTag="h2"
-              className="font-playfair text-[30px] md:text-[44px] lg:text-[50px] leading-tight text-brand-dark"
+              className="font-playfair text-[30px] md:text-[44px] lg:text-[50px] leading-tight text-white"
             >
               {data.heading}
             </DynamicHeading>
@@ -62,7 +62,7 @@ export default function ReviewsGridSection({ content, headingTag }: ReviewsGridS
           {data.reviewBadgeText && (
             <div className="flex items-center justify-center gap-2 mt-[16px]">
               <GoogleG />
-              <span className="font-outfit text-[16px] md:text-[18px] text-brand-dark">
+              <span className="font-outfit text-[16px] md:text-[18px] text-white/80">
                 {data.reviewBadgeText}
               </span>
             </div>
@@ -73,7 +73,7 @@ export default function ReviewsGridSection({ content, headingTag }: ReviewsGridS
           {reviews.map((review, index) => (
             <div
               key={index}
-              className="bg-white border border-brand-dark/10 p-[26px] md:p-[30px] flex flex-col transition-shadow duration-300 hover:shadow-lg"
+              className="bg-white border border-white/10 p-[26px] md:p-[30px] flex flex-col transition-transform duration-300 hover:-translate-y-1"
             >
               <div className="flex items-center justify-between mb-[16px]">
                 <Stars />
