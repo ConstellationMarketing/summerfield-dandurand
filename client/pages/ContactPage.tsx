@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Seo from "@site/components/Seo";
 import Layout from "@site/components/layout/Layout";
 import ContactForm from "@site/components/home/ContactForm";
@@ -5,19 +6,15 @@ import RichText from "@site/components/shared/RichText";
 import DynamicHeading from "@site/components/shared/DynamicHeading";
 import {
   Phone,
-  Mail,
   MapPin,
   Clock,
   Calendar,
   Loader2,
-  type LucideIcon,
 } from "lucide-react";
 import { useContactContent } from "@site/hooks/useContactContent";
 import { useHomeContent } from "@site/hooks/useHomeContent";
 import { useGlobalPhone, useSiteSettings } from "@site/contexts/SiteSettingsContext";
 import { Link } from "react-router-dom";
-
-const iconMap: Record<string, LucideIcon> = { Phone, Mail, MapPin, Clock };
 
 export default function ContactPage() {
   const { content, meta, title, publishedAt, updatedAt, isLoading } = useContactContent();
@@ -37,15 +34,15 @@ export default function ContactPage() {
 
   const bgImage = homeContent.hero.backgroundImage;
 
-  const contactMethods = content.contactMethods.methods.map((method) => {
-    let detail = method.detail;
-    let subDetail = method.subDetail;
-    if (method.title === "Phone" && !detail) detail = phoneDisplay;
-    if (method.title === "Office") {
-      if (!detail) detail = settings.addressLine1 || "";
-      if (!subDetail) subDetail = settings.addressLine2 || "";
-    }
-    return { icon: iconMap[method.icon] || Phone, title: method.title, detail, subDetail };
+  const locations = content.contactMethods.methods.map((method) => {
+    const detail = method.detail || settings.addressLine1 || "";
+    const subDetail = method.subDetail || settings.addressLine2 || "";
+    return {
+      title: method.title,
+      detail,
+      subDetail,
+      address: [detail, subDetail].filter(Boolean).join(", "),
+    };
   });
 
   const officeHours = content.officeHours.items;
@@ -73,12 +70,6 @@ export default function ContactPage() {
         headingTag={content.headingTags?.["hero.sectionLabel"]}
       />
 
-      {/* Contact methods */}
-      {contactMethods.length > 0 && (
-        <ContactMethodsSection methods={contactMethods} />
-      )}
-
-      {/* Form + Office hours */}
       <FormAndHoursSection
         formHeading={content.form.heading}
         formSubtext={content.form.subtext}
@@ -93,6 +84,13 @@ export default function ContactPage() {
         ctaSecondaryLink={content.cta.secondaryButton.link}
       />
 
+      {locations.length > 0 && (
+        <LocationsMapSection
+          heading={content.contactMethods.heading || "Our Offices"}
+          locations={locations}
+        />
+      )}
+
       {/* Process steps */}
       {processSteps.length > 0 && (
         <ProcessSection
@@ -104,12 +102,6 @@ export default function ContactPage() {
         />
       )}
 
-      {/* Map */}
-      <MapSection
-        heading={content.visitOffice.heading}
-        subtext={content.visitOffice.subtext}
-        mapEmbedUrl={content.visitOffice.mapEmbedUrl || settings.mapEmbedUrl}
-      />
     </Layout>
   );
 }
@@ -221,49 +213,87 @@ function ContactHero({
 }
 
 /* ------------------------------------------------------------------ */
-/* Contact methods                                                      */
+/* Locations                                                            */
 /* ------------------------------------------------------------------ */
 
-function ContactMethodsSection({
-  methods,
+function LocationsMapSection({
+  heading,
+  locations,
 }: {
-  methods: Array<{ icon: LucideIcon; title: string; detail: string; subDetail: string }>;
+  heading: string;
+  locations: Array<{
+    title: string;
+    detail: string;
+    subDetail: string;
+    address: string;
+  }>;
 }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeLocation = locations[activeIndex] || locations[0];
+  const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(activeLocation.address)}&output=embed`;
+
   return (
-    <div className="bg-white py-[50px] md:py-[70px]">
-      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {methods.map((method, i) => {
-            const Icon = method.icon;
-            return (
-              <div
-                key={i}
-                className="border border-brand-dark/10 p-[30px] md:p-[40px] text-center group hover:border-brand-accent transition-all duration-300"
-              >
-                <div className="flex justify-center mb-[20px]">
-                  <div className="bg-brand-accent p-[20px] inline-block transition-all duration-300 group-hover:bg-brand-dark group-hover:scale-110">
-                    <Icon className="w-[35px] h-[35px] md:w-[40px] md:h-[40px] text-brand-dark group-hover:text-brand-accent transition-colors duration-300" strokeWidth={1.5} />
+    <section id="location" className="bg-white py-[50px] md:py-[80px]">
+      <div className="max-w-[1500px] mx-auto w-[95%] md:w-[90%]">
+        <div className="text-center mb-[34px] md:mb-[46px]">
+          <p className="font-outfit text-[15px] md:text-[18px] font-semibold uppercase tracking-[0.12em] text-brand-accent mb-[10px]">
+            Visit Custom Law
+          </p>
+          <h2 className="font-playfair text-[32px] md:text-[46px] lg:text-[52px] leading-tight text-brand-dark">
+            {heading}
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] border border-brand-dark/10 bg-gray-50">
+          <div className="divide-y divide-brand-dark/10">
+            {locations.map((location, index) => {
+              const isActive = index === activeIndex;
+              return (
+                <button
+                  key={`${location.title}-${location.address}`}
+                  type="button"
+                  onClick={() => setActiveIndex(index)}
+                  aria-pressed={isActive}
+                  className={`w-full text-left p-[24px] md:p-[30px] transition-colors duration-200 ${
+                    isActive
+                      ? "bg-brand-dark text-white"
+                      : "bg-white text-brand-dark hover:bg-brand-accent/10"
+                  }`}
+                >
+                  <div className="flex gap-4">
+                    <span className={`mt-1 flex h-10 w-10 shrink-0 items-center justify-center ${isActive ? "bg-brand-accent" : "bg-brand-dark"}`}>
+                      <MapPin className={`h-5 w-5 ${isActive ? "text-brand-dark" : "text-brand-accent"}`} strokeWidth={1.8} />
+                    </span>
+                    <span>
+                      <span className="block font-playfair text-[22px] md:text-[25px] leading-tight mb-2">
+                        {location.title}
+                      </span>
+                      <span className={`block font-outfit text-[14px] md:text-[15px] leading-[22px] ${isActive ? "text-white/75" : "text-black/60"}`}>
+                        {location.detail}<br />{location.subDetail}
+                      </span>
+                    </span>
                   </div>
-                </div>
-                <h3 className="font-playfair text-[24px] md:text-[28px] leading-tight text-brand-dark mb-[12px]">
-                  {method.title}
-                </h3>
-                <p className="font-outfit text-[17px] md:text-[19px] text-brand-dark font-medium mb-[6px]">
-                  {method.title === "Phone" ? (
-                    <a href={`tel:${method.detail.replace(/\D/g, "")}`} className="hover:text-brand-accent transition-colors duration-200">
-                      {method.detail}
-                    </a>
-                  ) : (
-                    method.detail
-                  )}
-                </p>
-                <p className="font-outfit text-[14px] md:text-[15px] text-black/60">{method.subDetail}</p>
-              </div>
-            );
-          })}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="min-h-[420px] bg-brand-card p-[10px] md:p-[16px]">
+            <iframe
+              key={activeLocation.address}
+              src={mapEmbedUrl}
+              width="100%"
+              height="100%"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="w-full min-h-[400px] lg:h-full border-0"
+              title={`${activeLocation.title} office location`}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -463,59 +493,6 @@ function ProcessSection({
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Map                                                                  */
-/* ------------------------------------------------------------------ */
-
-function MapSection({
-  heading,
-  subtext,
-  mapEmbedUrl,
-}: {
-  heading: string;
-  subtext: string;
-  mapEmbedUrl: string;
-}) {
-  if (!mapEmbedUrl && !heading) return null;
-
-  return (
-    <div id="location" className="bg-brand-dark py-[50px] md:py-[70px]">
-      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%]">
-        {(heading || subtext) && (
-          <div className="text-center mb-[30px] md:mb-[40px]">
-            {heading && (
-              <p className="font-playfair text-[30px] md:text-[44px] leading-tight text-white pb-[10px]">
-                {heading}
-              </p>
-            )}
-            {subtext && (
-              <RichText
-                html={subtext}
-                className="font-outfit text-[16px] md:text-[18px] leading-[26px] text-white/75"
-              />
-            )}
-          </div>
-        )}
-
-        {mapEmbedUrl && (
-          <div className="bg-brand-card border border-brand-border p-[16px] md:p-[24px]">
-            <iframe
-              src={mapEmbedUrl}
-              width="100%"
-              height="450"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full h-[300px] md:h-[450px]"
-              title="Office Location"
-            />
-          </div>
-        )}
       </div>
     </div>
   );
