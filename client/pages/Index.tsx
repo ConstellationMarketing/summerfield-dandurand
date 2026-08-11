@@ -242,11 +242,11 @@ export default function Index() {
       {/* Google Reviews Section */}
       <GoogleReviewsSection content={content.googleReviews} headingTag={content.headingTags?.["googleReviews.sectionLabel"]} />
 
-      {/* FAQ Section */}
-      <FaqSection content={content.faq} />
-
       {/* Google Reviews Grid (uses testimonials block) */}
       <ReviewsGridSection content={content.testimonials} headingTag={content.headingTags?.["testimonials.sectionLabel"]} />
+
+      {/* FAQ Section */}
+      <FaqSection content={content.faq} />
 
       {/* Contact Us Section */}
       <ContactUsSection content={content.contact} headingTag={content.headingTags?.["contact.sectionLabel"]} />
