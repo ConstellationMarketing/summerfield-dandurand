@@ -6,12 +6,13 @@ import DynamicHeading from "@site/components/shared/DynamicHeading";
 interface AreasWeServeSectionProps {
   content?: AreasWeServeContent;
   headingTag?: string;
+  showRegions?: boolean;
 }
 
 // Primary market county highlighted across the location grid
 const PRIORITY_COUNTY = "hamilton";
 
-export default function AreasWeServeSection({ content, headingTag }: AreasWeServeSectionProps) {
+export default function AreasWeServeSection({ content, headingTag, showRegions = true }: AreasWeServeSectionProps) {
   if (!content || (!content.heading && !content.description && (!content.regions || content.regions.length === 0))) {
     return null;
   }
@@ -23,7 +24,7 @@ export default function AreasWeServeSection({ content, headingTag }: AreasWeServ
     <section className="bg-gray-50 py-[50px] md:py-[80px]">
       <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%]">
         {/* Row 1 — Intro + image */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[6%] items-center mb-[40px] md:mb-[60px]">
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[6%] items-center ${showRegions ? "mb-[40px] md:mb-[60px]" : ""}`}>
           <div>
             {data.sectionLabel && (
               <p className="font-outfit text-[16px] md:text-[20px] font-semibold uppercase tracking-[0.12em] text-brand-accent mb-[12px]">
@@ -60,7 +61,7 @@ export default function AreasWeServeSection({ content, headingTag }: AreasWeServ
         </div>
 
         {/* Row 2 — Locations grid */}
-        {regions.length > 0 && (
+        {showRegions && regions.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {regions.map((region, index) => (
               <div key={index} className="bg-white border border-brand-dark/10 p-[26px] md:p-[32px]">

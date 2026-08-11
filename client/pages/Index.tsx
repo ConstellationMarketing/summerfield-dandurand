@@ -234,7 +234,7 @@ export default function Index() {
       <PracticeSpotlightSection content={content.practiceSpotlights} headingTag={content.headingTags?.["practiceSpotlights.heading"]} />
 
       {/* Areas We Serve */}
-      <AreasWeServeSection content={content.areasWeServe} headingTag={content.headingTags?.["areasWeServe.heading"]} />
+      <AreasWeServeSection content={content.areasWeServe} headingTag={content.headingTags?.["areasWeServe.heading"]} showRegions={false} />
 
       {/* Process Section */}
       <ProcessSection content={content.process} headingTags={content.headingTags} />
