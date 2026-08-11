@@ -231,16 +231,16 @@ function ServicesHero({
 
 function AwardsBadgesStrip({ logos }: { logos: PartnerLogo[] }) {
   return (
-    <div className="bg-brand-dark py-[20px] md:py-[30px]">
-      <div className="max-w-[2560px] mx-auto w-[95%]">
-        <div className="bg-brand-card border border-brand-border py-[16px] px-[10px] grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-2 items-center justify-items-center">
+    <div className="bg-brand-dark py-[12px] md:py-[18px]">
+      <div className="max-w-[1600px] mx-auto w-[95%]">
+        <div className="bg-brand-card border border-brand-border py-[8px] px-[6px] grid grid-cols-2 sm:grid-cols-4 gap-y-2 items-center justify-items-center">
           {logos.map((logo, i) => (
-            <div key={i} className="px-[8px] md:px-[20px] py-1 flex items-center justify-center">
+            <div key={i} className="px-[4px] py-0 flex items-center justify-center">
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className="w-[150px] sm:w-[120px] md:w-[150px] lg:w-[190px] max-w-full inline-block"
-                width={190}
+                className="w-[175px] sm:w-[170px] md:w-[210px] lg:w-[240px] max-w-full inline-block"
+                width={240}
                 height={123}
                 loading="lazy"
               />

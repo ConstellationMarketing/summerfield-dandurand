@@ -45,7 +45,7 @@ export default function ContactPage() {
       if (!detail) detail = settings.addressLine1 || "";
       if (!subDetail) subDetail = settings.addressLine2 || "";
     }
-    return { icon: iconMap[method.icon] || Phone, title: method.title, detail, subDetail, link: method.link };
+    return { icon: iconMap[method.icon] || Phone, title: method.title, detail, subDetail };
   });
 
   const officeHours = content.officeHours.items;
@@ -75,7 +75,7 @@ export default function ContactPage() {
 
       {/* Contact methods */}
       {contactMethods.length > 0 && (
-        <ContactMethodsSection heading={content.contactMethods.heading} methods={contactMethods} />
+        <ContactMethodsSection methods={contactMethods} />
       )}
 
       {/* Form + Office hours */}
@@ -108,7 +108,7 @@ export default function ContactPage() {
       <MapSection
         heading={content.visitOffice.heading}
         subtext={content.visitOffice.subtext}
-        mapEmbedUrl={content.visitOffice.mapEmbedUrl}
+        mapEmbedUrl={content.visitOffice.mapEmbedUrl || settings.mapEmbedUrl}
       />
     </Layout>
   );
@@ -196,6 +196,23 @@ function ContactHero({
               </div>
             </a>
 
+            <div className="bg-brand-dark/60 border border-brand-accent/30 p-[20px]">
+              <p className="font-outfit text-[13px] uppercase tracking-wider text-brand-accent mb-[12px] font-medium">Quick Links</p>
+              <div className="flex flex-col gap-[8px]">
+                <a href="#contact-form" className="font-outfit text-[15px] text-white/85 hover:text-brand-accent transition-colors duration-200 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-brand-accent rounded-full flex-shrink-0" />
+                  Send Us a Message
+                </a>
+                <a href="#office-hours" className="font-outfit text-[15px] text-white/85 hover:text-brand-accent transition-colors duration-200 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-brand-accent rounded-full flex-shrink-0" />
+                  View Office Hours
+                </a>
+                <a href="#location" className="font-outfit text-[15px] text-white/85 hover:text-brand-accent transition-colors duration-200 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-brand-accent rounded-full flex-shrink-0" />
+                  Find Our Office
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -208,20 +225,13 @@ function ContactHero({
 /* ------------------------------------------------------------------ */
 
 function ContactMethodsSection({
-  heading,
   methods,
 }: {
-  heading: string;
-  methods: Array<{ icon: LucideIcon; title: string; detail: string; subDetail: string; link?: string }>;
+  methods: Array<{ icon: LucideIcon; title: string; detail: string; subDetail: string }>;
 }) {
   return (
     <div className="bg-white py-[50px] md:py-[70px]">
       <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
-        {heading && (
-          <h2 className="font-playfair text-[30px] md:text-[44px] lg:text-[50px] leading-tight text-brand-dark text-center mb-[36px] md:mb-[50px]">
-            {heading}
-          </h2>
-        )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {methods.map((method, i) => {
             const Icon = method.icon;
@@ -238,27 +248,16 @@ function ContactMethodsSection({
                 <h3 className="font-playfair text-[24px] md:text-[28px] leading-tight text-brand-dark mb-[12px]">
                   {method.title}
                 </h3>
-                {method.link ? (
-                  <a href={method.link} target="_blank" rel="noopener noreferrer" className="block group/link">
-                    <p className="font-outfit text-[17px] md:text-[19px] text-brand-dark font-medium mb-[6px] group-hover/link:text-brand-accent transition-colors duration-200">
+                <p className="font-outfit text-[17px] md:text-[19px] text-brand-dark font-medium mb-[6px]">
+                  {method.title === "Phone" ? (
+                    <a href={`tel:${method.detail.replace(/\D/g, "")}`} className="hover:text-brand-accent transition-colors duration-200">
                       {method.detail}
-                    </p>
-                    <p className="font-outfit text-[14px] md:text-[15px] text-black/60">{method.subDetail}</p>
-                  </a>
-                ) : (
-                  <>
-                    <p className="font-outfit text-[17px] md:text-[19px] text-brand-dark font-medium mb-[6px]">
-                      {method.title === "Phone" ? (
-                        <a href={`tel:${method.detail.replace(/\D/g, "")}`} className="hover:text-brand-accent transition-colors duration-200">
-                          {method.detail}
-                        </a>
-                      ) : (
-                        method.detail
-                      )}
-                    </p>
-                    <p className="font-outfit text-[14px] md:text-[15px] text-black/60">{method.subDetail}</p>
-                  </>
-                )}
+                    </a>
+                  ) : (
+                    method.detail
+                  )}
+                </p>
+                <p className="font-outfit text-[14px] md:text-[15px] text-black/60">{method.subDetail}</p>
               </div>
             );
           })}

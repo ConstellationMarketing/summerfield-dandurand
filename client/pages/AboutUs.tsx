@@ -5,7 +5,10 @@ import RichText from "@site/components/shared/RichText";
 import DynamicHeading from "@site/components/shared/DynamicHeading";
 import { useAboutContent } from "@site/hooks/useAboutContent";
 import { useHomeContent } from "@site/hooks/useHomeContent";
-import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
+import {
+  useGlobalPhone,
+  useSiteSettings,
+} from "@site/contexts/SiteSettingsContext";
 import { Link } from "react-router-dom";
 import { Calendar, Loader2 } from "lucide-react";
 import type {
@@ -25,6 +28,7 @@ export default function AboutUs() {
   const { content, meta, title, publishedAt, updatedAt, isLoading } = useAboutContent();
   const { content: homeContent, isLoading: homeLoading } = useHomeContent();
   const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
+  const { settings } = useSiteSettings();
 
   if (isLoading || homeLoading) {
     return (
@@ -81,7 +85,11 @@ export default function AboutUs() {
       )}
 
       {(content.missionVision.mission.heading || content.missionVision.mission.text) && (
-        <MissionSection mv={content.missionVision} headingTags={content.headingTags} />
+        <MissionSection
+          mv={content.missionVision}
+          headingTags={content.headingTags}
+          emblemUrl={settings.emblemUrl?.trim() || ""}
+        />
       )}
 
       {stats.length > 0 && (
@@ -208,16 +216,16 @@ function AboutHero({
 
 function AwardsBadgesStrip({ logos }: { logos: PartnerLogo[] }) {
   return (
-    <div className="bg-brand-dark py-[20px] md:py-[30px]">
-      <div className="max-w-[2560px] mx-auto w-[95%]">
-        <div className="bg-brand-card border border-brand-border py-[16px] px-[10px] grid grid-cols-2 sm:grid-cols-4 gap-y-6 gap-x-2 items-center justify-items-center">
+    <div className="bg-brand-dark py-[12px] md:py-[18px]">
+      <div className="max-w-[1600px] mx-auto w-[95%]">
+        <div className="bg-brand-card border border-brand-border py-[8px] px-[6px] grid grid-cols-2 sm:grid-cols-4 gap-y-2 items-center justify-items-center">
           {logos.map((logo, i) => (
-            <div key={i} className="px-[8px] md:px-[20px] py-1 flex items-center justify-center">
+            <div key={i} className="px-[4px] py-0 flex items-center justify-center">
               <img
                 src={logo.src}
                 alt={logo.alt}
-                className="w-[150px] sm:w-[120px] md:w-[150px] lg:w-[190px] max-w-full inline-block"
-                width={190}
+                className="w-[175px] sm:w-[170px] md:w-[210px] lg:w-[240px] max-w-full inline-block"
+                width={240}
                 height={123}
                 loading="lazy"
               />
@@ -235,10 +243,10 @@ function AwardsBadgesStrip({ logos }: { logos: PartnerLogo[] }) {
 
 function StorySection({ story, headingTag }: { story: StoryContent; headingTag?: string }) {
   return (
-    <div className="bg-white py-[50px] md:py-[80px]">
-      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[8%]">
-          <div>
+    <section className="bg-white py-[50px] md:py-[90px] overflow-hidden">
+      <div className="max-w-[1500px] mx-auto w-[95%] md:w-[90%]">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.08fr)_minmax(380px,0.92fr)] gap-10 lg:gap-[6%] items-stretch">
+          <div className="py-2 lg:py-[28px]">
             {story.sectionLabel && (
               <DynamicHeading
                 tag={headingTag}
@@ -249,37 +257,37 @@ function StorySection({ story, headingTag }: { story: StoryContent; headingTag?:
               </DynamicHeading>
             )}
             {story.heading && (
-              <p className="font-playfair text-[30px] md:text-[44px] lg:text-[50px] leading-tight text-brand-dark pb-[20px]">
+              <p className="font-playfair text-[30px] md:text-[44px] lg:text-[50px] leading-[1.08] text-brand-dark pb-[24px] md:pb-[30px] max-w-[780px]">
                 {story.heading}
               </p>
             )}
-            <div className="space-y-[15px] md:space-y-[20px]">
+            <div className="space-y-[15px] md:space-y-[20px] border-l-2 border-brand-accent pl-[20px] md:pl-[30px]">
               {story.paragraphs.map((paragraph, i) => (
                 <RichText
                   key={i}
                   html={paragraph}
-                  className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-black/80"
+                  className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-black/75"
                 />
               ))}
             </div>
           </div>
 
           {story.image && (
-            <div className="flex items-center justify-center">
-              <div className="relative">
-                <img
-                  src={story.image}
-                  alt={story.imageAlt}
-                  className="max-w-full w-auto h-auto object-contain"
-                  loading="lazy"
-                />
-                <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-gradient-to-t from-white to-transparent pointer-events-none" />
-              </div>
+            <div className="relative min-h-[460px] lg:min-h-[720px] h-full mt-2 lg:mt-0">
+              <div className="absolute -top-3 -right-3 w-[45%] h-[28%] bg-brand-accent" aria-hidden="true" />
+              <div className="absolute -bottom-3 -left-3 w-[60%] h-[38%] border-[3px] border-brand-accent" aria-hidden="true" />
+              <img
+                src={story.image}
+                alt={story.imageAlt}
+                className="relative w-full h-full min-h-[460px] lg:min-h-[720px] object-cover object-center"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/35 via-transparent to-transparent pointer-events-none" />
             </div>
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -290,54 +298,79 @@ function StorySection({ story, headingTag }: { story: StoryContent; headingTag?:
 function MissionSection({
   mv,
   headingTags,
+  emblemUrl,
 }: {
   mv: MissionVisionContent;
   headingTags?: Record<string, string>;
+  emblemUrl: string;
 }) {
   const hasMission = mv.mission.heading || mv.mission.text;
   const hasVision = mv.vision.heading || mv.vision.text;
 
+  const blocks = [
+    hasMission
+      ? {
+          number: "01",
+          heading: mv.mission.heading,
+          text: mv.mission.text,
+          tag: headingTags?.["mission.heading"],
+        }
+      : null,
+    hasVision
+      ? {
+          number: "02",
+          heading: mv.vision.heading,
+          text: mv.vision.text,
+          tag: headingTags?.["vision.heading"],
+        }
+      : null,
+  ].filter(Boolean) as Array<{
+    number: string;
+    heading: string;
+    text: string;
+    tag?: string;
+  }>;
+
   return (
-    <div className="bg-brand-dark py-[50px] md:py-[80px]">
-      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
-        <div className={`grid grid-cols-1 ${hasVision ? "lg:grid-cols-2" : ""} gap-10 lg:gap-[8%]`}>
-          {hasMission && (
-            <div>
-              {mv.mission.heading && (
+    <section className="relative overflow-hidden bg-brand-dark py-[60px] md:py-[100px]">
+      {emblemUrl && (
+        <img
+          src={emblemUrl}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none select-none absolute right-[-6%] top-1/2 -translate-y-1/2 w-[520px] md:w-[700px] lg:w-[860px] max-w-[75%] opacity-[0.045] object-contain"
+          loading="lazy"
+        />
+      )}
+      <div className="relative max-w-[1450px] mx-auto w-[95%] md:w-[90%]">
+        <div className={`grid grid-cols-1 ${blocks.length > 1 ? "lg:grid-cols-2" : ""} gap-6 lg:gap-8`}>
+          {blocks.map((block) => (
+            <article
+              key={block.number}
+              className="relative bg-white/[0.055] border border-white/15 px-[26px] py-[32px] md:px-[42px] md:py-[46px] backdrop-blur-[1px]"
+            >
+              <div className="flex items-center gap-4 mb-[24px]">
+                <span className="font-playfair text-[18px] text-brand-accent">{block.number}</span>
+                <span className="h-px flex-1 bg-brand-accent/60" />
+              </div>
+              {block.heading && (
                 <DynamicHeading
-                  tag={headingTags?.["mission.heading"]}
+                  tag={block.tag}
                   defaultTag="h2"
-                  className="font-playfair text-[26px] md:text-[36px] lg:text-[42px] leading-tight text-white pb-[20px]"
+                  className="font-playfair text-[28px] md:text-[38px] lg:text-[43px] leading-[1.08] text-white pb-[22px]"
                 >
-                  {mv.mission.heading}
+                  {block.heading}
                 </DynamicHeading>
               )}
               <RichText
-                html={mv.mission.text}
-                className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-white/80"
+                html={block.text}
+                className="font-outfit text-[16px] md:text-[18px] leading-[27px] md:leading-[31px] text-white/80 [&_p+p]:mt-4 [&_ul]:mt-4 [&_ul]:space-y-2 [&_li]:relative [&_li]:pl-5 [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-[0.72em] [&_li]:before:w-1.5 [&_li]:before:h-1.5 [&_li]:before:bg-brand-accent"
               />
-            </div>
-          )}
-          {hasVision && (
-            <div>
-              {mv.vision.heading && (
-                <DynamicHeading
-                  tag={headingTags?.["vision.heading"]}
-                  defaultTag="h2"
-                  className="font-playfair text-[26px] md:text-[36px] lg:text-[42px] leading-tight text-white pb-[20px]"
-                >
-                  {mv.vision.heading}
-                </DynamicHeading>
-              )}
-              <RichText
-                html={mv.vision.text}
-                className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-white/80"
-              />
-            </div>
-          )}
+            </article>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -445,46 +478,50 @@ function TeamSection({
 
         <div className="space-y-8">
           {members.map((member, index) => (
-            <article key={index} className="grid grid-cols-1 lg:grid-cols-[320px_1fr] bg-white border border-white/10">
-              {member.image && (
-                <img
-                  src={member.image}
-                  alt={member.imageAlt || member.name}
-                  className="w-full h-full max-h-[500px] lg:max-h-none object-cover object-top"
-                  loading="lazy"
-                />
-              )}
-              <div className="p-[26px] md:p-[38px] lg:p-[44px]">
-                <h3 className="font-playfair text-[28px] md:text-[36px] leading-tight text-brand-dark">
-                  {member.name}
-                </h3>
-                {member.title && (
-                  <p className="font-outfit text-[14px] md:text-[16px] uppercase tracking-[0.12em] text-brand-accent font-semibold mt-[6px] mb-[22px]">
-                    {member.title}
-                  </p>
-                )}
-                <RichText
-                  html={member.bio}
-                  className="font-outfit text-[16px] md:text-[17px] leading-[26px] md:leading-[29px] text-black/75 space-y-4"
-                />
-                {member.specialties.length > 0 && (
-                  <div className="mt-[28px] pt-[24px] border-t border-brand-dark/10">
-                    {member.credentialsHeading && (
-                      <h4 className="font-playfair text-[22px] md:text-[26px] text-brand-dark mb-[14px]">
-                        {member.credentialsHeading}
-                      </h4>
-                    )}
-                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                      {member.specialties.map((credential, credentialIndex) => (
-                        <li key={credentialIndex} className="font-outfit text-[14px] md:text-[15px] leading-[22px] text-black/70 flex gap-2">
-                          <span className="text-brand-accent font-bold" aria-hidden="true">•</span>
-                          <span>{credential}</span>
-                        </li>
-                      ))}
-                    </ul>
+            <article key={index} className="bg-white border border-white/10">
+              <div className={`grid grid-cols-1 ${member.image ? "lg:grid-cols-[320px_1fr]" : ""} items-stretch`}>
+                {member.image && (
+                  <div className="relative min-h-[400px] sm:min-h-[500px] lg:min-h-0 overflow-hidden bg-brand-card">
+                    <img
+                      src={member.image}
+                      alt={member.imageAlt || member.name}
+                      className="absolute inset-0 w-full h-full object-cover object-top"
+                      loading="lazy"
+                    />
                   </div>
                 )}
+                <div className="p-[26px] md:p-[38px] lg:p-[44px]">
+                  <h3 className="font-playfair text-[28px] md:text-[36px] leading-tight text-brand-dark">
+                    {member.name}
+                  </h3>
+                  {member.title && (
+                    <p className="font-outfit text-[14px] md:text-[16px] uppercase tracking-[0.12em] text-brand-accent font-semibold mt-[6px] mb-[22px]">
+                      {member.title}
+                    </p>
+                  )}
+                  <RichText
+                    html={member.bio}
+                    className="font-outfit text-[16px] md:text-[17px] leading-[26px] md:leading-[29px] text-black/75 space-y-4"
+                  />
+                </div>
               </div>
+              {member.specialties.length > 0 && (
+                <div className="border-t border-brand-dark/10 bg-gray-50 px-[26px] py-[24px] md:px-[38px] md:py-[30px] lg:px-[44px]">
+                  {member.credentialsHeading && (
+                    <h4 className="font-playfair text-[22px] md:text-[26px] text-brand-dark mb-[14px]">
+                      {member.credentialsHeading}
+                    </h4>
+                  )}
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2">
+                    {member.specialties.map((credential, credentialIndex) => (
+                      <li key={credentialIndex} className="font-outfit text-[14px] md:text-[15px] leading-[22px] text-black/70 flex gap-2">
+                        <span className="text-brand-accent font-bold" aria-hidden="true">•</span>
+                        <span>{credential}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </article>
           ))}
         </div>
