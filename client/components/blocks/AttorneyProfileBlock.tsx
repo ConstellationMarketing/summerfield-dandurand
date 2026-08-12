@@ -1,6 +1,7 @@
 import { Mail, Phone } from "lucide-react";
 import type { ContentBlock } from "@site/lib/blocks";
 import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
+import CallBox from "@site/components/shared/CallBox";
 import RichText from "@site/components/shared/RichText";
 
 interface AttorneyProfileBlockProps {
@@ -8,7 +9,8 @@ interface AttorneyProfileBlockProps {
 }
 
 export default function AttorneyProfileBlock({ block }: AttorneyProfileBlockProps) {
-  const { phoneNumber, phoneDisplay } = useGlobalPhone();
+  const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
+  const firstName = block.name.split(/[\s“]/)[0] || "Attorney";
 
   return (
     <section className="bg-white py-[55px] md:py-[90px]">
@@ -42,24 +44,22 @@ export default function AttorneyProfileBlock({ block }: AttorneyProfileBlockProp
               </p>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-3 mb-[28px]">
+            <div className="flex flex-col xl:flex-row flex-wrap gap-4 mb-[30px]">
               {block.email && (
-                <a
-                  href={`mailto:${block.email}`}
-                  className="inline-flex items-center gap-2 border border-brand-dark/15 px-4 py-3 font-outfit text-[14px] md:text-[15px] text-brand-dark hover:border-brand-accent transition-colors"
-                >
-                  <Mail className="h-4 w-4 text-brand-accent" />
-                  {block.email}
-                </a>
+                <CallBox
+                  icon={Mail}
+                  title={`Email ${firstName}`}
+                  subtitle={block.email}
+                  email={block.email}
+                />
               )}
               {phoneNumber && (
-                <a
-                  href={`tel:${phoneNumber.replace(/\D/g, "")}`}
-                  className="inline-flex items-center gap-2 bg-brand-dark px-4 py-3 font-outfit text-[14px] md:text-[15px] text-white hover:bg-brand-accent hover:text-brand-dark transition-colors"
-                >
-                  <Phone className="h-4 w-4" />
-                  {phoneDisplay}
-                </a>
+                <CallBox
+                  icon={Phone}
+                  title={phoneLabel}
+                  subtitle={phoneDisplay}
+                  phone={phoneNumber}
+                />
               )}
             </div>
 

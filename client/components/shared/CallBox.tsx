@@ -9,8 +9,9 @@ interface CallBoxProps {
   link?: string;
   /** Raw phone digits — when provided, the entire box becomes a tel: link */
   phone?: string;
+  /** Email address — used when the box should open the visitor's email client */
+  email?: string;
   className?: string;
-  variant?: "light" | "dark";
 }
 
 /** Strip all non-digit characters for use in tel: href */
@@ -24,32 +25,25 @@ export default function CallBox({
   subtitle,
   link,
   phone,
+  email,
   className = "",
-  variant = "light",
 }: CallBoxProps) {
-  const textColor = "text-white";
-  const textHoverColor = "transition-colors duration-300";
-
   const content = (
     <div
-      className={`bg-brand-accent p-[8px] w-full lg:w-[340px] cursor-pointer transition-all duration-300 hover:bg-brand-accent group ${className}`}
+      className={`bg-brand-accent p-[8px] w-full lg:w-[340px] cursor-pointer transition-all duration-300 hover:bg-white group ${className}`}
     >
       <div className="flex items-start gap-4">
-        <div className="bg-white p-[15px] mt-1 flex items-center justify-center group-hover:bg-black transition-colors duration-300">
+        <div className="bg-brand-dark p-[15px] mt-1 flex items-center justify-center transition-colors duration-300">
           <Icon
-            className="w-8 h-8 [&>*]:fill-none [&>*]:stroke-black group-hover:[&>*]:stroke-white transition-colors duration-300"
+            className="w-8 h-8 text-white [&>*]:fill-none [&>*]:stroke-current"
             strokeWidth={1.5}
           />
         </div>
-        <div className="flex-1">
-          <p
-            className={`font-outfit text-[16px] md:text-[18px] leading-tight ${textColor} ${textHoverColor} pb-[10px]`}
-          >
+        <div className="flex-1 min-w-0">
+          <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-brand-dark pb-[10px]">
             {title}
           </p>
-          <p
-            className={`font-outfit text-[18px] md:text-[24px] ${textColor} ${textHoverColor} leading-none whitespace-nowrap`}
-          >
+          <p className="font-outfit text-[18px] md:text-[24px] text-brand-dark leading-none break-words">
             {subtitle}
           </p>
         </div>
@@ -61,6 +55,10 @@ export default function CallBox({
   if (phone) {
     const digits = toRawDigits(phone);
     return <a href={`tel:${digits}`} className="block">{content}</a>;
+  }
+
+  if (email) {
+    return <a href={`mailto:${email}`} className="block">{content}</a>;
   }
 
   if (link) {

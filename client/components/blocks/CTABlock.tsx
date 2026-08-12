@@ -12,15 +12,15 @@ export default function CTABlock({ block }: CTABlockProps) {
   const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
 
   return (
-    <div className="bg-brand-accent py-[40px] md:py-[60px]">
+    <div className="bg-brand-dark py-[40px] md:py-[60px]">
       <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
         <div className="text-center mb-[30px] md:mb-[40px]">
-          <h2 className="font-playfair text-[36px] md:text-[48px] lg:text-[60px] leading-tight text-black pb-[15px]">
+          <h2 className="font-playfair text-[36px] md:text-[48px] lg:text-[60px] leading-tight text-white pb-[15px]">
             {block.heading}
           </h2>
           <RichText
             html={block.description}
-            className="font-outfit text-[18px] md:text-[22px] leading-[26px] md:leading-[32px] text-black/80"
+            className="font-outfit text-[18px] md:text-[22px] leading-[26px] md:leading-[32px] text-white/80"
           />
         </div>
 
@@ -30,8 +30,6 @@ export default function CTABlock({ block }: CTABlockProps) {
             title={phoneLabel}
             subtitle={phoneDisplay}
             phone={phoneNumber}
-            className="bg-brand-accent hover:bg-black"
-            variant="dark"
           />
           {block.secondaryButton && (
             <CallBox
@@ -39,8 +37,6 @@ export default function CTABlock({ block }: CTABlockProps) {
               title={block.secondaryButton.label}
               subtitle={block.secondaryButton.sublabel}
               link={block.secondaryButton.link}
-              className="bg-brand-accent hover:bg-black"
-              variant="dark"
             />
           )}
         </div>
