@@ -43,7 +43,7 @@ export default function CallBox({
           <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-brand-dark pb-[10px]">
             {title}
           </p>
-          <p className="font-outfit text-[18px] md:text-[24px] text-brand-dark leading-none break-words">
+          <p className={`font-outfit text-brand-dark leading-none break-words ${phone ? "text-[clamp(1.75rem,5vw,40px)]" : "text-[18px] md:text-[24px]"}`}>
             {subtitle}
           </p>
         </div>

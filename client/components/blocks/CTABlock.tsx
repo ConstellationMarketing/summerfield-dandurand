@@ -1,6 +1,5 @@
-import { Phone, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import type { ContentBlock } from "@site/lib/blocks";
-import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
 import CallBox from "@site/components/shared/CallBox";
 import RichText from "@site/components/shared/RichText";
 
@@ -9,8 +8,6 @@ interface CTABlockProps {
 }
 
 export default function CTABlock({ block }: CTABlockProps) {
-  const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
-
   return (
     <div className="bg-brand-dark py-[40px] md:py-[60px]">
       <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[80%]">
@@ -24,13 +21,7 @@ export default function CTABlock({ block }: CTABlockProps) {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 justify-center items-center md:items-start">
-          <CallBox
-            icon={Phone}
-            title={phoneLabel}
-            subtitle={phoneDisplay}
-            phone={phoneNumber}
-          />
+        <div className="flex justify-center">
           {block.secondaryButton && (
             <CallBox
               icon={Calendar}

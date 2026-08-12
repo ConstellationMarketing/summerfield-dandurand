@@ -1,6 +1,5 @@
-import { Phone } from "lucide-react";
+import { Calendar } from "lucide-react";
 import type { ContentBlock } from "@site/lib/blocks";
-import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
 import CallBox from "@site/components/shared/CallBox";
 import RichText from "@site/components/shared/RichText";
 
@@ -9,8 +8,6 @@ interface HeroBlockProps {
 }
 
 export default function HeroBlock({ block }: HeroBlockProps) {
-  const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
-
   return (
     <div
       className="bg-brand-dark pt-[30px] md:pt-[54px] pb-[30px] md:pb-[54px] relative z-10"
@@ -45,10 +42,10 @@ export default function HeroBlock({ block }: HeroBlockProps) {
           {/* Right Side - CallBox */}
           <div className="w-full lg:w-[30%] lg:flex lg:items-center">
             <CallBox
-              icon={Phone}
-              title={phoneLabel}
-              subtitle={phoneDisplay}
-              phone={phoneNumber}
+              icon={Calendar}
+              title="Tell Us About Your Case"
+              subtitle="Contact Us"
+              link="/contact/"
             />
           </div>
         </div>
