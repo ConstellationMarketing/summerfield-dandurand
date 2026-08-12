@@ -183,7 +183,7 @@ interface BlogSidebarRow {
 }
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  siteName: "Michael G. Murray, P.A.",
+  siteName: "",
   logoUrl: "",
   logoAlt: "",
   emblemUrl: "",
