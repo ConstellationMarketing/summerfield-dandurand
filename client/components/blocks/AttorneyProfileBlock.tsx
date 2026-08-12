@@ -32,15 +32,15 @@ export default function AttorneyProfileBlock({ block }: AttorneyProfileBlockProp
           <div className="lg:pt-[18px]">
             {block.sectionLabel && (
               <p className="font-outfit text-[15px] md:text-[18px] font-semibold uppercase tracking-[0.13em] text-brand-accent mb-[10px]">
-                {block.sectionLabel}
+                {block.sectionLabel.replace(/^\s*[–—-]\s*/, "")}
               </p>
             )}
             <h2 className="font-playfair text-[34px] md:text-[48px] lg:text-[55px] leading-[1.08] text-brand-dark">
               {block.name}
             </h2>
             {block.title && (
-              <p className="font-outfit text-[15px] md:text-[17px] uppercase tracking-[0.12em] text-brand-accent font-semibold mt-[10px] mb-[24px]">
-                {block.title}
+              <p className="font-outfit text-[15px] md:text-[18px] font-semibold uppercase tracking-[0.13em] text-brand-accent mt-[10px] mb-[24px]">
+                {block.title.replace(/^\s*[–—-]\s*/, "")}
               </p>
             )}
 

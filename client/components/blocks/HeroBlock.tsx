@@ -25,13 +25,13 @@ export default function HeroBlock({ block }: HeroBlockProps) {
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-[5%]">
           {/* Left Side - Heading */}
           <div className="lg:w-[65%]">
-            <h1 className="font-outfit text-[18px] md:text-[24px] leading-tight md:leading-[36px] text-brand-accent mb-[10px]">
-              {block.sectionLabel}
-            </h1>
-
-            <p className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.2] text-white mb-[20px] md:mb-[30px]">
-              {block.tagline}
+            <p className="font-outfit text-[15px] md:text-[18px] font-semibold uppercase tracking-[0.13em] text-brand-accent mb-[10px]">
+              {block.sectionLabel.replace(/^\s*[–—-]\s*/, "")}
             </p>
+
+            <h1 className="font-playfair text-[clamp(2.5rem,7vw,68.8px)] font-light leading-[1.2] text-white mb-[20px] md:mb-[30px]">
+              {block.tagline}
+            </h1>
 
             <RichText
               html={block.description}
@@ -43,8 +43,8 @@ export default function HeroBlock({ block }: HeroBlockProps) {
           <div className="w-full lg:w-[30%] lg:flex lg:items-center">
             <CallBox
               icon={Calendar}
-              title="Tell Us About Your Case"
-              subtitle="Contact Us"
+              title="Confidential"
+              subtitle="Request a Case Review"
               link="/contact/"
             />
           </div>

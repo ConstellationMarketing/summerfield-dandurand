@@ -27,7 +27,7 @@ export default function AttorneyCredentialsBlock({ block }: AttorneyCredentialsB
         <div className="text-center max-w-[800px] mx-auto mb-[38px] md:mb-[55px]">
           {block.sectionLabel && (
             <p className="font-outfit text-[15px] md:text-[18px] font-semibold uppercase tracking-[0.13em] text-brand-accent mb-[10px]">
-              {block.sectionLabel}
+              {block.sectionLabel.replace(/^\s*[–—-]\s*/, "")}
             </p>
           )}
           <h2 className="font-playfair text-[34px] md:text-[48px] lg:text-[55px] leading-tight text-white">
