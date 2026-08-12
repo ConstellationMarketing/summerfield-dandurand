@@ -1,4 +1,4 @@
-import { Mail, Phone } from "lucide-react";
+import { Calendar, Phone } from "lucide-react";
 import type { ContentBlock } from "@site/lib/blocks";
 import { useGlobalPhone } from "@site/contexts/SiteSettingsContext";
 import CallBox from "@site/components/shared/CallBox";
@@ -10,7 +10,6 @@ interface AttorneyProfileBlockProps {
 
 export default function AttorneyProfileBlock({ block }: AttorneyProfileBlockProps) {
   const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
-  const firstName = block.name.split(/[\s“]/)[0] || "Attorney";
 
   return (
     <section className="bg-white py-[55px] md:py-[90px]">
@@ -45,14 +44,12 @@ export default function AttorneyProfileBlock({ block }: AttorneyProfileBlockProp
             )}
 
             <div className="flex flex-col xl:flex-row flex-wrap gap-4 mb-[30px]">
-              {block.email && (
-                <CallBox
-                  icon={Mail}
-                  title={`Email ${firstName}`}
-                  subtitle={block.email}
-                  email={block.email}
-                />
-              )}
+              <CallBox
+                icon={Calendar}
+                title="Confidential"
+                subtitle="Request a Case Review"
+                link="/contact/#contact-form"
+              />
               {phoneNumber && (
                 <CallBox
                   icon={Phone}

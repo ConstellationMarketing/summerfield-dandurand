@@ -30,7 +30,7 @@ export default function CallBox({
 }: CallBoxProps) {
   const content = (
     <div
-      className={`bg-brand-accent p-[8px] w-full lg:w-[340px] cursor-pointer transition-all duration-300 hover:bg-white group ${className}`}
+      className={`bg-brand-accent p-[8px] w-full ${phone ? "lg:w-[400px]" : "lg:w-[340px]"} cursor-pointer transition-all duration-300 hover:bg-white group ${className}`}
     >
       <div className="flex items-start gap-4">
         <div className="bg-brand-dark p-[15px] mt-1 flex items-center justify-center transition-colors duration-300">
@@ -43,7 +43,7 @@ export default function CallBox({
           <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-brand-dark pb-[10px]">
             {title}
           </p>
-          <p className={`font-outfit text-brand-dark leading-none break-words ${phone ? "text-[clamp(1.75rem,5vw,40px)]" : "text-[18px] md:text-[24px]"}`}>
+          <p className={`font-outfit text-brand-dark leading-none ${phone ? "whitespace-nowrap text-[clamp(1.75rem,5vw,40px)]" : "break-words text-[18px] md:text-[24px]"}`}>
             {subtitle}
           </p>
         </div>
