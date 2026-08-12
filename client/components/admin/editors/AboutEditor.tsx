@@ -187,7 +187,7 @@ function TeamSection({ content, update }: SectionProps) {
           items={team.members}
           onChange={(items) => set({ members: items })}
           itemLabel="Attorney"
-          newItem={() => ({ name: "", title: "", bio: "", image: "", imageAlt: "", credentialsHeading: "Credentials", specialties: [] })}
+          newItem={() => ({ name: "", title: "", bio: "", image: "", imageAlt: "", link: "", credentialsHeading: "Credentials", specialties: [] })}
           renderItem={(item, _, upd) => (
             <div className="grid gap-3">
               <div className="grid grid-cols-2 gap-3">
@@ -201,6 +201,10 @@ function TeamSection({ content, update }: SectionProps) {
                 </div>
               </div>
               <RichTextField label="Biography" value={item.bio} onChange={(v) => upd({ ...item, bio: v })} />
+              <div>
+                <Label>Profile Link</Label>
+                <Input value={item.link || ""} onChange={(e) => upd({ ...item, link: e.target.value })} placeholder="/about/attorney-name/" />
+              </div>
               <ImageField
                 label="Photo"
                 value={item.image}

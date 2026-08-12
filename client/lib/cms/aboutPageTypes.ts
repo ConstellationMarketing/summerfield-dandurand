@@ -34,6 +34,7 @@ export interface TeamMember {
   bio: string;
   image: string;
   imageAlt: string;
+  link?: string;
   credentialsHeading?: string;
   specialties: string[];
 }

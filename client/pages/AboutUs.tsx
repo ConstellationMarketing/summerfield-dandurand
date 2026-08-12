@@ -503,6 +503,14 @@ function TeamSection({
                     html={member.bio}
                     className="font-outfit text-[16px] md:text-[17px] leading-[26px] md:leading-[29px] text-black/75 space-y-4"
                   />
+                  {member.link && (
+                    <Link
+                      to={member.link}
+                      className="mt-[24px] inline-flex bg-brand-accent px-[22px] py-[12px] font-outfit text-[14px] font-semibold uppercase tracking-[0.12em] text-brand-dark transition-colors hover:bg-brand-dark hover:text-white"
+                    >
+                      View Full Profile
+                    </Link>
+                  )}
                 </div>
               </div>
               {member.specialties.length > 0 && (
