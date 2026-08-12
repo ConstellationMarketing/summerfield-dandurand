@@ -11,6 +11,25 @@ export type ContentBlock =
     }
   | { type: "heading"; level: 1 | 2 | 3; text: string }
   | {
+      type: "attorney-profile";
+      sectionLabel: string;
+      name: string;
+      title: string;
+      email: string;
+      image: string;
+      imageAlt: string;
+      biography: string;
+    }
+  | {
+      type: "attorney-credentials";
+      sectionLabel: string;
+      heading: string;
+      groups: Array<{
+        heading: string;
+        items: string[];
+      }>;
+    }
+  | {
       type: "content-section";
       body: string;
       image?: string;

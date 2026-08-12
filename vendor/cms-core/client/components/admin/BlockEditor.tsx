@@ -46,6 +46,8 @@ interface BlockEditorProps {
 const BLOCK_TYPES = [
   { type: 'hero', label: 'Hero Section', icon: Layout },
   { type: 'heading', label: 'Heading', icon: Type },
+  { type: 'attorney-profile', label: 'Attorney Profile', icon: Users },
+  { type: 'attorney-credentials', label: 'Attorney Credentials', icon: FileText },
   { type: 'content-section', label: 'Content Section', icon: FileText },
   { type: 'cta', label: 'Call to Action', icon: Megaphone },
   { type: 'team-members', label: 'Team Members', icon: Users },
@@ -68,6 +70,24 @@ function getDefaultBlock(type: string): ContentBlock {
       return { type: 'hero', sectionLabel: '– Practice Area', tagline: 'Page Title', description: '<p>Enter a description here...</p>' };
     case 'heading':
       return { type: 'heading', level: 2, text: 'Section Heading' };
+    case 'attorney-profile':
+      return {
+        type: 'attorney-profile',
+        sectionLabel: '– Attorney Profile',
+        name: 'Attorney Name',
+        title: 'Attorney Title',
+        email: '',
+        image: '/placeholder.svg',
+        imageAlt: '',
+        biography: '<p>Enter the attorney biography...</p>',
+      };
+    case 'attorney-credentials':
+      return {
+        type: 'attorney-credentials',
+        sectionLabel: '– Background & Experience',
+        heading: 'Credentials',
+        groups: [{ heading: 'Education', items: ['Degree and institution'] }],
+      };
     case 'content-section':
       return { type: 'content-section', body: '<p>Enter your content here...</p>', imagePosition: 'right' };
     case 'cta':
@@ -217,6 +237,10 @@ function BlockFields({ block, onUpdate }: { block: ContentBlock; onUpdate: (upda
       return <HeroFields block={block} onUpdate={onUpdate} />;
     case 'heading':
       return <HeadingFields block={block} onUpdate={onUpdate} />;
+    case 'attorney-profile':
+      return <AttorneyProfileFields block={block} onUpdate={onUpdate} />;
+    case 'attorney-credentials':
+      return <AttorneyCredentialsFields block={block} onUpdate={onUpdate} />;
     case 'content-section':
       return <ContentSectionFields block={block} onUpdate={onUpdate} />;
     case 'cta':
@@ -289,6 +313,103 @@ function HeadingFields({ block, onUpdate }: { block: Extract<ContentBlock, { typ
           </SelectContent>
         </Select>
       </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Attorney Profile Fields                                            */
+/* ------------------------------------------------------------------ */
+function AttorneyProfileFields({ block, onUpdate }: { block: Extract<ContentBlock, { type: 'attorney-profile' }>; onUpdate: (u: Partial<ContentBlock>) => void }) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <Label>Section Label</Label>
+        <Input value={block.sectionLabel} onChange={(e) => onUpdate({ sectionLabel: e.target.value })} />
+      </div>
+      <div>
+        <Label>Attorney Name</Label>
+        <Input value={block.name} onChange={(e) => onUpdate({ name: e.target.value })} />
+      </div>
+      <div>
+        <Label>Title</Label>
+        <Input value={block.title} onChange={(e) => onUpdate({ title: e.target.value })} />
+      </div>
+      <div>
+        <Label>Email</Label>
+        <Input type="email" value={block.email} onChange={(e) => onUpdate({ email: e.target.value })} placeholder="attorney@example.com" />
+      </div>
+      <div>
+        <Label>Portrait Image URL</Label>
+        <Input value={block.image} onChange={(e) => onUpdate({ image: e.target.value })} placeholder="https://..." />
+      </div>
+      <div>
+        <Label>Portrait Alt Text</Label>
+        <Input value={block.imageAlt} onChange={(e) => onUpdate({ imageAlt: e.target.value })} placeholder="Describe the attorney portrait" />
+      </div>
+      <div>
+        <Label>Biography</Label>
+        <RichTextEditor value={block.biography} onChange={(html) => onUpdate({ biography: html })} placeholder="Attorney biography..." minHeight="260px" />
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Attorney Credentials Fields                                        */
+/* ------------------------------------------------------------------ */
+function AttorneyCredentialsFields({ block, onUpdate }: { block: Extract<ContentBlock, { type: 'attorney-credentials' }>; onUpdate: (u: Partial<ContentBlock>) => void }) {
+  const updateGroup = (index: number, updates: Partial<typeof block.groups[number]>) => {
+    const groups = [...block.groups];
+    groups[index] = { ...groups[index], ...updates };
+    onUpdate({ groups });
+  };
+
+  const removeGroup = (index: number) => {
+    onUpdate({ groups: block.groups.filter((_, groupIndex) => groupIndex !== index) });
+  };
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <Label>Section Label</Label>
+        <Input value={block.sectionLabel} onChange={(e) => onUpdate({ sectionLabel: e.target.value })} />
+      </div>
+      <div>
+        <Label>Heading</Label>
+        <Input value={block.heading} onChange={(e) => onUpdate({ heading: e.target.value })} />
+      </div>
+
+      <Label className="font-semibold">Credential Groups</Label>
+      {block.groups.map((group, index) => (
+        <div key={index} className="border rounded-lg p-4 space-y-3 bg-gray-50">
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-medium text-gray-600">Group {index + 1}</span>
+            <Button variant="ghost" size="sm" onClick={() => removeGroup(index)} className="text-red-500 h-8 w-8 p-0">
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+          <div>
+            <Label className="text-xs text-gray-500">Group Heading</Label>
+            <Input value={group.heading} onChange={(e) => updateGroup(index, { heading: e.target.value })} />
+          </div>
+          <div>
+            <Label className="text-xs text-gray-500">Items (one per line)</Label>
+            <Textarea
+              value={group.items.join('\n')}
+              onChange={(e) => updateGroup(index, { items: e.target.value.split('\n').map((item) => item.trim()).filter(Boolean) })}
+              rows={5}
+            />
+          </div>
+        </div>
+      ))}
+      <Button
+        variant="outline"
+        onClick={() => onUpdate({ groups: [...block.groups, { heading: 'New Group', items: ['New credential'] }] })}
+        className="w-full"
+      >
+        <Plus className="h-4 w-4 mr-2" /> Add Credential Group
+      </Button>
     </div>
   );
 }

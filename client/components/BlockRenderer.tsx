@@ -11,6 +11,8 @@ import MapBlock from "@site/components/blocks/MapBlock";
 import PracticeAreasGridBlock from "@site/components/blocks/PracticeAreasGridBlock";
 import RecentPostsBlock from "@site/components/blocks/RecentPostsBlock";
 import LegacyBlock from "@site/components/blocks/LegacyBlock";
+import AttorneyProfileBlock from "@site/components/blocks/AttorneyProfileBlock";
+import AttorneyCredentialsBlock from "@site/components/blocks/AttorneyCredentialsBlock";
 
 interface BlockRendererProps {
   content: ContentBlock[] | Record<string, unknown> | null | undefined;
@@ -65,6 +67,10 @@ function RenderBlock({
       return <HeroBlock block={block} />;
     case "heading":
       return <HeadingBlock block={block} />;
+    case "attorney-profile":
+      return <AttorneyProfileBlock block={block} />;
+    case "attorney-credentials":
+      return <AttorneyCredentialsBlock block={block} />;
     case "content-section":
       return <ContentSectionBlock block={block} index={index} />;
     case "cta":

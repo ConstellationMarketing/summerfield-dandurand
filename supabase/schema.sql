@@ -556,7 +556,7 @@ VALUES (
 ON CONFLICT (slug) DO NOTHING;
 
 -- -----------------------------------------
--- 7d. SEED TEMPLATES (3 templates)
+-- 7d. SEED TEMPLATES (4 templates)
 -- -----------------------------------------
 INSERT INTO public.templates (name, page_type, default_content, default_meta_title, default_meta_description)
 SELECT 'Standard Page Template', 'standard',
@@ -571,6 +571,13 @@ SELECT 'Practice Page Template', 'practice',
   'Practice Area | Your Site Name',
   'Learn how our experienced attorneys can help with your case.'
 WHERE NOT EXISTS (SELECT 1 FROM public.templates WHERE name = 'Practice Page Template');
+
+INSERT INTO public.templates (name, page_type, default_content, default_meta_title, default_meta_description)
+SELECT 'Attorney Bio Page Template', 'standard',
+  '[{"type":"hero","sectionLabel":"– Attorney","tagline":"Attorney Name","description":"<p>Introduce the attorney and their role.</p>"},{"type":"attorney-profile","sectionLabel":"About","name":"Attorney Name","title":"Attorney Title","email":"","image":"","imageAlt":"","biography":"<p>Enter the attorney biography.</p>"},{"type":"attorney-credentials","sectionLabel":"Background & Experience","heading":"Education, Admissions & Practice","groups":[{"heading":"Education","items":["Degree and institution"]},{"heading":"Bar Admissions","items":["Jurisdiction"]},{"heading":"Practice Areas","items":["Practice area"]}]},{"type":"testimonials","sectionLabel":"– Client Testimonial","heading":"What Clients Say","items":[{"text":"<p>Enter a client testimonial.</p>","author":"Client Name","ratingImage":"/images/logos/rating-stars.png","ratingImageAlt":"Five star rating"}]},{"type":"cta","heading":"Discuss Your Case","description":"<p>Contact Custom Law to request a confidential case review.</p>","secondaryButton":{"label":"Contact Us Today","sublabel":"Tell Us About Your Case","link":"/contact/"}}]'::jsonb,
+  '[Page Title] | Attorney | Custom Law',
+  'Learn about [Page Title], their experience, credentials, and legal practice.'
+WHERE NOT EXISTS (SELECT 1 FROM public.templates WHERE name = 'Attorney Bio Page Template');
 
 INSERT INTO public.templates (name, page_type, default_content, default_meta_title, default_meta_description)
 SELECT 'Landing Page Template', 'landing',
