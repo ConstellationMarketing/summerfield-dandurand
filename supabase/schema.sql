@@ -486,8 +486,12 @@ VALUES (9, 'Thank You', '/thank-you/', 'standard',
   'published', now(), 'Thank You', 'Thank you for reaching out to us.')
 ON CONFLICT (url_path) DO NOTHING;
 
--- Reset the page_id sequence so the next auto-generated page_id starts at 10
-SELECT setval(pg_get_serial_sequence('public.pages', 'page_id'), 9);
+-- Reset the page_id sequence after inserting explicit seed IDs.
+SELECT setval(
+  'public.pages_page_id_seq'::regclass,
+  COALESCE((SELECT MAX(page_id) FROM public.pages), 1),
+  EXISTS (SELECT 1 FROM public.pages)
+);
 
 -- -----------------------------------------
 -- 7b. SEED POST CATEGORIES
