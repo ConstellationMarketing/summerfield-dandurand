@@ -50,7 +50,7 @@ export default function NavDropdown({ item }: NavDropdownProps) {
     >
       <Link
         to={item.href}
-        className="font-outfit text-[20px] text-white py-[31px] mr-[20px] whitespace-nowrap hover:text-brand-accent transition-colors duration-300 inline-flex items-center gap-1"
+        className="font-outfit text-[17px] xl:text-[19px] text-white py-[10px] whitespace-nowrap hover:text-brand-accent transition-colors duration-300 inline-flex items-center gap-1"
       >
         {item.label}
         <ChevronDown
