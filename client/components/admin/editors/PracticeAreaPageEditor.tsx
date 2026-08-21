@@ -11,7 +11,6 @@ import {
   HeadingField,
   Input,
   Label,
-  Textarea,
 } from "./EditorShared";
 import {
   Select,
@@ -309,7 +308,7 @@ function ContentSectionsEditor({ content, update }: SectionProps) {
                   items={item.subPractices || []}
                   onChange={(subPractices) => upd({ ...item, subPractices })}
                   itemLabel="Subpractice"
-                  newItem={() => ({ title: "", description: "", link: "" })}
+                  newItem={() => ({ title: "", link: "" })}
                   renderItem={(subpractice, _, updateSubpractice) => (
                     <div className="grid gap-3">
                       <div>
@@ -317,13 +316,6 @@ function ContentSectionsEditor({ content, update }: SectionProps) {
                         <Input
                           value={subpractice.title}
                           onChange={(e) => updateSubpractice({ ...subpractice, title: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <Label>Description</Label>
-                        <Textarea
-                          value={subpractice.description}
-                          onChange={(e) => updateSubpractice({ ...subpractice, description: e.target.value })}
                         />
                       </div>
                       <div>

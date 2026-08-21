@@ -27,7 +27,6 @@ export interface PracticeAreaSocialProofContent {
 
 export interface PracticeAreaSubpractice extends Record<string, unknown> {
   title: string;
-  description: string;
   link: string;
 }
 

@@ -55,11 +55,6 @@ export default function PracticeAreaContentSection({
                             <span className="block font-outfit text-[17px] font-semibold text-brand-dark transition-colors group-hover:text-white md:text-[19px]">
                               {subpractice.title}
                             </span>
-                            {subpractice.description && (
-                              <span className="mt-1 block font-outfit text-[14px] leading-[21px] text-black/60 transition-colors group-hover:text-white/75">
-                                {subpractice.description}
-                              </span>
-                            )}
                           </span>
                           <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-brand-accent-dark transition-colors group-hover:text-brand-accent" />
                         </>
