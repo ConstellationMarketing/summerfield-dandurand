@@ -36,7 +36,7 @@ export default function PracticeAreaContentSection({
                 [&_h2]:mb-5 [&_h2]:font-playfair [&_h2]:text-[30px] [&_h2]:font-normal [&_h2]:leading-tight [&_h2]:text-brand-dark [&_h2]:md:text-[42px]
                 [&_h3]:mb-3 [&_h3]:mt-7 [&_h3]:font-outfit [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.1em] [&_h3]:text-brand-dark [&_h3]:md:text-[19px]
                 [&_p]:mb-5 [&_strong]:font-semibold [&_strong]:text-brand-dark
-                [&_ul]:mb-5 [&_ul]:space-y-2 [&_ol]:mb-5 [&_ol]:space-y-3 [&_li]:pl-1 [&_li::marker]:font-semibold [&_li::marker]:text-brand-accent-dark"
+                [&_ul]:mb-5 [&_ul]:space-y-2 [&_ol]:mb-5 [&_ol]:space-y-3 [&_li]:pl-1 [&_li::marker]:font-semibold [&_li::marker]:text-brand-accent"
             />
           </div>
 
@@ -56,7 +56,7 @@ export default function PracticeAreaContentSection({
                               {subpractice.title}
                             </span>
                           </span>
-                          <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-brand-accent-dark transition-colors group-hover:text-brand-accent" />
+                          <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-brand-accent transition-colors group-hover:text-brand-accent" />
                         </>
                       );
 
