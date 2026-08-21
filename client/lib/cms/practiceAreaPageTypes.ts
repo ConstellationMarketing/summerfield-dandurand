@@ -25,13 +25,59 @@ export interface PracticeAreaSocialProofContent {
   awards: PracticeAreaAwardsContent;
 }
 
+export interface PracticeAreaSubpractice extends Record<string, unknown> {
+  title: string;
+  description: string;
+  link: string;
+}
+
 export interface PracticeAreaContentSectionItem extends Record<string, unknown> {
   body: string;
   image: string;
   imageAlt: string;
   imagePosition: "left" | "right";
-  /** Defaults to enabled on odd-numbered sections and disabled on even-numbered sections. */
   showCTAs?: boolean;
+  subPracticesHeading?: string;
+  subPractices?: PracticeAreaSubpractice[];
+}
+
+export interface PracticeAreaExpectationFeature extends Record<string, unknown> {
+  number: string;
+  title: string;
+  description: string;
+}
+
+export interface PracticeAreaExpectationStat extends Record<string, unknown> {
+  value: string;
+  label: string;
+}
+
+export interface PracticeAreaExpectationAttorney extends Record<string, unknown> {
+  image: string;
+  imageAlt: string;
+  name: string;
+  title: string;
+  link: string;
+}
+
+export interface PracticeAreaExpectationsContent {
+  enabled: boolean;
+  sectionLabel: string;
+  heading: string;
+  description: string;
+  attorneys: PracticeAreaExpectationAttorney[];
+  features: PracticeAreaExpectationFeature[];
+  stats: PracticeAreaExpectationStat[];
+}
+
+export interface PracticeAreaReviewsContent {
+  enabled: boolean;
+  sectionLabel: string;
+  heading: string;
+  reviewBadgeText: string;
+  backgroundImage: string;
+  backgroundImageAlt: string;
+  items: PracticeAreaTestimonialItem[];
 }
 
 export interface PracticeAreaFaqContent {
@@ -45,6 +91,8 @@ export interface PracticeAreaPageContent {
   hero: PracticeAreaHeroContent;
   socialProof: PracticeAreaSocialProofContent;
   contentSections: PracticeAreaContentSectionItem[];
+  expectations: PracticeAreaExpectationsContent;
+  reviews: PracticeAreaReviewsContent;
   faq: PracticeAreaFaqContent;
   headingTags?: Record<string, string>;
 }
@@ -55,8 +103,8 @@ export function getPracticeAreaSectionImagePosition(
   return index % 2 === 0 ? "right" : "left";
 }
 
-export function getPracticeAreaSectionShowCtasDefault(index: number): boolean {
-  return index % 2 === 0;
+export function getPracticeAreaSectionShowCtasDefault(_index: number): boolean {
+  return false;
 }
 
 export function createPracticeAreaContentSection(
@@ -70,7 +118,10 @@ export function createPracticeAreaContentSection(
     imagePosition:
       overrides.imagePosition ?? getPracticeAreaSectionImagePosition(index),
     showCTAs:
-      overrides.showCTAs ?? getPracticeAreaSectionShowCtasDefault(index),
+      Boolean(overrides.image) ||
+      (overrides.showCTAs ?? getPracticeAreaSectionShowCtasDefault(index)),
+    subPracticesHeading: overrides.subPracticesHeading ?? "",
+    subPractices: overrides.subPractices ?? [],
   };
 }
 
@@ -103,6 +154,24 @@ export const defaultPracticeAreaPageContent: PracticeAreaPageContent = {
     },
   },
   contentSections: [],
+  expectations: {
+    enabled: false,
+    sectionLabel: "",
+    heading: "",
+    description: "",
+    attorneys: [],
+    features: [],
+    stats: [],
+  },
+  reviews: {
+    enabled: false,
+    sectionLabel: "",
+    heading: "",
+    reviewBadgeText: "",
+    backgroundImage: "",
+    backgroundImageAlt: "",
+    items: [],
+  },
   faq: {
     enabled: false,
     heading: "",

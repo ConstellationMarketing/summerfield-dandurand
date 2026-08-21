@@ -283,6 +283,8 @@ const PRACTICE_AREA_CONTENT_KEYS: (keyof PracticeAreaPageContent)[] = [
   "hero",
   "socialProof",
   "contentSections",
+  "expectations",
+  "reviews",
   "faq",
 ];
 
@@ -699,6 +701,26 @@ export function mergePracticeAreaPageContentWithDefaults(cmsContent: Partial<Pra
         ? cmsContent.contentSections
         : defaults.contentSections,
     ),
+    expectations: {
+      ...defaults.expectations,
+      ...cmsContent.expectations,
+      attorneys: cmsContent.expectations?.attorneys?.length
+        ? cmsContent.expectations.attorneys
+        : defaults.expectations.attorneys,
+      features: cmsContent.expectations?.features?.length
+        ? cmsContent.expectations.features
+        : defaults.expectations.features,
+      stats: cmsContent.expectations?.stats?.length
+        ? cmsContent.expectations.stats
+        : defaults.expectations.stats,
+    },
+    reviews: {
+      ...defaults.reviews,
+      ...cmsContent.reviews,
+      items: cmsContent.reviews?.items?.length
+        ? cmsContent.reviews.items
+        : defaults.reviews.items,
+    },
     faq: {
       ...defaults.faq,
       ...cmsContent.faq,

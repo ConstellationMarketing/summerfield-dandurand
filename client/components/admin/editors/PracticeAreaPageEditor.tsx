@@ -43,6 +43,8 @@ export default function PracticeAreaPageEditor({
       <HeroSection content={content} update={update} />
       <SocialProofSection content={content} update={update} />
       <ContentSectionsEditor content={content} update={update} />
+      <ExpectationsSection content={content} update={update} />
+      <ReviewsSection content={content} update={update} />
       <FaqSection content={content} update={update} />
     </div>
   );
@@ -275,8 +277,8 @@ function ContentSectionsEditor({ content, update }: SectionProps) {
   return (
     <Section title="Content Sections" defaultOpen={false}>
       <p className="text-sm text-gray-500 mb-4">
-        Add content blocks with rich text and images. Each block renders as a
-        two-column layout on the page.
+        The first block can display linked subpractices in its right column.
+        Later blocks can use an image, which always includes CTA buttons below it.
       </p>
       <ArrayEditor
         items={content.contentSections}
@@ -294,58 +296,283 @@ function ContentSectionsEditor({ content, update }: SectionProps) {
               value={item.body}
               onChange={(v) => upd({ ...item, body: v })}
             />
-            <ImageField
-              label="Section Image"
-              value={item.image}
-              onChange={(url) => upd({ ...item, image: url })}
-              altValue={item.imageAlt}
-              onAltChange={(imageAlt) => upd({ ...item, imageAlt })}
-              onSelectAsset={(asset) => upd({
-                ...item,
-                image: asset.url,
-                imageAlt: asset.suggestedAltText || item.imageAlt,
-              })}
-              folder="practice-areas"
-            />
-            <div>
-              <Label>Image Alt Text</Label>
-              <Input
-                value={item.imageAlt}
-                onChange={(e) => upd({ ...item, imageAlt: e.target.value })}
-              />
-            </div>
-            <div>
-              <Label>Image Position</Label>
-              <Select
-                value={item.imagePosition}
-                onValueChange={(v) =>
-                  upd({
+            {index === 0 && (
+              <div className="rounded-lg border bg-gray-50 p-4 space-y-4">
+                <div>
+                  <Label>Subpractice List Heading</Label>
+                  <Input
+                    value={item.subPracticesHeading || ""}
+                    onChange={(e) => upd({ ...item, subPracticesHeading: e.target.value })}
+                  />
+                </div>
+                <ArrayEditor
+                  items={item.subPractices || []}
+                  onChange={(subPractices) => upd({ ...item, subPractices })}
+                  itemLabel="Subpractice"
+                  newItem={() => ({ title: "", description: "", link: "" })}
+                  renderItem={(subpractice, _, updateSubpractice) => (
+                    <div className="grid gap-3">
+                      <div>
+                        <Label>Title</Label>
+                        <Input
+                          value={subpractice.title}
+                          onChange={(e) => updateSubpractice({ ...subpractice, title: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label>Description</Label>
+                        <Textarea
+                          value={subpractice.description}
+                          onChange={(e) => updateSubpractice({ ...subpractice, description: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label>Link</Label>
+                        <Input
+                          value={subpractice.link}
+                          onChange={(e) => updateSubpractice({ ...subpractice, link: e.target.value })}
+                          placeholder="/owi-defense/"
+                        />
+                      </div>
+                    </div>
+                  )}
+                />
+              </div>
+            )}
+            {index > 0 && (
+              <>
+                <ImageField
+                  label="Section Image"
+                  value={item.image}
+                  onChange={(url) => upd({ ...item, image: url, showCTAs: url ? true : item.showCTAs })}
+                  altValue={item.imageAlt}
+                  onAltChange={(imageAlt) => upd({ ...item, imageAlt })}
+                  onSelectAsset={(asset) => upd({
                     ...item,
-                    imagePosition: v as "left" | "right",
-                  })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="right">Right</SelectItem>
-                  <SelectItem value="left">Left</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex items-center gap-2">
-              <Switch
-                checked={item.showCTAs ?? getPracticeAreaSectionShowCtasDefault(index)}
-                onCheckedChange={(checked) =>
-                  upd({ ...item, showCTAs: checked })
-                }
-              />
-              <Label>Show CTA Buttons</Label>
-            </div>
+                    image: asset.url,
+                    imageAlt: asset.suggestedAltText || item.imageAlt,
+                    showCTAs: true,
+                  })}
+                  folder="practice-areas"
+                />
+                <div>
+                  <Label>Image Alt Text</Label>
+                  <Input
+                    value={item.imageAlt}
+                    onChange={(e) => upd({ ...item, imageAlt: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label>Image Position</Label>
+                  <Select
+                    value={item.imagePosition}
+                    onValueChange={(v) =>
+                      upd({
+                        ...item,
+                        imagePosition: v as "left" | "right",
+                      })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="right">Right</SelectItem>
+                      <SelectItem value="left">Left</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={Boolean(item.image) || (item.showCTAs ?? getPracticeAreaSectionShowCtasDefault(index))}
+                    disabled={Boolean(item.image)}
+                    onCheckedChange={(checked) =>
+                      upd({ ...item, showCTAs: checked })
+                    }
+                  />
+                  <Label>{item.image ? "CTA Buttons Required With Image" : "Show CTA Buttons"}</Label>
+                </div>
+              </>
+            )}
           </div>
         )}
       />
+    </Section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+function ExpectationsSection({ content, update }: SectionProps) {
+  const expectations = content.expectations;
+  const set = (patch: Partial<typeof expectations>) =>
+    update("expectations", { ...expectations, ...patch });
+
+  return (
+    <Section title="What to Expect Section" defaultOpen={false}>
+      <div className="grid gap-4">
+        <div className="flex items-center gap-2">
+          <Switch
+            checked={expectations.enabled}
+            onCheckedChange={(enabled) => set({ enabled })}
+          />
+          <Label>Show What to Expect Section</Label>
+        </div>
+        {expectations.enabled && (
+          <>
+            <div>
+              <Label>Section Label</Label>
+              <Input
+                value={expectations.sectionLabel}
+                onChange={(e) => set({ sectionLabel: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label>Heading</Label>
+              <Input
+                value={expectations.heading}
+                onChange={(e) => set({ heading: e.target.value })}
+              />
+            </div>
+            <RichTextField
+              label="Description"
+              value={expectations.description}
+              onChange={(description) => set({ description })}
+            />
+            <ArrayEditor
+              items={expectations.attorneys}
+              onChange={(attorneys) => set({ attorneys })}
+              itemLabel="Attorney"
+              newItem={() => ({ image: "", imageAlt: "", name: "", title: "", link: "" })}
+              renderItem={(attorney, _, updateAttorney) => (
+                <div className="grid gap-3">
+                  <ImageField
+                    label="Attorney Image"
+                    value={attorney.image}
+                    onChange={(image) => updateAttorney({ ...attorney, image })}
+                    altValue={attorney.imageAlt}
+                    onAltChange={(imageAlt) => updateAttorney({ ...attorney, imageAlt })}
+                    onSelectAsset={(asset) => updateAttorney({
+                      ...attorney,
+                      image: asset.url,
+                      imageAlt: asset.suggestedAltText || attorney.imageAlt,
+                    })}
+                    folder="team"
+                  />
+                  <div>
+                    <Label>Name</Label>
+                    <Input value={attorney.name} onChange={(e) => updateAttorney({ ...attorney, name: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label>Title</Label>
+                    <Input value={attorney.title} onChange={(e) => updateAttorney({ ...attorney, title: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label>Profile Link</Label>
+                    <Input value={attorney.link} onChange={(e) => updateAttorney({ ...attorney, link: e.target.value })} />
+                  </div>
+                </div>
+              )}
+            />
+            <ArrayEditor
+              items={expectations.features}
+              onChange={(features) => set({ features })}
+              itemLabel="Feature"
+              newItem={() => ({ number: "", title: "", description: "" })}
+              renderItem={(feature, _, updateFeature) => (
+                <div className="grid gap-3">
+                  <div>
+                    <Label>Number</Label>
+                    <Input value={feature.number} onChange={(e) => updateFeature({ ...feature, number: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label>Title</Label>
+                    <Input value={feature.title} onChange={(e) => updateFeature({ ...feature, title: e.target.value })} />
+                  </div>
+                  <RichTextField
+                    label="Description"
+                    value={feature.description}
+                    onChange={(description) => updateFeature({ ...feature, description })}
+                  />
+                </div>
+              )}
+            />
+            <ArrayEditor
+              items={expectations.stats}
+              onChange={(stats) => set({ stats })}
+              itemLabel="Stat"
+              newItem={() => ({ value: "", label: "" })}
+              renderItem={(stat, _, updateStat) => (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <Label>Value</Label>
+                    <Input value={stat.value} onChange={(e) => updateStat({ ...stat, value: e.target.value })} />
+                  </div>
+                  <div>
+                    <Label>Label</Label>
+                    <Input value={stat.label} onChange={(e) => updateStat({ ...stat, label: e.target.value })} />
+                  </div>
+                </div>
+              )}
+            />
+          </>
+        )}
+      </div>
+    </Section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+function ReviewsSection({ content, update }: SectionProps) {
+  const reviews = content.reviews;
+  const set = (patch: Partial<typeof reviews>) =>
+    update("reviews", { ...reviews, ...patch });
+
+  return (
+    <Section title="Reviews Section" defaultOpen={false}>
+      <div className="grid gap-4">
+        <div className="flex items-center gap-2">
+          <Switch
+            checked={reviews.enabled}
+            onCheckedChange={(enabled) => set({ enabled })}
+          />
+          <Label>Show Reviews Section</Label>
+        </div>
+        {reviews.enabled && (
+          <>
+            <div>
+              <Label>Section Label</Label>
+              <Input value={reviews.sectionLabel} onChange={(e) => set({ sectionLabel: e.target.value })} />
+            </div>
+            <div>
+              <Label>Heading</Label>
+              <Input value={reviews.heading} onChange={(e) => set({ heading: e.target.value })} />
+            </div>
+            <div>
+              <Label>Review Badge Text</Label>
+              <Input value={reviews.reviewBadgeText} onChange={(e) => set({ reviewBadgeText: e.target.value })} />
+            </div>
+            <ArrayEditor
+              items={reviews.items}
+              onChange={(items) => set({ items })}
+              itemLabel="Review"
+              newItem={() => ({ text: "", author: "", ratingImage: "", ratingImageAlt: "" })}
+              renderItem={(review, _, updateReview) => (
+                <div className="grid gap-3">
+                  <RichTextField
+                    label="Review Text"
+                    value={review.text}
+                    onChange={(text) => updateReview({ ...review, text })}
+                  />
+                  <div>
+                    <Label>Author</Label>
+                    <Input value={review.author} onChange={(e) => updateReview({ ...review, author: e.target.value })} />
+                  </div>
+                </div>
+              )}
+            />
+          </>
+        )}
+      </div>
     </Section>
   );
 }

@@ -4,6 +4,8 @@ import PracticeAreaContentSection from "@site/components/practice/PracticeAreaCo
 import PracticeAreaFaq from "@site/components/practice/PracticeAreaFaq";
 import PracticeAreaHero from "@site/components/practice/PracticeAreaHero";
 import PracticeAreaSocialProof from "@site/components/practice/PracticeAreaSocialProof";
+import PracticeAreaExpectations from "@site/components/practice/PracticeAreaExpectations";
+import ReviewsGridSection from "@site/components/home/ReviewsGridSection";
 import type { PageMeta } from "@site/lib/cms/pageMeta";
 import type { PracticeAreaPageContent } from "@site/lib/cms/practiceAreaPageTypes";
 
@@ -48,12 +50,12 @@ export default function PracticePageView({
         <div className="h-[180px]" />
 
         <PracticeAreaHero content={content.hero} />
-
-        <PracticeAreaSocialProof
-          content={content.socialProof}
-          headingTags={content.headingTags}
-        />
       </div>
+
+      <PracticeAreaSocialProof
+        content={content.socialProof}
+        headingTags={content.headingTags}
+      />
 
       {content.contentSections.map((section, index) => (
         <PracticeAreaContentSection
@@ -62,6 +64,15 @@ export default function PracticePageView({
           index={index}
         />
       ))}
+
+      <PracticeAreaExpectations content={content.expectations} />
+
+      {content.reviews.enabled && (
+        <ReviewsGridSection
+          content={content.reviews}
+          headingTag={content.headingTags?.["reviews.heading"]}
+        />
+      )}
 
       <PracticeAreaFaq
         content={content.faq}
