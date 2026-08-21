@@ -27,42 +27,40 @@ export default function PracticeAreaFaq({
   };
 
   return (
-    <div className="bg-white py-[40px] md:py-[60px]">
-      {/* Header */}
-      <div className="max-w-[1080px] mx-auto w-[95%] md:w-[85%] lg:w-[80%] mb-[30px] md:mb-[40px]">
+    <section className="bg-white py-[50px] md:py-[80px]">
+      <div className="mx-auto mb-[30px] w-[90%] max-w-[900px] md:mb-[44px]">
         <div className="text-center">
           <DynamicHeading
             tag={headingTags?.["faq.heading"]}
             defaultTag="h2"
-            className="font-playfair text-[32px] md:text-[48px] lg:text-[54px] leading-tight md:leading-[54px] text-black pb-[10px]"
+            className="pb-[12px] font-playfair text-[32px] leading-tight text-brand-dark md:text-[46px] lg:text-[52px]"
           >
             {content.heading}
           </DynamicHeading>
           <RichText
             html={content.description}
-            className="font-outfit text-[16px] md:text-[24px] leading-[24px] md:leading-[36px] text-black text-center"
+            className="text-center font-outfit text-[16px] leading-[25px] text-black/70 md:text-[18px] md:leading-[29px]"
           />
         </div>
       </div>
 
-      {/* Accordion */}
-      <div className="max-w-[900px] mx-auto w-[95%] md:w-[85%] lg:w-[80%]">
+      <div className="mx-auto w-[90%] max-w-[1000px] space-y-2">
         {faqs.map((faq, index) => (
           <div
             key={index}
-            className={`border-[0.8px] border-[rgb(217,217,217)] ${
-              index < faqs.length - 1 ? "mb-[12px]" : ""
-            } ${openIndex === index ? "bg-brand-dark" : "bg-white"}`}
+            className={`border transition-colors duration-200 ${
+              openIndex === index
+                ? "border-brand-accent bg-white shadow-sm"
+                : "border-brand-dark/10 bg-gray-50 hover:border-brand-accent/70"
+            }`}
           >
             <button
               onClick={() => toggleFaq(index)}
-              className={`w-full font-outfit text-[20px] md:text-[28px] leading-[28px] px-[20px] py-[20px] text-left flex items-center justify-between cursor-pointer ${
-                openIndex === index ? "text-white" : "text-[rgb(67,67,67)]"
-              }`}
+              className="flex w-full cursor-pointer items-center justify-between gap-5 px-[18px] py-[16px] text-left font-outfit text-[19px] leading-tight text-brand-dark md:px-[22px] md:py-[18px] md:text-[22px]"
             >
-              <span className="pr-[50px]">{faq.question}</span>
+              <span>{faq.question}</span>
               <ChevronDown
-                className={`h-6 w-6 flex-shrink-0 transition-transform duration-200 ${
+                className={`h-5 w-5 flex-shrink-0 text-brand-accent transition-transform duration-200 ${
                   openIndex === index ? "rotate-180" : ""
                 }`}
               />
@@ -71,11 +69,11 @@ export default function PracticeAreaFaq({
               html={faq.answer}
               hidden={openIndex !== index}
               aria-hidden={openIndex !== index}
-              className="font-outfit text-[18px] md:text-[22px] leading-[28px] md:leading-[33px] font-light px-[20px] pb-[20px] pt-[10px] text-white"
+              className="px-[18px] pb-[20px] font-outfit text-[16px] leading-[26px] text-black/70 md:px-[22px] md:text-[18px] md:leading-[29px]"
             />
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

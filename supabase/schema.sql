@@ -567,9 +567,9 @@ WHERE NOT EXISTS (SELECT 1 FROM public.templates WHERE name = 'Standard Page Tem
 
 INSERT INTO public.templates (name, page_type, default_content, default_meta_title, default_meta_description)
 SELECT 'Practice Page Template', 'practice',
-  '{"hero":{"sectionLabel":"– Practice Area","tagline":"Experienced Legal Representation","description":"Our dedicated team of attorneys brings years of experience and a proven track record of success.","backgroundImage":""},"socialProof":{"mode":"awards","testimonials":[],"awards":{"logos":[]}},"contentSections":[{"body":"<p>Our attorneys have extensive experience handling cases in this practice area. We understand the complexities of the law and work diligently to build a strong case on your behalf.</p>","image":"","imageAlt":"","imagePosition":"right"}],"faq":{"enabled":true,"heading":"Frequently Asked Questions","description":"Find answers to common questions below.","items":[{"question":"How much does a consultation cost?","answer":"We offer free initial consultations with no obligation."},{"question":"How long will my case take?","answer":"Every case is unique. During your consultation, we will provide a realistic timeline."},{"question":"What if I cannot afford an attorney?","answer":"We work on a contingency fee basis for most cases — you pay nothing unless we win."}]}}'::jsonb,
-  'Practice Area | Your Site Name',
-  'Learn how our experienced attorneys can help with your case.'
+  '{"hero":{"sectionLabel":"Practice Area","tagline":"Focused Legal Representation","description":"<p>Introduce this practice area and explain how Custom Law can help.</p>","backgroundImage":"","backgroundImageAlt":""},"socialProof":{"mode":"awards","testimonials":[],"awards":{"logos":[]}},"contentSections":[{"body":"<h2>Practice Area Overview</h2><p>Add accurate, page-specific content here.</p>","image":"","imageAlt":"","imagePosition":"right","showCTAs":true}],"faq":{"enabled":false,"heading":"","description":"","items":[]},"headingTags":{}}'::jsonb,
+  'Practice Area | Custom Law',
+  'Learn how Custom Law can help with this legal matter.'
 WHERE NOT EXISTS (SELECT 1 FROM public.templates WHERE name = 'Practice Page Template');
 
 INSERT INTO public.templates (name, page_type, default_content, default_meta_title, default_meta_description)

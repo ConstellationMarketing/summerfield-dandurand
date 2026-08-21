@@ -17,37 +17,40 @@ export default function PracticeAreaContentSection({
   const imageOnLeft = section.imagePosition === "left";
   const showCTAs = section.showCTAs !== false;
 
+  const hasSidebar = showCTAs || Boolean(section.image);
+
   return (
-    <div className={`py-[40px] md:py-[60px] ${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
-      <div className="max-w-[2560px] mx-auto w-[95%] md:w-[90%] lg:w-[85%]">
+    <section className={`py-[52px] md:py-[84px] ${index % 2 === 0 ? "bg-white" : "bg-slate-50"}`}>
+      <div className="mx-auto w-[90%] max-w-[1440px]">
         <div
-          className={`flex flex-col ${imageOnLeft ? "lg:flex-row-reverse" : "lg:flex-row"} gap-8 lg:gap-[5%] items-start`}
+          className={`flex flex-col gap-10 lg:gap-[7%] ${imageOnLeft ? "lg:flex-row-reverse" : "lg:flex-row"} items-start`}
         >
-          {/* Rich Text Content - larger column (full width when no sidebar) */}
-          <div className={showCTAs || section.image ? "lg:w-[60%]" : "w-full"}>
+          <div className={hasSidebar ? "lg:w-[60%]" : "mx-auto w-full max-w-[1050px]"}>
             <RichText
               html={section.body}
-              className="font-outfit text-[16px] md:text-[18px] leading-[26px] md:leading-[30px] text-black/90 prose prose-lg max-w-none
-                [&_h2]:font-playfair [&_h2]:text-[28px] [&_h2]:md:text-[36px] [&_h2]:leading-tight [&_h2]:text-black [&_h2]:mb-4
-                [&_h3]:font-playfair [&_h3]:text-[22px] [&_h3]:md:text-[28px] [&_h3]:leading-tight [&_h3]:text-black [&_h3]:mb-3
-                [&_p]:mb-4 [&_ul]:mb-4 [&_ol]:mb-4 [&_li]:mb-1"
+              className="prose prose-lg max-w-none font-outfit text-[16px] leading-[27px] text-black/75 md:text-[18px] md:leading-[30px]
+                [&_h2]:mb-5 [&_h2]:font-playfair [&_h2]:text-[30px] [&_h2]:font-normal [&_h2]:leading-tight [&_h2]:text-brand-dark [&_h2]:md:text-[42px]
+                [&_h3]:mb-3 [&_h3]:mt-7 [&_h3]:font-outfit [&_h3]:text-[17px] [&_h3]:font-semibold [&_h3]:uppercase [&_h3]:tracking-[0.1em] [&_h3]:text-brand-accent-dark [&_h3]:md:text-[19px]
+                [&_p]:mb-5 [&_strong]:font-semibold [&_strong]:text-brand-dark
+                [&_ul]:mb-5 [&_ul]:space-y-2 [&_ol]:mb-5 [&_ol]:space-y-3 [&_li]:pl-1 [&_li::marker]:font-semibold [&_li::marker]:text-brand-accent-dark"
             />
           </div>
 
-          {/* Image + CTAs - smaller column (hidden entirely when no image and no CTAs) */}
-          {(showCTAs || section.image) && (
-            <div className="lg:w-[35%]">
+          {hasSidebar && (
+            <aside className="w-full lg:w-[35%]">
               {section.image && (
-                <img
-                  src={section.image}
-                  alt={section.imageAlt || ""}
-                  className="w-full h-auto object-cover mb-6"
-                  loading="lazy"
-                />
+                <div className="mb-6 border border-brand-dark/10 bg-white p-2 shadow-sm">
+                  <img
+                    src={section.image}
+                    alt={section.imageAlt || ""}
+                    className="aspect-[4/3] w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
               )}
 
               {showCTAs && (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
                   <CallBox
                     icon={Phone}
                     title={phoneLabel}
@@ -56,16 +59,16 @@ export default function PracticeAreaContentSection({
                   />
                   <CallBox
                     icon={Calendar}
-                    title="Schedule Now"
-                    subtitle="Free Consultation"
-                    link="/contact/"
+                    title="Confidential"
+                    subtitle="Request a Case Review"
+                    link="/contact/#contact-form"
                   />
                 </div>
               )}
-            </div>
+            </aside>
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -39,12 +39,9 @@ export default function PracticePageView({
             <img
               src={content.hero.backgroundImage}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover object-center"
             />
-            <div
-              className="absolute inset-0"
-              style={{ backgroundColor: "rgba(6, 29, 27, 0.85)" }}
-            />
+            <div className="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/80" />
           </>
         )}
 
