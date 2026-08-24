@@ -98,6 +98,36 @@ export type ContentBlock =
       sectionLabel: string;
       heading: string;
       postCount?: number;
+    }
+  | {
+      type: "locations-hub";
+      sectionLabel: string;
+      heading: string;
+      description: string;
+      officesHeading: string;
+      offices: Array<{
+        city: string;
+        state: string;
+        address: string;
+        link?: string;
+      }>;
+      primaryHeading: string;
+      primaryLocations: Array<{
+        name: string;
+        link?: string;
+      }>;
+      coverageHeading: string;
+      coverageDescription: string;
+      regions: Array<{
+        name: string;
+        locations: string[];
+      }>;
+      servicesHeading: string;
+      services: Array<{
+        title: string;
+        link: string;
+        icon: string;
+      }>;
     };
 
 export type PageStatus = "draft" | "published";

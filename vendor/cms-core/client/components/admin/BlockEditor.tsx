@@ -56,6 +56,7 @@ const BLOCK_TYPES = [
   { type: 'map', label: 'Map', icon: MapPin },
   { type: 'practice-areas-grid', label: 'Practice Areas Grid', icon: Grid },
   { type: 'recent-posts', label: 'Recent Blog Posts', icon: Grid },
+  { type: 'locations-hub', label: 'Locations Hub', icon: MapPin },
 ] as const;
 
 const ICON_OPTIONS = [
@@ -104,6 +105,22 @@ function getDefaultBlock(type: string): ContentBlock {
       return { type: 'practice-areas-grid', heading: 'Our Practice Areas', areas: [{ icon: 'Scale', title: 'Practice Area', description: 'Description', image: '/placeholder.svg', imageAlt: '', link: '/contact' }] };
     case 'recent-posts':
       return { type: 'recent-posts', sectionLabel: '– Latest Articles', heading: 'Recent Blog Posts', postCount: 6 };
+    case 'locations-hub':
+      return {
+        type: 'locations-hub',
+        sectionLabel: 'Areas We Serve',
+        heading: 'Legal Help Across Indiana and Illinois',
+        description: '<p>Tell visitors about the communities you serve.</p>',
+        officesHeading: 'Visit Custom Law',
+        offices: [{ city: 'Noblesville', state: 'Indiana', address: '', link: '' }],
+        primaryHeading: 'Primary Service Locations',
+        primaryLocations: [{ name: 'Noblesville, Indiana', link: '' }],
+        coverageHeading: 'Additional Communities We Serve',
+        coverageDescription: '<p>List the surrounding counties and communities.</p>',
+        regions: [{ name: 'Indiana Counties', locations: ['Hamilton'] }],
+        servicesHeading: 'Legal Services Throughout the Region',
+        services: [{ title: 'Criminal Defense', link: '/criminal-defense/', icon: 'Shield' }],
+      };
     default:
       return { type: 'heading', level: 2, text: 'New Section' };
   }
@@ -257,6 +274,8 @@ function BlockFields({ block, onUpdate }: { block: ContentBlock; onUpdate: (upda
       return <PracticeAreasGridFields block={block} onUpdate={onUpdate} />;
     case 'recent-posts':
       return <RecentPostsFields block={block} onUpdate={onUpdate} />;
+    case 'locations-hub':
+      return <LocationsHubFields block={block} onUpdate={onUpdate} />;
     default:
       return <p className="text-gray-500 text-sm">Legacy block — no editor available. Please replace with a new block type.</p>;
   }
@@ -750,6 +769,81 @@ function PracticeAreasGridFields({ block, onUpdate }: { block: Extract<ContentBl
       <Button variant="outline" onClick={addArea} className="w-full">
         <Plus className="h-4 w-4 mr-2" /> Add Area
       </Button>
+    </div>
+  );
+}
+
+function LocationsHubFields({ block, onUpdate }: { block: Extract<ContentBlock, { type: 'locations-hub' }>; onUpdate: (u: Partial<ContentBlock>) => void }) {
+  const updateOffice = (index: number, updates: Partial<typeof block.offices[number]>) => {
+    const offices = [...block.offices];
+    offices[index] = { ...offices[index], ...updates };
+    onUpdate({ offices });
+  };
+
+  const updateRegion = (index: number, updates: Partial<typeof block.regions[number]>) => {
+    const regions = [...block.regions];
+    regions[index] = { ...regions[index], ...updates };
+    onUpdate({ regions });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div><Label>Section Label</Label><Input value={block.sectionLabel} onChange={(e) => onUpdate({ sectionLabel: e.target.value })} /></div>
+        <div><Label>Main Heading</Label><Input value={block.heading} onChange={(e) => onUpdate({ heading: e.target.value })} /></div>
+      </div>
+      <div><Label>Introduction</Label><RichTextEditor value={block.description} onChange={(description) => onUpdate({ description })} minHeight="160px" /></div>
+
+      <div className="space-y-3 border-t pt-5">
+        <Label className="font-semibold">Office Network</Label>
+        <Input value={block.officesHeading} onChange={(e) => onUpdate({ officesHeading: e.target.value })} placeholder="Office section heading" />
+        {block.offices.map((office, index) => (
+          <div key={index} className="space-y-3 rounded-lg border bg-gray-50 p-4">
+            <div className="flex items-center justify-between"><span className="text-sm font-medium">Office {index + 1}</span><Button variant="ghost" size="sm" onClick={() => onUpdate({ offices: block.offices.filter((_, i) => i !== index) })} className="h-8 w-8 p-0 text-red-500"><Trash2 className="h-4 w-4" /></Button></div>
+            <div className="grid gap-3 md:grid-cols-2"><Input value={office.city} onChange={(e) => updateOffice(index, { city: e.target.value })} placeholder="City" /><Input value={office.state} onChange={(e) => updateOffice(index, { state: e.target.value })} placeholder="State" /></div>
+            <Textarea value={office.address} onChange={(e) => updateOffice(index, { address: e.target.value })} placeholder="Street address" rows={2} />
+            <Input value={office.link || ''} onChange={(e) => updateOffice(index, { link: e.target.value })} placeholder="Optional page link" />
+          </div>
+        ))}
+        <Button variant="outline" onClick={() => onUpdate({ offices: [...block.offices, { city: 'New Office', state: '', address: '', link: '' }] })} className="w-full"><Plus className="mr-2 h-4 w-4" /> Add Office</Button>
+      </div>
+
+      <div className="space-y-3 border-t pt-5">
+        <Label className="font-semibold">Primary Service Locations</Label>
+        <Input value={block.primaryHeading} onChange={(e) => onUpdate({ primaryHeading: e.target.value })} placeholder="Section heading" />
+        <Textarea
+          value={block.primaryLocations.map((location) => `${location.name}|${location.link || ''}`).join('\n')}
+          onChange={(e) => onUpdate({ primaryLocations: e.target.value.split('\n').filter(Boolean).map((line) => { const [name, link = ''] = line.split('|'); return { name: name.trim(), link: link.trim() }; }) })}
+          rows={8}
+          placeholder="Location name|/optional-link/ (one per line)"
+        />
+      </div>
+
+      <div className="space-y-3 border-t pt-5">
+        <Label className="font-semibold">Regional Coverage</Label>
+        <Input value={block.coverageHeading} onChange={(e) => onUpdate({ coverageHeading: e.target.value })} placeholder="Coverage heading" />
+        <RichTextEditor value={block.coverageDescription} onChange={(coverageDescription) => onUpdate({ coverageDescription })} />
+        {block.regions.map((region, index) => (
+          <div key={index} className="space-y-3 rounded-lg border bg-gray-50 p-4">
+            <div className="flex items-center justify-between"><span className="text-sm font-medium">Region {index + 1}</span><Button variant="ghost" size="sm" onClick={() => onUpdate({ regions: block.regions.filter((_, i) => i !== index) })} className="h-8 w-8 p-0 text-red-500"><Trash2 className="h-4 w-4" /></Button></div>
+            <Input value={region.name} onChange={(e) => updateRegion(index, { name: e.target.value })} placeholder="Region name" />
+            <Textarea value={region.locations.join('\n')} onChange={(e) => updateRegion(index, { locations: e.target.value.split('\n').map((item) => item.trim()).filter(Boolean) })} rows={6} placeholder="One county or community per line" />
+          </div>
+        ))}
+        <Button variant="outline" onClick={() => onUpdate({ regions: [...block.regions, { name: 'New Region', locations: [] }] })} className="w-full"><Plus className="mr-2 h-4 w-4" /> Add Region</Button>
+      </div>
+
+      <div className="space-y-3 border-t pt-5">
+        <Label className="font-semibold">Legal Services</Label>
+        <Input value={block.servicesHeading} onChange={(e) => onUpdate({ servicesHeading: e.target.value })} placeholder="Services heading" />
+        <Textarea
+          value={block.services.map((service) => `${service.title}|${service.link}|${service.icon}`).join('\n')}
+          onChange={(e) => onUpdate({ services: e.target.value.split('\n').filter(Boolean).map((line) => { const [title, link = '', icon = 'Scale'] = line.split('|'); return { title: title.trim(), link: link.trim(), icon: icon.trim() }; }) })}
+          rows={6}
+          placeholder="Service title|/link/|Icon (one per line)"
+        />
+        <p className="text-xs text-gray-500">Available icons: Shield, HeartHandshake, Scale, Car, FileSearch</p>
+      </div>
     </div>
   );
 }
