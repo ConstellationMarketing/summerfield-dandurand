@@ -102,6 +102,10 @@ async function generateSSG() {
     console.log(`Generated: ${urlPath}`);
   }
 
+  const publishedPagePaths = new Set(
+    (pages || []).map((page) => normalizeCmsUrlPath(page.url_path)),
+  );
+
   console.log(`Found ${posts?.length || 0} published posts`);
   for (const post of posts || []) {
     const normalizedSlug = normalizePostSlug(post.slug);
@@ -109,24 +113,29 @@ async function generateSSG() {
       continue;
     }
 
-    const urlPath = `/blog/${normalizedSlug}/`;
+    const urlPath = normalizeCmsUrlPath(`/${normalizedSlug}/`);
+    if (publishedPagePaths.has(urlPath)) {
+      console.warn(`[SSG] Skipping post ${post.id}: ${urlPath} is already used by a published page.`);
+      continue;
+    }
+
     const preloadState = await buildRoutePreload(urlPath, { siteSettings });
     const rendered = renderRoute(urlPath, preloadState);
     const html = generatePageHtml(template, rendered.html, rendered.helmet, preloadState, siteSettings);
-    const outputPath = path.join(process.cwd(), "dist/spa", "blog", normalizedSlug, "index.html");
+    const outputPath = path.join(process.cwd(), "dist/spa", normalizedSlug, "index.html");
 
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, html);
     console.log(`Generated post: ${urlPath}`);
   }
 
-  await generateRedirects();
+  await generateRedirects(posts || []);
   generateRobotsTxt(siteSettings, siteUrl);
 
   console.log("SSG generation complete!");
 }
 
-async function generateRedirects() {
+async function generateRedirects(posts: PostRow[]) {
   const { data: redirects, error: redirectsError } = await supabase
     .from("redirects")
     .select("from_path, to_path, status_code")
@@ -144,16 +153,22 @@ async function generateRedirects() {
     return;
   }
 
+  const legacyPostRedirects = posts
+    .map((post) => normalizePostSlug(post.slug))
+    .filter(Boolean)
+    .map((slug) => `/blog/${slug}/ /${slug}/ 301`)
+    .join("\n");
   const cmsRedirects = (redirects || [])
     .map((redirect: Redirect) => `${redirect.from_path} ${redirect.to_path} ${redirect.status_code}`)
     .join("\n");
+  const contentRedirects = [legacyPostRedirects, cmsRedirects].filter(Boolean).join("\n");
 
-  const redirectsContent = cmsRedirects
-    ? `${functionRedirects}\n${cmsRedirects}\n/* /index.html 200`
+  const redirectsContent = contentRedirects
+    ? `${functionRedirects}\n${contentRedirects}\n/* /index.html 200`
     : `${functionRedirects}\n/* /index.html 200`;
 
   fs.writeFileSync(path.join(process.cwd(), "dist/spa/_redirects"), redirectsContent);
-  console.log(`Generated _redirects with function routes${cmsRedirects ? " + CMS redirects" : ""} + SPA fallback`);
+  console.log(`Generated _redirects with function routes${contentRedirects ? " + content redirects" : ""} + SPA fallback`);
 }
 
 function generateRobotsTxt(siteSettings: SiteSettings, siteUrl: string) {

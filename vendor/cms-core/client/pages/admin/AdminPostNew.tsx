@@ -153,7 +153,7 @@ export default function AdminPostNew() {
                 required
               />
               <p className="text-sm text-gray-500">
-                The post will be available at /blog/{slug || "..."}
+                The post will be available at /{slug || "..."}
               </p>
             </div>
 

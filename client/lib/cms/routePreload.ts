@@ -3,7 +3,7 @@ import { createEmptyPreloadedState } from "../preloadState";
 import { populateRouteForms } from "./formPreload";
 import {
   filterRecentPosts,
-  isBlogPostPath,
+  isRootLevelPostCandidatePath,
   isPracticeAreaDetailPath,
   loadAboutPageDocument,
   loadBlogIndexPageDocument,
@@ -92,22 +92,25 @@ export async function buildRoutePreload(
     return finalizeRoutePreload(normalizedPath, state);
   }
 
-  if (isBlogPostPath(normalizedPath)) {
-    const slug = normalizePostSlug(normalizedPath.replace(/^\/blog\//, ""));
-    const post = await loadBlogPostDocument(slug);
+  const page = await loadDynamicPageDocument(normalizedPath);
+  state.page = {
+    document: page,
+  };
+
+  if (!page && isRootLevelPostCandidatePath(normalizedPath)) {
+    const post = await loadBlogPostDocument(normalizePostSlug(normalizedPath));
     state.post = {
       document: post,
     };
-    const recentPosts = await loadRecentPosts(4);
-    state.blog = {
-      sidebar: await loadBlogSidebarData(),
-      recentPosts: filterRecentPosts(recentPosts, post?.id, 3),
-    };
-    return finalizeRoutePreload(normalizedPath, state);
+
+    if (post) {
+      const recentPosts = await loadRecentPosts(4);
+      state.blog = {
+        sidebar: await loadBlogSidebarData(),
+        recentPosts: filterRecentPosts(recentPosts, post.id, 3),
+      };
+    }
   }
 
-  state.page = {
-    document: await loadDynamicPageDocument(normalizedPath),
-  };
   return finalizeRoutePreload(normalizedPath, state);
 }

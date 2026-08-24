@@ -15,7 +15,7 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
 
   return (
     <Link
-      to={`/blog/${cleanSlug}/`}
+      to={`/${cleanSlug}/`}
       className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300"
     >
       {cardImage ? (

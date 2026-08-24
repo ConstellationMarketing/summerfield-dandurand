@@ -168,7 +168,7 @@ export default function StepPreview({
           const slug =
             templateType === "practice"
               ? (record as TransformedPracticePage).url_path
-              : `/blog/${(record as TransformedBlogPost).slug}`;
+              : `/${(record as TransformedBlogPost).slug}`;
           const publishDate =
             templateType === "practice"
               ? (record as TransformedPracticePage).published_at

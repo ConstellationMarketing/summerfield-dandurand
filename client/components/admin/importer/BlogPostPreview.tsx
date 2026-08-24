@@ -81,7 +81,7 @@ export default function BlogPostPreview({ record }: BlogPostPreviewProps) {
         <div className="flex flex-wrap gap-1.5 pt-1">
           <Badge variant="secondary" className="text-xs gap-1">
             <Globe className="h-3 w-3" />
-            /blog/{record.slug}
+            /{record.slug}
           </Badge>
           {record.canonical_url && (
             <Badge variant="outline" className="text-xs">

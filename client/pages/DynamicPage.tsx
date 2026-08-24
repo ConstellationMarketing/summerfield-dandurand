@@ -9,15 +9,25 @@ import BlockRenderer from "@site/components/BlockRenderer";
 import NotFound from "./NotFound";
 import type { PageMeta } from "@site/lib/cms/pageMeta";
 import { emptyPageMeta } from "@site/lib/cms/pageMeta";
-import type { PreloadedPageDocument } from "@site/lib/cms/publicLoaders";
+import type {
+  PreloadedPageDocument,
+  PreloadedPostDocument,
+} from "@site/lib/cms/publicLoaders";
 import {
   isRenderablePageContent,
+  isRootLevelPostCandidatePath,
+  loadBlogPostDocument,
   loadDynamicPageDocument,
   normalizeCmsUrlPath,
+  normalizePostSlug,
   normalizePracticeAreaPageContent,
 } from "@site/lib/cms/publicLoaders";
 import { resolvePageTemplate } from "@site/lib/cms/pageTemplateResolver";
-import { getPreloadedPageDocument } from "@site/lib/preloadState";
+import {
+  getPreloadedPageDocument,
+  getPreloadedPostDocument,
+} from "@site/lib/preloadState";
+import BlogPost from "./BlogPost";
 
 const pageCache = new Map<string, PreloadedPageDocument>();
 
@@ -33,6 +43,7 @@ export default function DynamicPage() {
   const { pathname } = useLocation();
   const queryPath = normalizeCmsUrlPath(pathname);
   const preloadedDocument = normalizeDynamicPageDocument(getPreloadedPageDocument(queryPath));
+  const preloadedPost = preloadedDocument ? null : getPreloadedPostDocument(queryPath);
   const initialPage = preloadedDocument || pageCache.get(queryPath) || null;
 
   if (preloadedDocument && !pageCache.has(queryPath)) {
@@ -40,7 +51,8 @@ export default function DynamicPage() {
   }
 
   const [page, setPage] = useState<PreloadedPageDocument | null>(initialPage);
-  const [isLoading, setIsLoading] = useState(!initialPage);
+  const [post, setPost] = useState<PreloadedPostDocument | null>(preloadedPost);
+  const [isLoading, setIsLoading] = useState(!initialPage && !preloadedPost);
   const [notFound, setNotFound] = useState(false);
   const prevPath = useRef(pathname);
 
@@ -50,6 +62,7 @@ export default function DynamicPage() {
       setIsLoading(true);
       setNotFound(false);
       setPage(null);
+      setPost(null);
     }
 
     let isMounted = true;
@@ -68,19 +81,24 @@ export default function DynamicPage() {
 
       try {
         const document = normalizeDynamicPageDocument(await loadDynamicPageDocument(normalizedPath));
-        if (!document) {
+        if (document) {
+          pageCache.set(normalizedPath, document);
+
           if (isMounted) {
-            setNotFound(true);
-            setIsLoading(false);
+            setPage(document);
+            setPost(null);
+            setNotFound(false);
           }
           return;
         }
 
-        pageCache.set(normalizedPath, document);
+        const loadedPost = isRootLevelPostCandidatePath(normalizedPath)
+          ? await loadBlogPostDocument(normalizePostSlug(normalizedPath))
+          : null;
 
         if (isMounted) {
-          setPage(document);
-          setNotFound(false);
+          setPost(loadedPost);
+          setNotFound(!loadedPost);
         }
       } catch (err) {
         console.error("[DynamicPage] Failed to fetch CMS page:", err);
@@ -108,6 +126,15 @@ export default function DynamicPage() {
           <div className="animate-spin rounded-full h-10 w-10 border-4 border-gray-300 border-t-brand-accent" />
         </div>
       </Layout>
+    );
+  }
+
+  if (post) {
+    return (
+      <BlogPost
+        initialPost={post}
+        slug={normalizePostSlug(queryPath)}
+      />
     );
   }
 

@@ -153,13 +153,13 @@ export default function AdminPostEdit() {
                 {post.status}
               </Badge>
             </div>
-            <p className="text-gray-500 text-sm">/blog/{post.slug}</p>
+            <p className="text-gray-500 text-sm">/{post.slug}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {post.status === "published" && (
             <a
-              href={`/blog/${post.slug}`}
+              href={`/${post.slug}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -297,7 +297,7 @@ export default function AdminPostEdit() {
                   onChange={(e) =>
                     updatePost({ canonical_url: e.target.value })
                   }
-                  placeholder={siteSettings.siteUrl ? `${siteSettings.siteUrl}/blog/${post.slug}/` : "https://yourdomain.com/blog/post"}
+                  placeholder={siteSettings.siteUrl ? `${siteSettings.siteUrl}/${post.slug}` : "https://yourdomain.com/post/"}
                 />
               </div>
 
@@ -375,7 +375,7 @@ export default function AdminPostEdit() {
                   onChange={(e) => updatePost({ slug: e.target.value })}
                 />
                 <p className="text-sm text-gray-500">
-                  Available at /blog/{post.slug}
+                  Available at /{post.slug}
                 </p>
               </div>
 

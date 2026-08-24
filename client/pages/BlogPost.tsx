@@ -18,15 +18,21 @@ import { getPreloadedPostDocument } from "@site/lib/preloadState";
 
 const postCache = new Map<string, PreloadedPostDocument>();
 
-export default function BlogPost() {
-  const { slug } = useParams<{ slug: string }>();
-  const postPath = slug ? normalizeCmsUrlPath(`/blog/${normalizePostSlug(slug)}/`) : "";
+interface BlogPostProps {
+  initialPost?: PreloadedPostDocument | null;
+  slug?: string;
+}
+
+export default function BlogPost({ initialPost: suppliedPost, slug: suppliedSlug }: BlogPostProps = {}) {
+  const { slug: routeSlug } = useParams<{ slug: string }>();
+  const slug = suppliedSlug || routeSlug;
+  const postPath = slug ? normalizeCmsUrlPath(`/${normalizePostSlug(slug)}/`) : "";
   const preloadedPost = postPath ? getPreloadedPostDocument(postPath) : null;
   const normalizedPreloadedPost = isPreloadedPostDocumentShape(preloadedPost) ? preloadedPost : null;
-  const initialPost = (postPath ? postCache.get(postPath) : null) || normalizedPreloadedPost;
+  const initialPost = suppliedPost || (postPath ? postCache.get(postPath) : null) || normalizedPreloadedPost;
 
-  if (normalizedPreloadedPost && postPath && !postCache.has(postPath)) {
-    postCache.set(postPath, normalizedPreloadedPost);
+  if (initialPost && postPath && !postCache.has(postPath)) {
+    postCache.set(postPath, initialPost);
   }
 
   const [post, setPost] = useState<PreloadedPostDocument | null>(initialPost);
@@ -40,7 +46,7 @@ export default function BlogPost() {
       return;
     }
 
-    const normalizedPath = normalizeCmsUrlPath(`/blog/${normalizePostSlug(slug)}/`);
+    const normalizedPath = normalizeCmsUrlPath(`/${normalizePostSlug(slug)}/`);
     const cached = postCache.get(normalizedPath);
     if (cached) {
       setPost(cached);

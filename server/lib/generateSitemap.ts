@@ -128,7 +128,7 @@ export async function generatePostsSitemap(siteUrl: string): Promise<string> {
     .filter((p) => !p.noindex)
     .map((p) => {
       const slug = p.slug.replace(/^\/+|\/+$/g, "");
-      const loc = escapeXml(`${origin}/blog/${slug}/`);
+      const loc = escapeXml(`${origin}/${slug}/`);
       const lastmod = p.updated_at
         ? `\n    <lastmod>${new Date(p.updated_at).toISOString().split("T")[0]}</lastmod>`
         : "";

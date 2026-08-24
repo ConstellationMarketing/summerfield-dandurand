@@ -54,7 +54,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
       .filter((p) => !p.noindex)
       .map((p) => {
         const slug = p.slug.replace(/^\/+|\/+$/g, "");
-        const loc = escapeXml(`${siteUrl}/blog/${slug}/`);
+        const loc = escapeXml(`${siteUrl}/${slug}/`);
         const lastmod = p.updated_at
           ? `\n    <lastmod>${new Date(p.updated_at).toISOString().split("T")[0]}</lastmod>`
           : "";

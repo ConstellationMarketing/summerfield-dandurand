@@ -395,8 +395,8 @@ export function normalizeStoredPostSlug(slug: string): string {
   return normalized ? `${normalized}/` : "";
 }
 
-export function isBlogPostPath(urlPath: string): boolean {
-  return /^\/blog\/[^/]+\/$/.test(normalizeCmsUrlPath(urlPath));
+export function isRootLevelPostCandidatePath(urlPath: string): boolean {
+  return /^\/[^/]+\/$/.test(normalizeCmsUrlPath(urlPath));
 }
 
 export function isPracticeAreaDetailPath(urlPath: string): boolean {

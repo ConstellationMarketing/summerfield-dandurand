@@ -93,7 +93,7 @@ export async function fetchPublishedUrls(
     const posts: PostRow[] = await response.json();
 
     for (const post of posts) {
-      urls.add(`/blog/${post.slug}`);
+      urls.add(`/${post.slug}`);
     }
 
     console.log(`[QA] Found ${posts.length} published post(s)`);
