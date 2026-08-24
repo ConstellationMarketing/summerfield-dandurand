@@ -75,24 +75,24 @@ const enabledSocialLinks = (settings.socialLinks ?? []).filter((s) => s.enabled)
         {/* Right: Call Us Box */}
         <div className="lg:w-[25%]">
           <a href={`tel:${phoneNumber.replace(/\D/g, "")}`}>
-            <div className="bg-brand-accent p-[8px] w-full ml-auto cursor-pointer transition-all duration-300 hover:bg-brand-accent group">
+            <div className="bg-brand-accent p-[8px] w-full ml-auto cursor-pointer transition-colors duration-300 hover:bg-brand-dark group">
               <div className="table w-full mx-auto max-w-full flex-row-reverse">
                 <div className="table-cell w-[32px] leading-[0] mb-[30px]">
                   <span className="m-auto">
-                    <span className="inline-block bg-white p-[15px] text-black group-hover:bg-black transition-colors duration-300">
+                    <span className="inline-block bg-brand-dark p-[15px] group-hover:bg-white transition-colors duration-300">
                       <Phone
-                        className="w-[31px] h-[31px] [&>*]:fill-none [&>*]:stroke-black group-hover:[&>*]:stroke-white transition-colors duration-300"
+                        className="w-[31px] h-[31px] text-white group-hover:text-brand-dark [&>*]:fill-none [&>*]:stroke-current transition-colors duration-300"
                         strokeWidth={1.5}
                       />
                     </span>
                   </span>
                 </div>
                 <div className="table-cell align-top pl-[15px] min-w-0">
-                  <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-white pb-[10px] transition-colors duration-300">
+                  <p className="font-outfit text-[16px] md:text-[18px] leading-tight text-brand-dark group-hover:text-white pb-[10px] transition-colors duration-300">
                     {phoneLabel}
                   </p>
                   <div>
-                    <p className="font-outfit text-[clamp(1.25rem,2.4vw,40px)] leading-tight text-white transition-colors duration-300 whitespace-nowrap">
+                    <p className="font-outfit text-[clamp(1.25rem,2.4vw,40px)] leading-tight text-brand-dark group-hover:text-white transition-colors duration-300 whitespace-nowrap">
                       {phoneDisplay}
                     </p>
                   </div>

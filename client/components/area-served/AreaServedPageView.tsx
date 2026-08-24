@@ -103,7 +103,7 @@ export default function AreaServedPageView({ content, meta, title, publishedAt, 
                     <div className="mt-8 border-t border-brand-dark/10 pt-7">
                       <h4 className="font-playfair text-[23px] text-brand-dark">{item.casesHeading}</h4>
                       <div className="mt-4 flex flex-wrap gap-2">
-                        {item.cases.map((caseItem) => caseItem.link ? <Link key={caseItem.title} to={caseItem.link} className="bg-gray-100 px-4 py-2 font-outfit text-sm font-semibold text-brand-dark transition-colors hover:bg-brand-accent">{caseItem.title}</Link> : <span key={caseItem.title} className="bg-gray-100 px-4 py-2 font-outfit text-sm font-semibold text-brand-dark">{caseItem.title}</span>)}
+                        {item.cases.map((caseItem) => caseItem.link ? <Link key={caseItem.title} to={caseItem.link} className="bg-gray-100 px-4 py-2 font-outfit text-sm font-semibold text-brand-dark transition-colors hover:bg-brand-dark hover:text-white">{caseItem.title}</Link> : <span key={caseItem.title} className="bg-gray-100 px-4 py-2 font-outfit text-sm font-semibold text-brand-dark">{caseItem.title}</span>)}
                       </div>
                     </div>
                   )}
@@ -125,7 +125,7 @@ export default function AreaServedPageView({ content, meta, title, publishedAt, 
             <RichText html={content.serviceArea.body} className="mt-6 space-y-4 font-outfit text-[17px] leading-[29px] text-black/70" />
             <ul className="mt-7 grid grid-cols-2 gap-2 sm:grid-cols-3">
               {content.serviceArea.cities.map((city) => (
-                <li key={city.title}>{city.link ? <Link to={city.link} className="flex items-center gap-2 bg-gray-100 px-4 py-3 font-outfit font-semibold text-brand-dark hover:bg-brand-accent"><MapPin className="h-4 w-4 text-brand-accent" />{city.title}</Link> : <span className="flex items-center gap-2 bg-gray-100 px-4 py-3 font-outfit font-semibold text-brand-dark"><MapPin className="h-4 w-4 text-brand-accent" />{city.title}</span>}</li>
+                <li key={city.title}>{city.link ? <Link to={city.link} className="group flex items-center gap-2 bg-gray-100 px-4 py-3 font-outfit font-semibold text-brand-dark transition-colors hover:bg-brand-dark hover:text-white"><MapPin className="h-4 w-4 text-brand-accent transition-colors group-hover:text-white" />{city.title}</Link> : <span className="flex items-center gap-2 bg-gray-100 px-4 py-3 font-outfit font-semibold text-brand-dark"><MapPin className="h-4 w-4 text-brand-accent" />{city.title}</span>}</li>
               ))}
             </ul>
           </div>

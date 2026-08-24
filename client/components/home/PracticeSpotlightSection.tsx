@@ -100,7 +100,7 @@ export default function PracticeSpotlightSection({ content, headingTag }: Practi
                   {item.ctaText && (
                     <Link
                       to={item.ctaLink || "/practice-areas/"}
-                      className="inline-block mt-[26px] bg-brand-accent text-brand-dark hover:bg-brand-accent hover:text-white font-outfit font-medium text-[16px] md:text-[18px] px-[30px] py-[14px] transition-colors duration-300"
+                      className="inline-block mt-[26px] bg-brand-accent text-brand-dark hover:bg-brand-dark hover:text-white font-outfit font-medium text-[16px] md:text-[18px] px-[30px] py-[14px] transition-colors duration-300"
                     >
                       {item.ctaText}
                     </Link>
