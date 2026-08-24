@@ -5,6 +5,8 @@ import type { Template, ContentBlock } from '@/lib/database.types';
 import { defaultPracticeAreaPageContent } from '@site/lib/cms/practiceAreaPageTypes';
 import type { PracticeAreaPageContent } from '@site/lib/cms/practiceAreaPageTypes';
 import PracticeAreaPageEditor from '@site/components/admin/editors/PracticeAreaPageEditor';
+import AreaServedPageEditor from '@site/components/admin/editors/AreaServedPageEditor';
+import { isAreaServedPageContent, normalizeAreaServedPageContent } from '@site/lib/cms/areaServedPageTypes';
 import BlockEditor from '@/components/admin/BlockEditor';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -241,6 +243,15 @@ function TemplateContentEditor({
   content: unknown;
   onChange: (content: unknown) => void;
 }) {
+  if (isAreaServedPageContent(content)) {
+    return (
+      <AreaServedPageEditor
+        content={normalizeAreaServedPageContent(content)}
+        onChange={onChange}
+      />
+    );
+  }
+
   if (pageType === 'practice') {
     return (
       <PracticeAreaPageEditor

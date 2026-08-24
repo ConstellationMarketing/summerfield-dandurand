@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Layout from "@site/components/layout/Layout";
 import PracticePageView from "@site/components/practice/PracticePageView";
+import AreaServedPageView from "@site/components/area-served/AreaServedPageView";
+import { normalizeAreaServedPageContent } from "@site/lib/cms/areaServedPageTypes";
 import Seo from "@site/components/Seo";
 import BlockRenderer from "@site/components/BlockRenderer";
 import NotFound from "./NotFound";
@@ -116,7 +118,21 @@ export default function DynamicPage() {
   const title = page.title || "";
   const meta: PageMeta = page.meta || emptyPageMeta;
 
-  if (resolvePageTemplate(page) === "practice") {
+  const pageTemplate = resolvePageTemplate(page);
+
+  if (pageTemplate === "area-served") {
+    return (
+      <AreaServedPageView
+        content={normalizeAreaServedPageContent(page.content)}
+        meta={meta}
+        title={title}
+        publishedAt={page.publishedAt}
+        updatedAt={page.updatedAt}
+      />
+    );
+  }
+
+  if (pageTemplate === "practice") {
     return (
       <PracticePageView
         content={normalizePracticeAreaPageContent(page.content)}

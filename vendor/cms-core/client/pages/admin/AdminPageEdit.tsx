@@ -15,6 +15,11 @@ import {
   normalizePracticeAreaContentSections,
 } from "@site/lib/cms/practiceAreaPageTypes";
 import type { PracticeAreaPageContent } from "@site/lib/cms/practiceAreaPageTypes";
+import {
+  isAreaServedPageContent,
+  normalizeAreaServedPageContent,
+} from "@site/lib/cms/areaServedPageTypes";
+import type { AreaServedPageContent } from "@site/lib/cms/areaServedPageTypes";
 import { clearPracticeAreaPageCache } from "@site/hooks/usePracticeAreaPageContent";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { Button } from "@/components/ui/button";
@@ -75,11 +80,29 @@ function getPracticeHeroBackgroundImage(content: unknown): string {
   return normalizePracticeAreaPageContent(content).hero.backgroundImage?.trim() || "";
 }
 
+function getAreaServedHeroBackgroundImage(content: unknown): string {
+  return normalizeAreaServedPageContent(content).hero.backgroundImage?.trim() || "";
+}
+
 function setPracticeHeroBackgroundImage(
   content: unknown,
   backgroundImage: string,
 ): PracticeAreaPageContent {
   const normalized = normalizePracticeAreaPageContent(content);
+  return {
+    ...normalized,
+    hero: {
+      ...normalized.hero,
+      backgroundImage,
+    },
+  };
+}
+
+function setAreaServedHeroBackgroundImage(
+  content: unknown,
+  backgroundImage: string,
+): AreaServedPageContent {
+  const normalized = normalizeAreaServedPageContent(content);
   return {
     ...normalized,
     hero: {
@@ -333,10 +356,12 @@ export default function AdminPageEdit() {
 
   // Check if this is a structured page using stable page_id (not URL path)
   const isPracticeAreaPage = page?.page_type === "practice";
+  const isAreaServedPage = isAreaServedPageContent(page?.content);
 
   const isStructuredPage =
     Object.values(STRUCTURED_PAGE_IDS).includes(page?.page_id as number) ||
-    isPracticeAreaPage;
+    isPracticeAreaPage ||
+    isAreaServedPage;
 
   // Normalize content by merging with defaults based on page type
   const normalizedContent = useMemo(() => {
@@ -366,6 +391,13 @@ export default function AdminPageEdit() {
           defaultPracticeAreasContent
         );
       default:
+        if (isAreaServedPage) {
+          const normalized = normalizeAreaServedPageContent(page.content);
+          if (!normalized.hero.backgroundImage && page.og_image) {
+            return setAreaServedHeroBackgroundImage(normalized, page.og_image);
+          }
+          return normalized;
+        }
         // Individual practice area pages (detected by page_type)
         if (isPracticeAreaPage) {
           const normalized = normalizePracticeAreaPageContent(page.content);
@@ -376,7 +408,7 @@ export default function AdminPageEdit() {
         }
         return page.content;
     }
-  }, [page?.content, page?.page_id, page?.page_type, page?.og_image, isStructuredPage]);
+  }, [page?.content, page?.page_id, page?.page_type, page?.og_image, isStructuredPage, isAreaServedPage]);
 
   // Detect FAQ items in current page content for the SEO tab notice
   const faqItems = useMemo(
@@ -387,6 +419,14 @@ export default function AdminPageEdit() {
   const hasExplicitFaqSchema = parseSchemaTypes(page?.schema_type).includes("FAQPage");
 
   const handleStructuredContentChange = (content: unknown) => {
+    if (isAreaServedPage) {
+      updatePage({
+        content: content as ContentBlock[],
+        og_image: getAreaServedHeroBackgroundImage(content) || null,
+      });
+      return;
+    }
+
     if (isPracticeAreaPage) {
       updatePage({
         content: content as ContentBlock[],
@@ -399,6 +439,14 @@ export default function AdminPageEdit() {
   };
 
   const updateFeaturedImage = (url: string) => {
+    if (isAreaServedPage) {
+      updatePage({
+        og_image: url || null,
+        content: setAreaServedHeroBackgroundImage(page?.content, url) as unknown as ContentBlock[],
+      });
+      return;
+    }
+
     if (isPracticeAreaPage) {
       updatePage({
         og_image: url || null,
