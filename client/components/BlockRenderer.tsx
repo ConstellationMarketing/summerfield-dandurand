@@ -14,6 +14,7 @@ import LegacyBlock from "@site/components/blocks/LegacyBlock";
 import AttorneyProfileBlock from "@site/components/blocks/AttorneyProfileBlock";
 import AttorneyCredentialsBlock from "@site/components/blocks/AttorneyCredentialsBlock";
 import LocationsHubBlock from "@site/components/blocks/LocationsHubBlock";
+import TestimonialsShowcaseBlock from "@site/components/blocks/TestimonialsShowcaseBlock";
 
 interface BlockRendererProps {
   content: ContentBlock[] | Record<string, unknown> | null | undefined;
@@ -90,6 +91,8 @@ function RenderBlock({
       return <RecentPostsBlock block={block} />;
     case "locations-hub":
       return <LocationsHubBlock block={block} />;
+    case "testimonials-showcase":
+      return <TestimonialsShowcaseBlock block={block} />;
     default:
       return <LegacyBlock block={block} />;
   }

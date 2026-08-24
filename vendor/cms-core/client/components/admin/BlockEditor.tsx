@@ -51,7 +51,8 @@ const BLOCK_TYPES = [
   { type: 'content-section', label: 'Content Section', icon: FileText },
   { type: 'cta', label: 'Call to Action', icon: Megaphone },
   { type: 'team-members', label: 'Team Members', icon: Users },
-  { type: 'testimonials', label: 'Testimonials', icon: MessageSquare },
+  { type: 'testimonials', label: 'Testimonials Carousel', icon: MessageSquare },
+  { type: 'testimonials-showcase', label: 'Testimonials Showcase', icon: MessageSquare },
   { type: 'contact-section', label: 'Contact Section', icon: Mail },
   { type: 'map', label: 'Map', icon: MapPin },
   { type: 'practice-areas-grid', label: 'Practice Areas Grid', icon: Grid },
@@ -97,6 +98,8 @@ function getDefaultBlock(type: string): ContentBlock {
       return { type: 'team-members', sectionLabel: '– Our Team', heading: 'Meet Our Attorneys', members: [{ name: 'Attorney Name', title: 'Partner', bio: '<p>Bio...</p>', image: '/placeholder.svg', imageAlt: '', specialties: [] }] };
     case 'testimonials':
       return { type: 'testimonials', sectionLabel: '– Testimonials', heading: 'What Our Clients Say', backgroundImageAlt: '', items: [{ text: 'Great service and results!', author: 'Client', ratingImage: '/images/logos/rating-stars.png', ratingImageAlt: '' }] };
+    case 'testimonials-showcase':
+      return { type: 'testimonials-showcase', sectionLabel: 'Client Testimonials', heading: 'What Our Clients Say', description: '<p>Read what clients have shared about their experience.</p>', items: [{ text: 'Testimonial text', author: 'Client', category: 'Legal Services' }], reviewLinks: [] };
     case 'contact-section':
       return { type: 'contact-section', sectionLabel: '– Contact Us', heading: 'Get your FREE case evaluation today.', description: 'We are here to help you with your legal needs.', formHeading: 'Contact Us Today To Schedule a Consultation' };
     case 'map':
@@ -266,6 +269,8 @@ function BlockFields({ block, onUpdate }: { block: ContentBlock; onUpdate: (upda
       return <TeamMembersFields block={block} onUpdate={onUpdate} />;
     case 'testimonials':
       return <TestimonialsFields block={block} onUpdate={onUpdate} />;
+    case 'testimonials-showcase':
+      return <TestimonialsShowcaseFields block={block} onUpdate={onUpdate} />;
     case 'contact-section':
       return <ContactSectionFields block={block} onUpdate={onUpdate} />;
     case 'map':
@@ -642,6 +647,49 @@ function TestimonialsFields({ block, onUpdate }: { block: Extract<ContentBlock, 
       <Button variant="outline" onClick={addItem} className="w-full">
         <Plus className="h-4 w-4 mr-2" /> Add Testimonial
       </Button>
+    </div>
+  );
+}
+
+function TestimonialsShowcaseFields({ block, onUpdate }: { block: Extract<ContentBlock, { type: 'testimonials-showcase' }>; onUpdate: (u: Partial<ContentBlock>) => void }) {
+  const updateItem = (index: number, updates: Partial<typeof block.items[number]>) => {
+    const items = [...block.items];
+    items[index] = { ...items[index], ...updates };
+    onUpdate({ items });
+  };
+  const updateReviewLink = (index: number, updates: Partial<typeof block.reviewLinks[number]>) => {
+    const reviewLinks = [...block.reviewLinks];
+    reviewLinks[index] = { ...reviewLinks[index], ...updates };
+    onUpdate({ reviewLinks });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div><Label>Section Label</Label><Input value={block.sectionLabel} onChange={(e) => onUpdate({ sectionLabel: e.target.value })} /></div>
+      <div><Label>Heading</Label><Input value={block.heading} onChange={(e) => onUpdate({ heading: e.target.value })} /></div>
+      <div><Label>Description</Label><RichTextEditor value={block.description} onChange={(description) => onUpdate({ description })} /></div>
+      <div className="space-y-3 border-t pt-5">
+        <Label className="font-semibold">Testimonials</Label>
+        {block.items.map((item, index) => (
+          <div key={index} className="space-y-3 rounded-lg border bg-gray-50 p-4">
+            <div className="flex items-center justify-between"><span className="text-sm font-medium">Testimonial {index + 1}</span><Button variant="ghost" size="sm" onClick={() => onUpdate({ items: block.items.filter((_, i) => i !== index) })} className="h-8 w-8 p-0 text-red-500"><Trash2 className="h-4 w-4" /></Button></div>
+            <Textarea value={item.text} onChange={(e) => updateItem(index, { text: e.target.value })} rows={5} placeholder="Testimonial quote" />
+            <div className="grid gap-3 md:grid-cols-2"><Input value={item.author} onChange={(e) => updateItem(index, { author: e.target.value })} placeholder="Attribution" /><Input value={item.category} onChange={(e) => updateItem(index, { category: e.target.value })} placeholder="Matter type" /></div>
+          </div>
+        ))}
+        <Button variant="outline" onClick={() => onUpdate({ items: [...block.items, { text: 'New testimonial', author: 'Client', category: 'Legal Services' }] })} className="w-full"><Plus className="mr-2 h-4 w-4" /> Add Testimonial</Button>
+      </div>
+      <div className="space-y-3 border-t pt-5">
+        <Label className="font-semibold">External Review Links</Label>
+        {block.reviewLinks.map((reviewLink, index) => (
+          <div key={index} className="flex items-center gap-3 rounded-lg border bg-gray-50 p-4">
+            <Input value={reviewLink.label} onChange={(e) => updateReviewLink(index, { label: e.target.value })} placeholder="Platform" />
+            <Input value={reviewLink.url} onChange={(e) => updateReviewLink(index, { url: e.target.value })} placeholder="https://..." />
+            <Button variant="ghost" size="sm" onClick={() => onUpdate({ reviewLinks: block.reviewLinks.filter((_, i) => i !== index) })} className="h-8 w-8 shrink-0 p-0 text-red-500"><Trash2 className="h-4 w-4" /></Button>
+          </div>
+        ))}
+        <Button variant="outline" onClick={() => onUpdate({ reviewLinks: [...block.reviewLinks, { label: 'Review Platform', url: 'https://' }] })} className="w-full"><Plus className="mr-2 h-4 w-4" /> Add Review Link</Button>
+      </div>
     </div>
   );
 }

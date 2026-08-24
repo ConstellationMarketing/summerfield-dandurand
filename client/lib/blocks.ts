@@ -102,6 +102,21 @@ export type ContentBlock =
       postCount?: number;
     }
   | {
+      type: "testimonials-showcase";
+      sectionLabel: string;
+      heading: string;
+      description: string;
+      items: Array<{
+        text: string;
+        author: string;
+        category: string;
+      }>;
+      reviewLinks: Array<{
+        label: string;
+        url: string;
+      }>;
+    }
+  | {
       type: "locations-hub";
       sectionLabel: string;
       heading: string;
