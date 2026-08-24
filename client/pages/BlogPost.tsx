@@ -141,7 +141,7 @@ export default function BlogPost({ initialPost: suppliedPost, slug: suppliedSlug
             <article className="flex-1 min-w-0 lg:max-w-[70%]">
               {post.body ? (
                 <div
-                  className="prose prose-lg max-w-none
+                  className="blog-post-content prose prose-lg max-w-none
                     prose-headings:font-semibold prose-headings:text-gray-900
                     prose-a:text-brand-accent prose-a:underline hover:prose-a:text-brand-accent
                     prose-blockquote:border-l-4 prose-blockquote:border-brand-accent prose-blockquote:text-gray-600

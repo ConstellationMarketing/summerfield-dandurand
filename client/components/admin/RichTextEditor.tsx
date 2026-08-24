@@ -6,6 +6,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Typography from "@tiptap/extension-typography";
 import Image from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
+import { TableKit } from "@tiptap/extension-table";
 import { Mark, mergeAttributes } from "@tiptap/core";
 import { supabase } from "@/lib/supabase";
 import { compressToWebP } from "@/lib/imageCompression";
@@ -99,6 +100,7 @@ export default function RichTextEditor({
           class: "rounded-lg max-w-full h-auto my-4",
         },
       }),
+      TableKit,
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),

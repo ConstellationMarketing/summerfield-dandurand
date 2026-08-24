@@ -191,6 +191,29 @@
     max-width: 100%;
     height: auto;
   }
+  .tiptap-editor .ProseMirror,
+  .blog-post-content {
+    overflow-x: auto;
+  }
+  .tiptap-editor .ProseMirror table,
+  .blog-post-content table {
+    min-width: 680px;
+    border-collapse: collapse;
+  }
+  .tiptap-editor .ProseMirror th,
+  .tiptap-editor .ProseMirror td,
+  .blog-post-content th,
+  .blog-post-content td {
+    border: 1px solid hsl(var(--border));
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  .tiptap-editor .ProseMirror th,
+  .blog-post-content th {
+    background: hsl(var(--muted));
+    font-weight: 700;
+  }
   .tiptap-editor .ProseMirror .text-brand-accent { color: #1ed947; }
   .tiptap-editor .ProseMirror:focus { border-color: hsl(var(--ring)); box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2); }
   .tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
