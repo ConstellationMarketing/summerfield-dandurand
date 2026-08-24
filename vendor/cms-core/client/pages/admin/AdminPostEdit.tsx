@@ -210,13 +210,13 @@ export default function AdminPostEdit() {
             </CardContent>
           </Card>
 
-          {/* Hero Background Image */}
+          {/* Featured Image */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Hero Background Image</CardTitle>
+              <CardTitle className="text-base">Featured Image</CardTitle>
               <CardDescription>
-                This image appears as the full-width hero background on the
-                public blog post page.
+                Used for the post hero, blog cards, and social sharing when no
+                separate OG image is set.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -224,7 +224,7 @@ export default function AdminPostEdit() {
                 value={post.featured_image || ""}
                 onChange={(url) => updatePost({ featured_image: url })}
                 folder="blog-images"
-                placeholder="Upload a hero background image"
+                placeholder="Upload or select a featured image"
               />
             </CardContent>
           </Card>
