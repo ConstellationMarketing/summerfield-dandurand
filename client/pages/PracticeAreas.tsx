@@ -26,6 +26,14 @@ import {
   RefreshCw,
   Clock,
   Siren,
+  Truck,
+  Database,
+  Gauge,
+  FileWarning,
+  BadgeX,
+  ShieldAlert,
+  SearchCheck,
+  FileLock2,
   Loader2,
   type LucideIcon,
 } from "lucide-react";
@@ -34,7 +42,8 @@ import type { HeroImage, PartnerLogo } from "@site/lib/cms/homePageTypes";
 const iconMap: Record<string, LucideIcon> = {
   Car, Stethoscope, Briefcase, Heart, Building, Shield, Scale,
   FileText, Users, Home, DollarSign, TrendingUp, AlertCircle,
-  RefreshCw, Clock, Siren, Phone,
+  RefreshCw, Clock, Siren, Phone, Truck, Database, Gauge,
+  FileWarning, BadgeX, ShieldAlert, SearchCheck, FileLock2,
 };
 
 export default function PracticeAreas() {
