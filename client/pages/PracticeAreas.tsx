@@ -27,7 +27,6 @@ import {
   Clock,
   Siren,
   Truck,
-  Database,
   Gauge,
   FileWarning,
   BadgeX,
@@ -42,7 +41,7 @@ import type { HeroImage, PartnerLogo } from "@site/lib/cms/homePageTypes";
 const iconMap: Record<string, LucideIcon> = {
   Car, Stethoscope, Briefcase, Heart, Building, Shield, Scale,
   FileText, Users, Home, DollarSign, TrendingUp, AlertCircle,
-  RefreshCw, Clock, Siren, Phone, Truck, Database, Gauge,
+  RefreshCw, Clock, Siren, Phone, Truck, Gauge,
   FileWarning, BadgeX, ShieldAlert, SearchCheck, FileLock2,
 };
 
