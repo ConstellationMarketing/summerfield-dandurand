@@ -13,6 +13,7 @@ export default function ContentSectionBlock({ block, index }: ContentSectionBloc
   const { phoneNumber, phoneDisplay, phoneLabel } = useGlobalPhone();
   const imageOnLeft = block.imagePosition === "left";
   const showCTAs = block.showCTAs !== false;
+  const secondaryButton = block.secondaryButton;
   const hasSidebar = showCTAs || !!block.image;
 
   return (
@@ -52,12 +53,14 @@ export default function ContentSectionBlock({ block, index }: ContentSectionBloc
                     subtitle={phoneDisplay}
                     phone={phoneNumber}
                   />
-                  <CallBox
-                    icon={Calendar}
-                    title="Schedule Now"
-                    subtitle="Free Consultation"
-                    link="/contact/"
-                  />
+                  {secondaryButton && (
+                    <CallBox
+                      icon={Calendar}
+                      title={secondaryButton.label}
+                      subtitle={secondaryButton.sublabel}
+                      link={secondaryButton.link}
+                    />
+                  )}
                 </div>
               )}
             </div>

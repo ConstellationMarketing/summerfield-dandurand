@@ -34,6 +34,7 @@ export type ContentBlock =
       imageAlt?: string;
       imagePosition: "left" | "right";
       showCTAs?: boolean;
+      secondaryButton?: { label: string; sublabel: string; link: string };
     }
   | {
       type: "cta";

@@ -442,6 +442,8 @@ function AttorneyCredentialsFields({ block, onUpdate }: { block: Extract<Content
 /*  Content Section Fields                                             */
 /* ------------------------------------------------------------------ */
 function ContentSectionFields({ block, onUpdate }: { block: Extract<ContentBlock, { type: 'content-section' }>; onUpdate: (u: Partial<ContentBlock>) => void }) {
+  const secondary = block.secondaryButton || { label: '', sublabel: '', link: '' };
+
   return (
     <div className="space-y-4">
       <div>
@@ -469,6 +471,21 @@ function ContentSectionFields({ block, onUpdate }: { block: Extract<ContentBlock
       <div className="flex items-center gap-2">
         <Switch checked={block.showCTAs !== false} onCheckedChange={(checked) => onUpdate({ showCTAs: checked })} />
         <Label>Show CTA Buttons (phone & schedule)</Label>
+      </div>
+      <div className="border rounded-lg p-4 space-y-3 bg-gray-50">
+        <Label className="font-semibold">Schedule Button</Label>
+        <div>
+          <Label className="text-xs text-gray-500">Button Title</Label>
+          <Input value={secondary.label} onChange={(e) => onUpdate({ secondaryButton: { ...secondary, label: e.target.value } })} />
+        </div>
+        <div>
+          <Label className="text-xs text-gray-500">Button Subtitle</Label>
+          <Input value={secondary.sublabel} onChange={(e) => onUpdate({ secondaryButton: { ...secondary, sublabel: e.target.value } })} />
+        </div>
+        <div>
+          <Label className="text-xs text-gray-500">Button Link</Label>
+          <Input value={secondary.link} onChange={(e) => onUpdate({ secondaryButton: { ...secondary, link: e.target.value } })} placeholder="/contact/" />
+        </div>
       </div>
     </div>
   );
@@ -498,7 +515,7 @@ function CTAFields({ block, onUpdate }: { block: Extract<ContentBlock, { type: '
         </div>
         <div>
           <Label className="text-xs text-gray-500">Button Subtitle</Label>
-          <Input value={secondary.sublabel} onChange={(e) => onUpdate({ secondaryButton: { ...secondary, sublabel: e.target.value } })} placeholder="e.g. Free Consultation" />
+          <Input value={secondary.sublabel} onChange={(e) => onUpdate({ secondaryButton: { ...secondary, sublabel: e.target.value } })} placeholder="e.g. Consultation details" />
         </div>
         <div>
           <Label className="text-xs text-gray-500">Button Link</Label>

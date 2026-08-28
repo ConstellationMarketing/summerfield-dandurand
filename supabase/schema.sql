@@ -560,7 +560,7 @@ ON CONFLICT (slug) DO NOTHING;
 -- -----------------------------------------
 INSERT INTO public.templates (name, page_type, default_content, default_meta_title, default_meta_description)
 SELECT 'Standard Page Template', 'standard',
-  '[{"type":"hero","sectionLabel":"– Page Title","tagline":"Page Headline","description":"A brief description of this page and its purpose."},{"type":"content-section","body":"<h2>Section Heading</h2><p>Add your content here. This section supports rich text including headings, paragraphs, lists, and images.</p>","image":"","imageAlt":"","imagePosition":"right"},{"type":"cta","heading":"Ready to Get Started?","description":"Contact us today for a free consultation.","secondaryButton":{"label":"Contact Us","sublabel":"Free Consultation","link":"/contact"}}]'::jsonb,
+  '[{"type":"hero","sectionLabel":"– Page Title","tagline":"Page Headline","description":"A brief description of this page and its purpose."},{"type":"content-section","body":"<h2>Section Heading</h2><p>Add your content here. This section supports rich text including headings, paragraphs, lists, and images.</p>","image":"","imageAlt":"","imagePosition":"right"},{"type":"cta","heading":"Ready to Get Started?","description":"Contact us today for a free 15 min consultation.","secondaryButton":{"label":"Contact Us","sublabel":"Free 15 min Consultation","link":"/contact"}}]'::jsonb,
   'Page Title | Your Site Name',
   'A brief description of this page.'
 WHERE NOT EXISTS (SELECT 1 FROM public.templates WHERE name = 'Standard Page Template');
@@ -581,9 +581,9 @@ WHERE NOT EXISTS (SELECT 1 FROM public.templates WHERE name = 'Attorney Bio Page
 
 INSERT INTO public.templates (name, page_type, default_content, default_meta_title, default_meta_description)
 SELECT 'Landing Page Template', 'landing',
-  '[{"type":"hero","sectionLabel":"– Landing Page","tagline":"Compelling Headline Here","description":"A persuasive description that encourages visitors to take action."},{"type":"content-section","body":"<h2>Why Choose Us</h2><p>Highlight your key value propositions and what sets you apart from the competition.</p><ul><li>Benefit one</li><li>Benefit two</li><li>Benefit three</li></ul>","image":"","imageAlt":"","imagePosition":"right"},{"type":"cta","heading":"Take Action Today","description":"Do not wait — contact us now for a free consultation.","secondaryButton":{"label":"Get Started","sublabel":"No Obligation","link":"/contact"}}]'::jsonb,
+  '[{"type":"hero","sectionLabel":"– Landing Page","tagline":"Compelling Headline Here","description":"A persuasive description that encourages visitors to take action."},{"type":"content-section","body":"<h2>Why Choose Us</h2><p>Highlight your key value propositions and what sets you apart from the competition.</p><ul><li>Benefit one</li><li>Benefit two</li><li>Benefit three</li></ul>","image":"","imageAlt":"","imagePosition":"right"},{"type":"cta","heading":"Take Action Today","description":"Do not wait — contact us now for a free 15 min consultation.","secondaryButton":{"label":"Get Started","sublabel":"No Obligation","link":"/contact"}}]'::jsonb,
   'Landing Page | Your Site Name',
-  'Take action today — contact us for a free consultation.'
+  'Take action today — contact us for a free 15 min consultation.'
 WHERE NOT EXISTS (SELECT 1 FROM public.templates WHERE name = 'Landing Page Template');
 
 -- -----------------------------------------

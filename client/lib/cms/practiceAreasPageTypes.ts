@@ -56,7 +56,7 @@ export interface CTAContent {
   };
   secondaryButton: {
     label: string; // "Schedule Now"
-    sublabel: string; // "Free Consultation"
+    sublabel: string; // Supporting CTA text
     link: string; // Link URL
   };
 }
